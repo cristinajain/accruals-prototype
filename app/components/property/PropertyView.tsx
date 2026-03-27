@@ -1,0 +1,196 @@
+// @ts-nocheck
+
+import { PERIODS } from "../../lib/data";
+import { AIChatPanel } from "../AIChatPanel";
+import { AccrualsTab } from "./tabs/AccrualsTab";
+import { VarianceTab } from "./tabs/VarianceTab";
+import { ReconcileTab } from "./tabs/ReconcileTab";
+import { JournalTab } from "./tabs/JournalTab";
+import { AddAccrualModal } from "./AddAccrualModal";
+import { MoveAccrualModal } from "./MoveAccrualModal";
+
+export function PropertyView({
+  setView,
+  setChatOpen,
+  chatOpen,
+  selectedPeriod,
+  setSelectedPeriod,
+  activeTab,
+  setActiveTab,
+  setExpandedId,
+  setExpandedActual,
+  pLabel,
+  monthKey,
+  monthAccruals,
+  approvedCount,
+  pendingCount,
+  approvedTotal,
+  accruals,
+  setAccruals,
+  accrualStates,
+  editAmounts,
+  setEditAmounts,
+  expandedId,
+  actionStates,
+  setActionStates,
+  setStatus,
+  showAddModal,
+  setShowAddModal,
+  showMoveModal,
+  setShowMoveModal,
+  uploadMode,
+  setUploadMode,
+  parsedItems,
+  setParsedItems,
+  uploadText,
+  setUploadText,
+  parseLoading,
+  parseUpload,
+  addParsedItems,
+  newAccrual,
+  setNewAccrual,
+  addManualAccrual,
+  moveAccrual,
+  varianceData,
+  totBudget,
+  totAccrual,
+  totActual,
+  reconciledCount,
+  reconcileStates,
+  setReconcileStates,
+  expandedActual,
+  journalEntries,
+}) {
+  return (
+    <div className="sp-app">
+      <div className="sp-topbar" style={{ padding: "10px 24px", gap: 10 }}>
+        <button onClick={() => { setView("dashboard"); setChatOpen(false); }} className="sp-btn--nav">←</button>
+        <div>
+          <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-xl)" }}>Park Avenue Tower</div>
+          <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-subtle)" }}>245K sqft · NYC · Sarah Chen</div>
+        </div>
+        <div className="sp-period-selector" style={{ marginLeft: 12 }}>
+          {PERIODS.map(p => (
+            <button
+              key={p.key}
+              onClick={() => { setSelectedPeriod(p.key); setExpandedId(null); setExpandedActual(null); }}
+              className={`sp-period-btn ${selectedPeriod === p.key ? "sp-period-btn--active" : ""}`}
+            >
+              {p.short}
+              {p.status === "active" && <span className="sp-period-btn__dot" />}
+            </button>
+          ))}
+        </div>
+        <div style={{ marginLeft: "auto", display: "flex", gap: 6, alignItems: "center" }}>
+          <div className="sp-tabs">
+            {[{ key: "accruals", label: "Estimate", icon: "🤖" }, { key: "variance", label: "Variance", icon: "📊" }, { key: "reconcile", label: "Reconcile", icon: "🔄" }, { key: "journal", label: "JEs", icon: "📝" }].map(t => (
+              <button
+                key={t.key}
+                onClick={() => { setActiveTab(t.key); setExpandedId(null); setExpandedActual(null); }}
+                className={`sp-tab ${activeTab === t.key ? "sp-tab--active" : ""}`}
+              >
+                <span>{t.icon}</span>{t.label}
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setChatOpen(v => !v)} className="sp-btn--ai">🤖 AI</button>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: chatOpen ? 700 : 1060, margin: "0 auto", padding: "18px 24px", transition: "max-width 0.3s" }}>
+
+        {activeTab === "accruals" && (
+          <>
+            <AccrualsTab
+              pLabel={pLabel}
+              monthKey={monthKey}
+              monthAccruals={monthAccruals}
+              approvedCount={approvedCount}
+              pendingCount={pendingCount}
+              approvedTotal={approvedTotal}
+              accrualStates={accrualStates}
+              editAmounts={editAmounts}
+              setEditAmounts={setEditAmounts}
+              expandedId={expandedId}
+              setExpandedId={setExpandedId}
+              actionStates={actionStates}
+              setActionStates={setActionStates}
+              setStatus={setStatus}
+              setShowAddModal={setShowAddModal}
+              setShowMoveModal={setShowMoveModal}
+              setAccruals={setAccruals}
+              chatOpen={chatOpen}
+            />
+            {showAddModal && (
+              <AddAccrualModal
+                pLabel={pLabel}
+                uploadMode={uploadMode}
+                setUploadMode={setUploadMode}
+                parsedItems={parsedItems}
+                setParsedItems={setParsedItems}
+                uploadText={uploadText}
+                setUploadText={setUploadText}
+                parseLoading={parseLoading}
+                parseUpload={parseUpload}
+                addParsedItems={addParsedItems}
+                newAccrual={newAccrual}
+                setNewAccrual={setNewAccrual}
+                addManualAccrual={addManualAccrual}
+                onClose={() => { setShowAddModal(false); setUploadMode(false); setParsedItems([]); }}
+              />
+            )}
+            {showMoveModal && (
+              <MoveAccrualModal
+                showMoveModal={showMoveModal}
+                accruals={accruals}
+                editAmounts={editAmounts}
+                moveAccrual={moveAccrual}
+                onClose={() => setShowMoveModal(null)}
+              />
+            )}
+          </>
+        )}
+
+        {activeTab === "variance" && (
+          <VarianceTab
+            varianceData={varianceData}
+            totBudget={totBudget}
+            totAccrual={totAccrual}
+            totActual={totActual}
+            pLabel={pLabel}
+            accruals={accruals}
+          />
+        )}
+
+        {activeTab === "reconcile" && (
+          <ReconcileTab
+            pLabel={pLabel}
+            reconciledCount={reconciledCount}
+            reconcileStates={reconcileStates}
+            setReconcileStates={setReconcileStates}
+            expandedActual={expandedActual}
+            setExpandedActual={setExpandedActual}
+            chatOpen={chatOpen}
+          />
+        )}
+
+        {activeTab === "journal" && (
+          <JournalTab journalEntries={journalEntries} />
+        )}
+
+      </div>
+
+      {chatOpen && (
+        <AIChatPanel
+          accruals={accruals}
+          accrualStates={accrualStates}
+          editAmounts={editAmounts}
+          activeTab={activeTab}
+          selectedPeriod={selectedPeriod}
+          journalEntries={journalEntries}
+          onClose={() => setChatOpen(false)}
+        />
+      )}
+    </div>
+  );
+}
