@@ -1,49 +1,1066 @@
+/* ============================================================
+   STACKPOINT — Design System
+   All tokens are defined as CSS custom properties so Figma
+   (via MCP) can read them as a structured design system.
+   ============================================================ */
+
+/* ————————————————————————————————————————————————————————————
+   1. DESIGN TOKENS
+   ———————————————————————————————————————————————————————————— */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  /* — Brand — */
+  --brand-primary:   #6366f1;   /* indigo-500  */
+  --brand-secondary: #8b5cf6;   /* violet-500  */
+  --brand-gradient:  linear-gradient(135deg, #6366f1, #8b5cf6);
+
+  /* — Backgrounds — */
+  --bg-app:     #f8fafc;   /* slate-50  — page background   */
+  --bg-card:    #ffffff;   /* white     — card / panel      */
+  --bg-subtle:  #f8fafc;   /* slate-50  — table header, row hover */
+  --bg-muted:   #f1f5f9;   /* slate-100 — tab bar, pill bg  */
+  --bg-inset:   #fafbfc;   /* near-white — expanded row bg  */
+
+  /* — Text — */
+  --text-primary:     #0f172a;  /* slate-900 */
+  --text-secondary:   #334155;  /* slate-700 */
+  --text-muted:       #475569;  /* slate-600 */
+  --text-subtle:      #64748b;  /* slate-500 */
+  --text-placeholder: #94a3b8;  /* slate-400 */
+  --text-disabled:    #d1d5db;  /* gray-300  */
+
+  /* — Borders — */
+  --border:        #e2e8f0;  /* slate-200 — standard border  */
+  --border-subtle: #f1f5f9;  /* slate-100 — row dividers     */
+
+  /* — Semantic: Success / Green — */
+  --green-50:  #f0fdf4;
+  --green-100: #dcfce7;
+  --green-200: #bbf7d0;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #059669;  /* emerald-600, used for actuals */
+  --green-800: #166534;
+  --green-900: #065f46;
+
+  /* — Semantic: Warning / Amber — */
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-500: #f59e0b;
+  --amber-800: #92400e;
+
+  /* — Semantic: Danger / Red — */
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-800: #991b1b;
+
+  /* — Semantic: Info / Indigo — */
+  --indigo-50:  #eef2ff;
+  --indigo-100: #e0e7ff;
+  --indigo-200: #c7d2fe;
+  --indigo-500: #6366f1;
+  --indigo-700: #4338ca;
+  --indigo-800: #3730a3;
+
+  /* — Violet — */
+  --violet-50:  #faf5ff;
+  --violet-100: #ede9fe;
+  --violet-200: #ddd6fe;
+  --violet-500: #8b5cf6;
+  --violet-700: #7c3aed;
+  --violet-800: #5b21b6;
+
+  /* — Other semantic colors — */
+  --blue-100: #dbeafe;
+  --blue-800: #1e40af;
+  --cyan-100: #cffafe;
+  --cyan-800: #155e75;
+  --emerald-100: #d1fae5;
+  --rose-100: #ffe4e6;
+  --rose-800: #9f1239;
+  --orange-100: #ffedd5;
+  --orange-200: #fed7aa;
+  --orange-800: #9a3412;
+
+  /* — Typography — */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-xs:   10px;
+  --font-size-sm:   11px;
+  --font-size-base: 12px;
+  --font-size-md:   13px;
+  --font-size-lg:   14px;
+  --font-size-xl:   15px;
+  --font-size-2xl:  16px;
+  --font-size-3xl:  17px;
+  --font-size-4xl:  20px;
+  --font-size-hero: 32px;
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-tight:  1.4;
+  --line-height-normal: 1.5;
+  --line-height-loose:  1.6;
+
+  /* — Spacing — */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 10px;
+  --space-6: 12px;
+  --space-7: 14px;
+  --space-8: 16px;
+  --space-9: 18px;
+  --space-10: 20px;
+  --space-12: 24px;
+  --space-16: 28px;
+  --space-20: 40px;
+
+  /* — Border Radius — */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   7px;
+  --radius-xl:   8px;
+  --radius-2xl:  9px;
+  --radius-3xl:  11px;
+  --radius-4xl:  12px;
+  --radius-5xl:  14px;
+  --radius-6xl:  16px;
+  --radius-full: 9999px;  /* pills / badges */
+  --radius-circle: 99px; /* avatars        */
+
+  /* — Shadows — */
+  --shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.06);   /* active tab, button  */
+  --shadow-md:  0 4px 24px rgba(0, 0, 0, 0.08);   /* side panel          */
+  --shadow-lg:  0 20px 60px rgba(0, 0, 0, 0.15);  /* modals              */
+
+  /* — Transitions — */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.4s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* ————————————————————————————————————————————————————————————
+   2. GLOBAL RESET / BASE
+   ———————————————————————————————————————————————————————————— */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-html {
-  height: 100%;
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--bg-app);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   3. LAYOUT
+   ———————————————————————————————————————————————————————————— */
+
+/* App shell */
+.sp-app {
+  min-height: 100vh;
+  background: var(--bg-app);
+  color: var(--text-primary);
+}
+
+/* Top navigation bar */
+.sp-topbar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-8) var(--space-12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Centered content wrapper */
+.sp-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-12);
+}
+
+/* Two-column grid */
+.sp-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+}
+
+/* Five-column stat grid */
+.sp-grid-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-7);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   4. BRAND LOGO / WORDMARK
+   ———————————————————————————————————————————————————————————— */
+
+.sp-logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-xl);
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.sp-logo-icon--sm {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+}
+
+.sp-wordmark {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+}
+
+.sp-wordmark-sub {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   5. CARDS
+   ———————————————————————————————————————————————————————————— */
+
+.sp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-4xl);
+  overflow: hidden;
+}
+
+.sp-card--padded {
+  padding: var(--space-8) var(--space-10);
+}
+
+.sp-card__header {
+  padding: var(--space-8) var(--space-10);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-card__title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xl);
+}
+
+/* Stat card (dashboard KPI tiles) */
+.sp-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-4xl);
+  padding: var(--space-8) var(--space-9);
+}
+
+.sp-stat-card__label {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-2);
+}
+
+.sp-stat-card__value {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-1);
+}
+
+.sp-stat-card__sub {
+  font-size: var(--font-size-sm);
+  color: var(--text-placeholder);
+}
+
+/* Accrual / reconcile row card */
+.sp-row-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+}
+
+.sp-row-card--approved {
+  border-color: var(--green-200);
+}
+
+.sp-row-card--dismissed {
+  opacity: 0.5;
+}
+
+.sp-row-card__body {
+  padding: var(--space-6) var(--space-9);
+  cursor: pointer;
+}
+
+.sp-row-card__detail {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-7) var(--space-9);
+  background: var(--bg-inset);
+}
+
+/* Banner / highlight card (variance, reconcile header) */
+.sp-banner {
+  border-radius: var(--radius-4xl);
+  border: 1px solid;
+  padding: var(--space-8) var(--space-10);
+  margin-bottom: var(--space-8);
+}
+
+.sp-banner--purple {
+  background: linear-gradient(135deg, var(--violet-50), #f5f3ff);
+  border-color: var(--violet-200);
+  color: var(--violet-800);
+}
+
+.sp-banner--green {
+  background: linear-gradient(135deg, #ecfdf5, var(--green-50));
+  border-color: var(--green-200);
+  color: var(--green-900);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   6. BADGE
+   ———————————————————————————————————————————————————————————— */
+
+.sp-badge {
+  display: inline-block;
+  padding: 2px var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+.sp-badge--green   { background: var(--green-100);   color: var(--green-800);   }
+.sp-badge--blue    { background: var(--blue-100);    color: var(--blue-800);    }
+.sp-badge--amber   { background: var(--amber-100);   color: var(--amber-800);   }
+.sp-badge--red     { background: var(--red-100);     color: var(--red-800);     }
+.sp-badge--gray    { background: var(--bg-muted);    color: var(--text-muted);  }
+.sp-badge--purple  { background: var(--violet-100);  color: var(--violet-800);  }
+.sp-badge--indigo  { background: var(--indigo-100);  color: var(--indigo-800);  }
+.sp-badge--emerald { background: var(--emerald-100); color: var(--green-900);   }
+.sp-badge--cyan    { background: var(--cyan-100);    color: var(--cyan-800);    }
+.sp-badge--rose    { background: var(--rose-100);    color: var(--rose-800);    }
+.sp-badge--orange  { background: var(--orange-100);  color: var(--orange-800);  }
+
+
+/* ————————————————————————————————————————————————————————————
+   7. BUTTONS
+   ———————————————————————————————————————————————————————————— */
+
+/* Base */
+.sp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-xl);
+  border: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity var(--transition-fast);
+}
+
+.sp-btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* Primary — gradient brand */
+.sp-btn--primary {
+  background: var(--brand-gradient);
+  color: #fff;
+}
+
+/* Success */
+.sp-btn--success {
+  background: var(--green-500);
+  color: #fff;
+}
+
+/* Success gradient (post all) */
+.sp-btn--success-gradient {
+  background: linear-gradient(135deg, var(--green-700), #10b981);
+  color: #fff;
+}
+
+/* Ghost / outline */
+.sp-btn--ghost {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.sp-btn--ghost:hover {
+  background: var(--bg-subtle);
+}
+
+/* Dashed add button */
+.sp-btn--dashed {
+  background: var(--indigo-50);
+  border: 1px dashed var(--indigo-200);
+  color: var(--indigo-700);
+}
+
+/* Icon-only (dismiss ✕, move ↗) */
+.sp-btn--icon {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+}
+
+/* Disabled state (used inline on primary) */
+.sp-btn--disabled {
+  background: var(--border);
+  color: var(--text-placeholder);
+  cursor: default;
+}
+
+/* Full-width */
+.sp-btn--full {
+  width: 100%;
+  justify-content: center;
+  padding: var(--space-5);
+  border-radius: var(--radius-2xl);
+  font-size: var(--font-size-md);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   8. TAB BAR
+   ———————————————————————————————————————————————————————————— */
+
+.sp-tabs {
+  display: flex;
+  background: var(--bg-muted);
+  border-radius: var(--radius-2xl);
+  padding: 2px;
+}
+
+.sp-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-lg);
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-subtle);
+  cursor: pointer;
+}
+
+.sp-tab--active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   9. PERIOD SELECTOR
+   ———————————————————————————————————————————————————————————— */
+
+.sp-period-selector {
+  display: flex;
+  background: var(--bg-muted);
+  border-radius: var(--radius-xl);
+  padding: 2px;
+}
+
+.sp-period-btn {
+  position: relative;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-placeholder);
+}
+
+.sp-period-btn--active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Green dot for active/current period */
+.sp-period-btn__dot {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-circle);
+  background: var(--green-500);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   10. FORMS
+   ———————————————————————————————————————————————————————————— */
+
+.sp-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.sp-input,
+.sp-select,
+.sp-textarea {
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-md);
+  font-family: var(--font-family);
+  outline: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.sp-input:focus,
+.sp-select:focus,
+.sp-textarea:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.sp-textarea {
+  resize: vertical;
+}
+
+.sp-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   11. MODAL
+   ———————————————————————————————————————————————————————————— */
+
+.sp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-modal {
+  background: var(--bg-card);
+  border-radius: var(--radius-6xl);
+  width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.sp-modal--sm {
+  width: 360px;
+  border-radius: var(--radius-5xl);
+  padding: var(--space-10) var(--space-12);
+}
+
+.sp-modal__header {
+  padding: var(--space-9) var(--space-11);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-modal__title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+}
+
+.sp-modal__body {
+  padding: var(--space-9) var(--space-11);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   12. TABLE
+   ———————————————————————————————————————————————————————————— */
+
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-md);
+}
+
+.sp-table thead tr {
+  background: var(--bg-subtle);
+}
+
+.sp-table th {
+  padding: var(--space-4) var(--space-7);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-subtle);
+  border-bottom: 1px solid var(--border);
+}
+
+.sp-table th--right {
+  text-align: right;
+}
+
+.sp-table td {
+  padding: var(--space-5) var(--space-7);
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.sp-table tbody tr:hover {
+  background: var(--bg-subtle);
+}
+
+.sp-table tfoot tr {
+  background: var(--bg-subtle);
+  border-top: 2px solid var(--border);
+}
+
+.sp-table__cell-primary {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+}
+
+.sp-table__cell-sub {
+  font-size: var(--font-size-xs);
+  color: var(--text-placeholder);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   13. PROGRESS / CONFIDENCE BAR
+   ———————————————————————————————————————————————————————————— */
+
+.sp-progress {
+  height: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--border);
+  overflow: hidden;
+  display: flex;
+}
+
+.sp-progress__fill {
+  border-radius: var(--radius-sm);
+  transition: width var(--transition-slow);
+}
+
+.sp-progress--green  .sp-progress__fill { background: var(--green-500); }
+.sp-progress--amber  .sp-progress__fill { background: var(--amber-500); }
+
+/* Confidence bar (inline, small) */
+.sp-conf-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sp-conf-bar__track {
+  width: 40px;
+  height: 5px;
+  border-radius: var(--radius-xs);
+  background: var(--border);
+  overflow: hidden;
+}
+
+.sp-conf-bar__fill {
+  height: 100%;
+  border-radius: var(--radius-xs);
+}
+
+.sp-conf-bar__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   14. AVATAR / ACCOUNT CHIP
+   ———————————————————————————————————————————————————————————— */
+
+.sp-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-circle);
+  background: var(--indigo-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--indigo-700);
+  flex-shrink: 0;
+}
+
+/* Date/period chip in the topbar */
+.sp-period-chip {
+  padding: var(--space-3) var(--space-7);
+  border-radius: var(--radius-xl);
+  background: var(--bg-muted);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   15. AI CHAT PANEL
+   ———————————————————————————————————————————————————————————— */
+
+.sp-chat-panel {
+  width: 370px;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+
+.sp-chat-panel__header {
+  padding: var(--space-6) var(--space-8);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sp-chat-panel__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.sp-chat-panel__footer {
+  padding: var(--space-5) var(--space-7);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* Chat bubbles */
+.sp-chat-bubble {
+  max-width: 88%;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-3xl);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+}
+
+.sp-chat-bubble--user {
+  background: var(--brand-primary);
+  color: #fff;
+  border-bottom-right-radius: var(--radius-sm);
+  margin-left: auto;
+}
+
+.sp-chat-bubble--assistant {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: var(--radius-sm);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   16. JOURNAL ENTRY CARD
+   ———————————————————————————————————————————————————————————— */
+
+.sp-je-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-6) var(--space-9);
+}
+
+.sp-je-card--accrual {
+  border: 1px solid var(--green-200);
+}
+
+.sp-je-card--reversal {
+  border: 1px solid var(--amber-200);
+}
+
+.sp-je-table {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   17. INLINE STATUS CALLOUTS
+   ———————————————————————————————————————————————————————————— */
+
+.sp-callout {
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid;
+  font-size: var(--font-size-base);
+}
+
+.sp-callout--warning {
+  background: var(--amber-100);
+  border-color: var(--amber-200);
+  color: var(--amber-800);
+}
+
+.sp-callout--error {
+  background: var(--red-100);
+  border-color: var(--red-200);
+  color: var(--red-800);
+}
+
+.sp-callout--info {
+  background: var(--violet-100);
+  border-color: var(--violet-200);
+  color: var(--violet-800);
+}
+
+.sp-callout--moved {
+  background: var(--orange-100);
+  border-color: var(--orange-200);
+  color: var(--orange-800);
+}
+
+.sp-callout--success {
+  background: var(--green-50);
+  border-color: var(--green-200);
+  color: var(--green-900);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   18. EMPTY STATE
+   ———————————————————————————————————————————————————————————— */
+
+.sp-empty-state {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-20) var(--space-12);
+  text-align: center;
+}
+
+.sp-empty-state__icon {
+  font-size: var(--font-size-hero);
+  margin-bottom: var(--space-4);
+}
+
+.sp-empty-state__title {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.sp-empty-state__body {
+  font-size: var(--font-size-md);
+  color: var(--text-subtle);
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   19. LEGEND / LEGEND DOTS
+   ———————————————————————————————————————————————————————————— */
+
+.sp-legend {
+  display: flex;
+  gap: var(--space-8);
+  margin-top: var(--space-4);
+}
+
+.sp-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+.sp-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+}
+
+
+/* ————————————————————————————————————————————————————————————
+   20. TYPING INDICATOR (AI loading)
+   ———————————————————————————————————————————————————————————— */
+
+@keyframes sp-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1);   }
+}
+
+.sp-typing-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-xs);
+  background: var(--text-placeholder);
+  animation: sp-pulse 1.2s ease-in-out infinite;
+}
+
+.sp-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.sp-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+
+/* ————————————————————————————————————————————————————————————
+   21. ADDITIONAL COMPONENT STATES
+   ———————————————————————————————————————————————————————————— */
+
+/* Source action button — completed state */
+.sp-btn--action-done {
+  border: 1px solid var(--green-200);
+  background: var(--green-50);
+  color: var(--green-800);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Chat input field */
+.sp-chat-input {
+  flex: 1;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-md);
+  font-family: var(--font-family);
+  outline: none;
+}
+
+.sp-chat-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
+}
+
+/* Chat send button */
+.sp-chat-send-btn {
+  padding: var(--space-4) var(--space-7);
+  border-radius: var(--radius-2xl);
+  border: none;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sp-chat-send-btn--active  { background: var(--brand-gradient); color: #fff; }
+.sp-chat-send-btn--disabled { background: var(--border); color: var(--text-placeholder); cursor: default; }
+
+/* Chat close button */
+.sp-chat-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-2xl);
+  color: var(--text-placeholder);
+  line-height: 1;
+}
+
+/* Section label (e.g. "📄 Single-Period Invoices") */
+.sp-section-label {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* AI button in topbar */
+.sp-btn--ai {
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-2xl);
+  border: none;
+  background: var(--brand-gradient);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+/* Back / nav button */
+.sp-btn--nav {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2) var(--space-5);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+/* Period chip (topbar date display) */
+.sp-period-chip {
+  padding: var(--space-3) var(--space-7);
+  border-radius: var(--radius-xl);
+  background: var(--bg-muted);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
 }
