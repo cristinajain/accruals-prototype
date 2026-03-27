@@ -30,7 +30,10 @@ export function AccrualsTab({
     <>
       <div className="sp-accruals-header">
         <div><span className="sp-accruals-header__title">{pLabel} Accruals</span><span className="sp-accruals-header__meta">{approvedCount} approved · {pendingCount} pending · {Dl(approvedTotal)}</span></div>
-        <button onClick={() => setShowAddModal(true)} className="sp-btn--add-accrual">+ Add Accrual</button>
+        <div className="sp-flex-center sp-gap-6">
+          {pendingCount > 0 && <button onClick={() => monthAccruals.forEach(a => { if (accrualStates[a.id] === "suggested") setStatus(a.id, "approved"); })} className="sp-btn sp-btn--primary" style={{ padding: "6px 14px" }}>✓ Approve All ({pendingCount})</button>}
+          <button onClick={() => setShowAddModal(true)} className="sp-btn--add-accrual">+ Add Accrual</button>
+        </div>
       </div>
 
       <div className="sp-accrual-list">
@@ -82,7 +85,6 @@ export function AccrualsTab({
           </div>);
         })}
       </div>
-      {pendingCount > 0 && <div className="sp-approve-all"><button onClick={() => monthAccruals.forEach(a => { if (accrualStates[a.id] === "suggested") setStatus(a.id, "approved"); })} className="sp-btn sp-btn--primary sp-btn--full" style={{ width: "auto", padding: "10px 28px" }}>✓ Approve All ({pendingCount})</button></div>}
     </>
   );
 }
