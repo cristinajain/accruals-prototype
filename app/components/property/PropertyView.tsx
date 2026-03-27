@@ -66,10 +66,10 @@ export function PropertyView({
       <div className="sp-topbar" style={{ padding: "10px 24px", gap: 10 }}>
         <button onClick={() => { setView("dashboard"); setChatOpen(false); }} className="sp-btn--nav">←</button>
         <div>
-          <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-xl)" }}>Park Avenue Tower</div>
-          <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-subtle)" }}>245K sqft · NYC · Sarah Chen</div>
+          <div className="sp-topbar__prop-name">Park Avenue Tower</div>
+          <div className="sp-topbar__prop-sub">245K sqft · NYC · Sarah Chen</div>
         </div>
-        <div className="sp-period-selector" style={{ marginLeft: 12 }}>
+        <div className="sp-period-selector sp-ml-12">
           {PERIODS.map(p => (
             <button
               key={p.key}
@@ -81,7 +81,7 @@ export function PropertyView({
             </button>
           ))}
         </div>
-        <div style={{ marginLeft: "auto", display: "flex", gap: 6, alignItems: "center" }}>
+        <div className="sp-flex-center sp-gap-5 sp-ml-auto">
           <div className="sp-tabs">
             {[{ key: "accruals", label: "Estimate", icon: "🤖" }, { key: "variance", label: "Variance", icon: "📊" }, { key: "reconcile", label: "Reconcile", icon: "🔄" }, { key: "journal", label: "JEs", icon: "📝" }].map(t => (
               <button

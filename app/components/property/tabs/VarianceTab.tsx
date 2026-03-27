@@ -81,61 +81,61 @@ export function VarianceTab({ varianceData, totBudget, totAccrual, totActual, pL
   const accrualCount = fullVariance.filter(v => v.source === "accrual").length;
 
   return <>
-  <div className="sp-banner sp-banner--purple" style={{ marginBottom: 16 }}>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-      <div><div style={{ fontWeight: 700, fontSize: 16, color: "#5b21b6" }}>Variance Report — {pLabel}</div><div style={{ fontSize: 12, color: "#7c3aed", marginTop: 2 }}>Full P&L view: budget vs. best known (actual where available, accrual estimate where not)</div></div>
-      <div style={{ display: "flex", gap: 14 }}>
-        <div style={{ textAlign: "right" }}><div style={{ fontSize: 10, color: "#7c3aed" }}>Budget</div><div style={{ fontSize: 17, fontWeight: 700, color: "#5b21b6" }}>{Dl(totBudget)}</div></div>
-        <div style={{ textAlign: "right" }}><div style={{ fontSize: 10, color: "#7c3aed" }}>Best Known</div><div style={{ fontSize: 17, fontWeight: 700, color: "#5b21b6" }}>{Dl(totBestKnown)}</div></div>
-        <div style={{ textAlign: "right" }}><div style={{ fontSize: 10, color: "#7c3aed" }}>Variance</div><div style={{ fontSize: 17, fontWeight: 700, color: totVar > 0 ? "#dc2626" : totVar < 0 ? "#059669" : "#5b21b6" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</div></div>
+  <div className="sp-banner sp-banner--purple sp-mb-16">
+    <div className="sp-flex-between sp-mb-12">
+      <div><div className="sp-var-banner__title">Variance Report — {pLabel}</div><div className="sp-var-banner__sub">Full P&amp;L view: budget vs. best known (actual where available, accrual estimate where not)</div></div>
+      <div className="sp-flex sp-gap-14">
+        <div className="sp-text-right"><div className="sp-var-banner__kpi-label">Budget</div><div className="sp-var-banner__kpi-value">{Dl(totBudget)}</div></div>
+        <div className="sp-text-right"><div className="sp-var-banner__kpi-label">Best Known</div><div className="sp-var-banner__kpi-value">{Dl(totBestKnown)}</div></div>
+        <div className="sp-text-right"><div className="sp-var-banner__kpi-label">Variance</div><div className="sp-var-banner__kpi-value" style={{ color: totVar > 0 ? "var(--red-600)" : totVar < 0 ? "var(--green-700)" : "var(--violet-800)" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</div></div>
       </div>
     </div>
-    <div style={{ display: "flex", gap: 16 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "#7c3aed" }}><div style={{ width: 8, height: 8, borderRadius: 2, background: "#059669" }} /> {actualCount} GL lines from actuals</div>
-      <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "#7c3aed" }}><div style={{ width: 8, height: 8, borderRadius: 2, background: "#6366f1" }} /> {accrualCount} from AI accrual estimates</div>
-      <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "#7c3aed" }}>📈 {unfavorableCount} unfavorable · 📉 {favorableCount} favorable</div>
+    <div className="sp-flex sp-gap-16">
+      <div className="sp-var-legend-item"><div className="sp-legend-dot" style={{ background: "var(--green-700)" }} /> {actualCount} GL lines from actuals</div>
+      <div className="sp-var-legend-item"><div className="sp-legend-dot" style={{ background: "var(--brand-primary)" }} /> {accrualCount} from AI accrual estimates</div>
+      <div className="sp-var-legend-item">📈 {unfavorableCount} unfavorable · 📉 {favorableCount} favorable</div>
     </div>
   </div>
 
-  <div style={{ background: "#fff", borderRadius: 11, border: "1px solid #e2e8f0", overflow: "hidden" }}>
-    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-      <thead><tr style={{ background: "#f8fafc" }}>
-        <th style={{ padding: "9px 14px", textAlign: "left", fontWeight: 600, color: "#64748b", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", width: "16%" }}>GL Code</th>
-        <th style={{ padding: "9px 8px", textAlign: "right", fontWeight: 600, color: "#64748b", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", width: "9%" }}>Budget</th>
-        <th style={{ padding: "9px 8px", textAlign: "right", fontWeight: 600, color: "#059669", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", width: "9%" }}>Actual</th>
-        <th style={{ padding: "9px 8px", textAlign: "right", fontWeight: 600, color: "#6366f1", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", background: "#fafaff", width: "9%" }}>Accrual</th>
-        <th style={{ padding: "9px 8px", textAlign: "right", fontWeight: 600, color: "#475569", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", width: "9%" }}>Best Known</th>
-        <th style={{ padding: "9px 8px", textAlign: "right", fontWeight: 600, color: "#64748b", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", width: "9%" }}>Variance $</th>
-        <th style={{ padding: "9px 6px", textAlign: "right", fontWeight: 600, color: "#64748b", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0", width: "6%" }}>Var %</th>
-        <th style={{ padding: "9px 14px", textAlign: "left", fontWeight: 600, color: "#64748b", fontSize: 10, textTransform: "uppercase", borderBottom: "1px solid #e2e8f0" }}>Variance Analysis</th>
+  <div className="sp-var-table-wrap">
+    <table className="sp-var-table">
+      <thead><tr>
+        <th style={{ width: "16%" }}>GL Code</th>
+        <th style={{ width: "9%" }}>Budget</th>
+        <th className="sp-var-table th--actual" style={{ width: "9%" }}>Actual</th>
+        <th className="sp-var-table th--accrual" style={{ width: "9%" }}>Accrual</th>
+        <th style={{ width: "9%" }}>Best Known</th>
+        <th style={{ width: "9%" }}>Variance $</th>
+        <th style={{ width: "6%" }}>Var %</th>
+        <th>Variance Analysis</th>
       </tr></thead>
       <tbody>
         {fullVariance.map((r, i) => {
-          const vColor = r.totalVariance > 0 ? "#dc2626" : r.totalVariance < 0 ? "#059669" : "#64748b";
+          const vColor = r.totalVariance > 0 ? "var(--red-600)" : r.totalVariance < 0 ? "var(--green-700)" : "var(--text-subtle)";
           const sourceIcon = r.source === "actual" ? "✓" : r.source === "accrual" ? "◐" : "";
-          return <tr key={i} style={{ borderBottom: "1px solid #f1f5f9" }}>
-            <td style={{ padding: "9px 14px" }}>
-              <div style={{ fontWeight: 600, fontSize: 12 }}>{r.glCode}</div>
-              <div style={{ fontSize: 10, color: "#94a3b8" }}>{r.vendor}</div>
+          return <tr key={i}>
+            <td>
+              <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-base)" }}>{r.glCode}</div>
+              <div className="sp-text-xs-muted">{r.vendor}</div>
             </td>
-            <td style={{ padding: "9px 8px", textAlign: "right", fontWeight: 500, color: "#475569" }}>{r.budgetVal > 0 ? Dl(r.budgetVal) : <span style={{ color: "#d1d5db" }}>—</span>}</td>
-            <td style={{ padding: "9px 8px", textAlign: "right", fontWeight: r.actualTotal > 0 ? 600 : 400, color: r.actualTotal > 0 ? "#059669" : "#d1d5db" }}>{r.actualTotal > 0 ? Dl(r.actualTotal) : "—"}</td>
-            <td style={{ padding: "9px 8px", textAlign: "right", fontWeight: r.accrualTotal > 0 && r.actualTotal === 0 ? 600 : 400, color: r.accrualTotal > 0 && r.actualTotal === 0 ? "#6366f1" : "#d1d5db", background: "#fafaff" }}>{r.accrualTotal > 0 && r.actualTotal === 0 ? Dl(r.accrualTotal) : "—"}</td>
-            <td style={{ padding: "9px 8px", textAlign: "right", fontWeight: 700, color: "#0f172a" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 4 }}>
-                <span style={{ fontSize: 10, color: r.source === "actual" ? "#059669" : r.source === "accrual" ? "#6366f1" : "#d1d5db" }}>{sourceIcon}</span>
-                {r.bestKnown > 0 ? Dl(r.bestKnown) : <span style={{ color: "#d1d5db", fontWeight: 400 }}>—</span>}
+            <td style={{ fontWeight: "var(--font-weight-medium)", color: "var(--text-muted)" }}>{r.budgetVal > 0 ? Dl(r.budgetVal) : <span style={{ color: "var(--text-disabled)" }}>—</span>}</td>
+            <td style={{ fontWeight: r.actualTotal > 0 ? "var(--font-weight-semibold)" : "var(--font-weight-normal)", color: r.actualTotal > 0 ? "var(--green-700)" : "var(--text-disabled)" }}>{r.actualTotal > 0 ? Dl(r.actualTotal) : "—"}</td>
+            <td className="sp-var-table td--accrual" style={{ fontWeight: r.accrualTotal > 0 && r.actualTotal === 0 ? "var(--font-weight-semibold)" : "var(--font-weight-normal)", color: r.accrualTotal > 0 && r.actualTotal === 0 ? "var(--brand-primary)" : "var(--text-disabled)" }}>{r.accrualTotal > 0 && r.actualTotal === 0 ? Dl(r.accrualTotal) : "—"}</td>
+            <td style={{ fontWeight: "var(--font-weight-bold)", color: "var(--text-primary)" }}>
+              <div className="sp-flex-end sp-gap-4">
+                <span style={{ fontSize: "var(--font-size-xs)", color: r.source === "actual" ? "var(--green-700)" : r.source === "accrual" ? "var(--brand-primary)" : "var(--text-disabled)" }}>{sourceIcon}</span>
+                {r.bestKnown > 0 ? Dl(r.bestKnown) : <span style={{ color: "var(--text-disabled)", fontWeight: "var(--font-weight-normal)" }}>—</span>}
               </div>
             </td>
-            <td style={{ padding: "9px 8px", textAlign: "right", fontWeight: 600, color: vColor }}>
+            <td style={{ fontWeight: "var(--font-weight-semibold)", color: vColor }}>
               {r.totalVariance === 0 && r.bestKnown === 0 ? "—" : r.totalVariance === 0 ? "✓" : `${r.totalVariance > 0 ? "+" : ""}${Dl(r.totalVariance)}`}
             </td>
-            <td style={{ padding: "9px 6px", textAlign: "right", fontWeight: 500, fontSize: 11, color: vColor }}>
+            <td style={{ fontWeight: "var(--font-weight-medium)", fontSize: "var(--font-size-sm)", color: vColor }}>
               {r.pctVariance === "0.0" || r.pctVariance === "N/A" ? (r.bestKnown > 0 && r.budgetVal === 0 ? "N/A" : "") : `${r.totalVariance > 0 ? "+" : ""}${r.pctVariance}%`}
             </td>
-            <td style={{ padding: "9px 14px", fontSize: 11, color: "#475569", lineHeight: 1.5 }}>
+            <td style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)", lineHeight: "var(--line-height-normal)" }}>
               {r.explanation ? <>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 3 }}>
+                <div className="sp-flex sp-flex-wrap sp-gap-4 sp-mb-2">
                   {r.source === "actual" && r.accrualTotal > 0 && !r.isOnBudget && <Badge color="green">Actual received</Badge>}
                   {r.source === "accrual" && !r.isOnBudget && <Badge color="indigo">AI estimate</Badge>}
                   {r.movedItems.map((m, j) => <Badge key={j} color="orange">↗ {m.movedFrom}</Badge>)}
@@ -143,20 +143,20 @@ export function VarianceTab({ varianceData, totBudget, totAccrual, totActual, pL
                   {r.bestKnown === 0 && r.budgetVal > 0 && <Badge color="gray">No activity</Badge>}
                   {r.matchingActuals.filter(a => a.spread).length > 0 && <Badge color="purple">Multi-period</Badge>}
                 </div>
-                <div style={{ color: "#64748b", fontSize: 11 }}>{r.explanation}</div>
+                <div className="sp-text-sm-muted">{r.explanation}</div>
               </> : null}
             </td>
           </tr>;
         })}
-        <tr style={{ background: "#f8fafc", borderTop: "2px solid #e2e8f0" }}>
-          <td style={{ padding: "10px 14px", fontWeight: 700, fontSize: 13 }}>Total</td>
-          <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 700, fontSize: 13 }}>{Dl(totBudget)}</td>
-          <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 700, fontSize: 13, color: "#059669" }}>{totActual > 0 ? Dl(totActual) : "—"}</td>
-          <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 700, fontSize: 13, color: "#6366f1", background: "#fafaff" }}>{Dl(fullVariance.filter(v => v.source === "accrual").reduce((s, v) => s + v.accrualTotal, 0))}</td>
-          <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 700, fontSize: 13 }}>{Dl(totBestKnown)}</td>
-          <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 700, fontSize: 13, color: totVar > 0 ? "#dc2626" : "#059669" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</td>
-          <td style={{ padding: "10px 6px", textAlign: "right", fontWeight: 700, fontSize: 11, color: totVar > 0 ? "#dc2626" : "#059669" }}>{totBudget > 0 ? `${totVar >= 0 ? "+" : ""}${((totVar / totBudget) * 100).toFixed(1)}%` : ""}</td>
-          <td style={{ padding: "10px 14px", fontSize: 11, color: "#64748b" }}>{actualCount} actuals · {accrualCount} accrual estimates · {fullVariance.filter(v => v.source === "none").length} no activity</td>
+        <tr>
+          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>Total</td>
+          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>{Dl(totBudget)}</td>
+          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)", color: "var(--green-700)" }}>{totActual > 0 ? Dl(totActual) : "—"}</td>
+          <td className="sp-var-table td--accrual" style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)", color: "var(--brand-primary)" }}>{Dl(fullVariance.filter(v => v.source === "accrual").reduce((s, v) => s + v.accrualTotal, 0))}</td>
+          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>{Dl(totBestKnown)}</td>
+          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)", color: totVar > 0 ? "var(--red-600)" : "var(--green-700)" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</td>
+          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-sm)", color: totVar > 0 ? "var(--red-600)" : "var(--green-700)" }}>{totBudget > 0 ? `${totVar >= 0 ? "+" : ""}${((totVar / totBudget) * 100).toFixed(1)}%` : ""}</td>
+          <td className="sp-text-sm-muted">{actualCount} actuals · {accrualCount} accrual estimates · {fullVariance.filter(v => v.source === "none").length} no activity</td>
         </tr>
       </tbody>
     </table>

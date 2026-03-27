@@ -1064,3 +1064,758 @@ input, textarea, select {
   font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
 }
+
+
+/* ————————————————————————————————————————————————————————————
+   22. UTILITY CLASSES
+   ———————————————————————————————————————————————————————————— */
+
+/* — Flex layouts — */
+.sp-flex           { display: flex; }
+.sp-flex-center    { display: flex; align-items: center; }
+.sp-flex-between   { display: flex; align-items: center; justify-content: space-between; }
+.sp-flex-end       { display: flex; align-items: center; justify-content: flex-end; }
+.sp-flex-col       { display: flex; flex-direction: column; }
+.sp-flex-wrap      { flex-wrap: wrap; }
+
+/* Common gap values */
+.sp-gap-2  { gap: var(--space-1); }   /* 2px */
+.sp-gap-4  { gap: var(--space-2); }   /* 4px */
+.sp-gap-5  { gap: var(--space-3); }   /* 6px */
+.sp-gap-6  { gap: var(--space-4); }   /* 8px */
+.sp-gap-8  { gap: var(--space-5); }   /* 10px */
+.sp-gap-12 { gap: var(--space-6); }   /* 12px */
+.sp-gap-14 { gap: var(--space-7); }   /* 14px */
+.sp-gap-16 { gap: var(--space-8); }   /* 16px */
+
+/* — Margin bottom helpers — */
+.sp-mb-2  { margin-bottom: var(--space-1); }
+.sp-mb-4  { margin-bottom: var(--space-2); }
+.sp-mb-6  { margin-bottom: var(--space-4); }
+.sp-mb-8  { margin-bottom: var(--space-4); }
+.sp-mb-10 { margin-bottom: var(--space-5); }
+.sp-mb-12 { margin-bottom: var(--space-6); }
+.sp-mb-14 { margin-bottom: var(--space-7); }
+.sp-mb-16 { margin-bottom: var(--space-8); }
+.sp-mb-20 { margin-bottom: var(--space-10); }
+.sp-mb-24 { margin-bottom: var(--space-12); }
+
+/* Margin top helpers */
+.sp-mt-2  { margin-top: var(--space-1); }
+.sp-mt-4  { margin-top: var(--space-2); }
+.sp-mt-6  { margin-top: var(--space-4); }
+.sp-mt-8  { margin-top: var(--space-4); }
+.sp-mt-16 { margin-top: var(--space-8); }
+
+/* Margin left helpers */
+.sp-ml-8   { margin-left: var(--space-4); }
+.sp-ml-12  { margin-left: var(--space-6); }
+.sp-ml-auto { margin-left: auto; }
+
+/* — Typography utilities — */
+
+/* Sub-label: 10px slate-400 */
+.sp-text-xs-muted {
+  font-size: var(--font-size-xs);
+  color: var(--text-placeholder);
+}
+
+/* Small muted: 11px slate-500 */
+.sp-text-sm-muted {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+/* Small secondary: 12px slate-500 */
+.sp-text-base-muted {
+  font-size: var(--font-size-base);
+  color: var(--text-subtle);
+}
+
+/* Body semibold md: 13px 600 */
+.sp-text-md-semibold {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Body semibold lg: 14px 600 */
+.sp-text-lg-semibold {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Section header: 16px bold */
+.sp-text-section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Amount bold: 15px 700 */
+.sp-text-amount {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+/* — Form label utility (inline / non-block override) — */
+.sp-label-inline {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+/* — Topbar property info — */
+.sp-topbar__prop-name {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+}
+
+.sp-topbar__prop-sub {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+/* — Copilot panel header text — */
+.sp-chat-panel__title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+}
+
+.sp-chat-panel__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+/* — Chat message row — */
+.sp-chat-msg-row        { display: flex; }
+.sp-chat-msg-row--user  { justify-content: flex-end; }
+.sp-chat-msg-row--ai    { justify-content: flex-start; }
+.sp-chat-typing-dots    { display: flex; gap: var(--space-2); }
+.sp-chat-footer-row     { display: flex; gap: var(--space-3); }
+
+/* — Markdown render helpers (chat) — */
+.sp-md-bullet   { padding-left: var(--space-6); position: relative; margin-bottom: var(--space-1); }
+.sp-md-spacer   { height: var(--space-3); }
+.sp-md-line     { margin-bottom: var(--space-1); }
+
+/* — Dashboard stat card icon — */
+.sp-stat-icon {
+  font-size: var(--font-size-2xl);
+}
+
+/* — Dashboard: close-progress section — */
+.sp-progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.sp-progress-label {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sp-progress-count {
+  font-size: var(--font-size-base);
+  color: var(--text-subtle);
+}
+
+/* Close progress bar (multi-segment) */
+.sp-progress-bar {
+  height: 10px;
+  border-radius: var(--radius-md);
+  background: var(--border);
+  overflow: hidden;
+  display: flex;
+}
+
+.sp-progress-bar__seg {
+  transition: width var(--transition-slow);
+}
+
+.sp-progress-bar__seg--green  { background: var(--green-500); }
+.sp-progress-bar__seg--amber  { background: var(--amber-500); }
+
+/* Legend row under the progress bar */
+.sp-legend-row {
+  display: flex;
+  gap: var(--space-8);
+  margin-top: var(--space-4);
+}
+
+.sp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+.sp-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+}
+
+.sp-legend-dot--green  { background: var(--green-500); }
+.sp-legend-dot--amber  { background: var(--amber-500); }
+.sp-legend-dot--gray   { background: var(--border); }
+
+/* — Accountant workload card — */
+.sp-accountant-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.sp-accountant-card__info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.sp-accountant-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-circle);
+  background: var(--indigo-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--indigo-700);
+  flex-shrink: 0;
+}
+
+.sp-accountant-card__name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sp-accountant-card__sub {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+}
+
+.sp-mini-progress {
+  height: 4px;
+  border-radius: var(--radius-xs);
+  background: var(--border);
+  overflow: hidden;
+}
+
+.sp-mini-progress__fill {
+  height: 100%;
+  border-radius: var(--radius-xs);
+  background: var(--green-500);
+}
+
+/* — Dashboard table th/td — */
+.sp-table__th-dash {
+  padding: var(--space-2) var(--space-7);          /* 9px 14px */
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-subtle);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sp-table__th-dash--right { text-align: right; }
+
+.sp-table__td-dash {
+  padding: var(--space-2) var(--space-7);          /* 11px 14px */
+}
+
+/* Primary cell value in dash table */
+.sp-table__cell-name {
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Active property dot indicator */
+.sp-table__active-dot {
+  font-size: var(--font-size-xs);
+  color: var(--brand-primary);
+}
+
+/* Accrual mini-bar in dash table */
+.sp-accrual-bar {
+  height: 3px;
+  border-radius: var(--radius-xs);
+  background: var(--border);
+  width: 50px;
+  margin-top: var(--space-1);
+}
+
+.sp-accrual-bar__fill {
+  height: 100%;
+  border-radius: var(--radius-xs);
+  background: var(--green-500);
+}
+
+/* — AccrualsTab — */
+.sp-accruals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-7);
+}
+
+.sp-accruals-header__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sp-accruals-header__meta {
+  font-size: var(--font-size-base);
+  color: var(--text-subtle);
+  margin-left: var(--space-4);
+}
+
+.sp-btn--add-accrual {
+  padding: var(--space-3) var(--space-7);
+  border-radius: var(--radius-xl);
+  border: 1px dashed var(--indigo-200);
+  background: var(--indigo-50);
+  color: var(--indigo-700);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+}
+
+/* Accrual list gap */
+.sp-accrual-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Accrual row card detail section */
+.sp-accrual-detail {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-7) var(--space-9);
+  background: var(--bg-inset);
+}
+
+/* Source section label inside detail */
+.sp-detail-section-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+
+.sp-detail-section-label--green  { color: var(--green-700); }
+.sp-detail-section-label--indigo { color: var(--brand-primary); }
+
+/* Rationale text */
+.sp-rationale {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  line-height: var(--line-height-loose);
+  margin: 0 0 var(--space-5) 0;
+}
+
+/* Signal row in detail */
+.sp-signal-row {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-base);
+}
+
+.sp-signal-row__text {
+  color: var(--text-muted);
+}
+
+/* Adjust amount box */
+.sp-adjust-box {
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.sp-adjust-box__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-subtle);
+  margin-bottom: var(--space-3);
+}
+
+.sp-adjust-box__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sp-adjust-box__currency {
+  color: var(--text-placeholder);
+}
+
+.sp-adjust-box__input {
+  width: 120px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  outline: none;
+}
+
+.sp-adjust-box__checkbox-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-subtle);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+/* Approve-all footer */
+.sp-approve-all {
+  margin-top: var(--space-8);
+  text-align: center;
+}
+
+/* — Inline action buttons (approve / dismiss / undo) — */
+.sp-btn--approve {
+  padding: var(--space-3) 11px;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--green-500);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sp-btn--move {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-subtle);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.sp-btn--dismiss {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-subtle);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.sp-btn--undo {
+  padding: var(--space-3) 11px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-subtle);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+/* — Modal tab switcher (Add Accrual) — */
+.sp-modal-tabs {
+  display: flex;
+  background: var(--bg-muted);
+  border-radius: var(--radius-lg);
+  padding: 2px;
+}
+
+.sp-modal-tab {
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  color: var(--text-subtle);
+  background: transparent;
+  font-weight: var(--font-weight-normal);
+}
+
+.sp-modal-tab--active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Modal body padding */
+.sp-modal__body--md {
+  padding: var(--space-9) 22px;
+}
+
+/* Parsed item row */
+.sp-parsed-item {
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  margin-bottom: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+}
+
+.sp-parsed-item__vendor {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+}
+
+.sp-parsed-item__amount {
+  font-weight: var(--font-weight-bold);
+  color: var(--brand-primary);
+}
+
+/* Move accrual modal */
+.sp-move-modal__title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-2);
+}
+
+.sp-move-modal__sub {
+  font-size: var(--font-size-md);
+  color: var(--text-subtle);
+  margin-bottom: var(--space-8);
+}
+
+.sp-move-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sp-btn--move-option {
+  padding: var(--space-5) var(--space-7);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  text-align: left;
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.sp-btn--move-option:hover {
+  background: var(--bg-subtle);
+}
+
+/* — Variance Tab — */
+.sp-var-banner__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--violet-800);
+}
+
+.sp-var-banner__sub {
+  font-size: var(--font-size-base);
+  color: var(--violet-700);
+  margin-top: var(--space-1);
+}
+
+.sp-var-banner__kpi-label {
+  font-size: var(--font-size-xs);
+  color: var(--violet-700);
+}
+
+.sp-var-banner__kpi-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--violet-800);
+}
+
+.sp-var-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--violet-700);
+}
+
+/* Variance table — uses sp-card as outer wrapper */
+.sp-var-table-wrap {
+  background: var(--bg-card);
+  border-radius: var(--radius-3xl);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.sp-var-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-base);
+}
+
+.sp-var-table th {
+  padding: var(--space-2) var(--space-4);            /* 9px 8px */
+  text-align: right;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-subtle);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.sp-var-table th:first-child  { text-align: left;  padding-left: var(--space-7); }
+.sp-var-table th:last-child   { text-align: left;  padding-left: var(--space-7); }
+.sp-var-table th--actual      { color: var(--green-700); }
+.sp-var-table th--accrual     { color: var(--brand-primary); background: #fafaff; }
+
+.sp-var-table td {
+  padding: var(--space-2) var(--space-4);            /* 9px 8px */
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: right;
+}
+
+.sp-var-table td:first-child { text-align: left; padding-left: var(--space-7); }
+.sp-var-table td:last-child  { text-align: left; padding-left: var(--space-7); }
+.sp-var-table td--accrual    { background: #fafaff; }
+
+.sp-var-table tfoot tr {
+  background: var(--bg-subtle);
+  border-top: 2px solid var(--border);
+}
+
+.sp-var-table tfoot td {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+}
+
+/* — Reconcile Tab — */
+.sp-recon-banner__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--green-900);
+}
+
+.sp-recon-banner__sub {
+  font-size: var(--font-size-base);
+  color: var(--green-700);
+  margin-top: var(--space-1);
+}
+
+.sp-recon-banner__kpi-label {
+  font-size: var(--font-size-xs);
+  color: var(--green-700);
+}
+
+.sp-recon-banner__kpi-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--green-900);
+}
+
+/* JE sub-table inside reconcile expanded */
+.sp-je-wrap {
+  background: var(--bg-card);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.sp-je-header {
+  padding: var(--space-3) var(--space-5);
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+}
+
+.sp-je-header--green {
+  background: var(--green-50);
+  color: var(--green-900);
+}
+
+.sp-je-table-inner {
+  width: 100%;
+  font-size: var(--font-size-base);
+  border-collapse: collapse;
+}
+
+.sp-je-table-inner td {
+  padding: var(--space-3) var(--space-5);
+}
+
+.sp-je-table-inner td:last-child {
+  text-align: right;
+  font-weight: var(--font-weight-semibold);
+}
+
+.sp-je-table-inner tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sp-je-table-inner tr:last-child {
+  border-bottom: none;
+}
+
+.sp-je-footer {
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--border);
+  font-size: var(--font-size-sm);
+}
+
+.sp-je-footer--amber  { background: var(--amber-100); color: var(--amber-800); }
+.sp-je-footer--green  { background: var(--green-50);  color: var(--green-800); }
+
+/* — Journal Tab — */
+.sp-journal-header {
+  margin-bottom: var(--space-7);
+}
+
+.sp-journal-header__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sp-journal-header__meta {
+  font-size: var(--font-size-base);
+  color: var(--text-subtle);
+  margin-left: var(--space-4);
+}
+
+.sp-je-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.sp-je-card__meta {
+  font-size: var(--font-size-base);
+  color: var(--text-subtle);
+}
+
+.sp-je-card__memo {
+  font-size: var(--font-size-sm);
+  color: var(--text-placeholder);
+  margin-top: var(--space-2);
+}
+
+.sp-je-body {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* — Text align helpers — */
+.sp-text-right  { text-align: right; }
+.sp-text-center { text-align: center; }
+.sp-text-left   { text-align: left; }
+
+/* — Width helpers — */
+.sp-w-full { width: 100%; }

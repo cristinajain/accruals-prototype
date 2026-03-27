@@ -38,32 +38,32 @@ export function AIChatPanel({ accruals, accrualStates, editAmounts, activeTab, s
   };
   const renderMd = t => t.split("\n").map((ln, i) => {
     const f = ln.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
-    if (/^[•-]\s/.test(ln)) return <div key={i} style={{ paddingLeft: 12, position: "relative", marginBottom: 2 }}><span style={{ position: "absolute", left: 0 }}>•</span><span dangerouslySetInnerHTML={{ __html: f.replace(/^[•-]\s*/, "") }} /></div>;
-    if (!ln.trim()) return <div key={i} style={{ height: 6 }} />;
-    return <div key={i} style={{ marginBottom: 2 }} dangerouslySetInnerHTML={{ __html: f }} />;
+    if (/^[•-]\s/.test(ln)) return <div key={i} className="sp-md-bullet"><span style={{ position: "absolute", left: 0 }}>•</span><span dangerouslySetInnerHTML={{ __html: f.replace(/^[•-]\s*/, "") }} /></div>;
+    if (!ln.trim()) return <div key={i} className="sp-md-spacer" />;
+    return <div key={i} className="sp-md-line" dangerouslySetInnerHTML={{ __html: f }} />;
   });
   return (
     <div className="sp-chat-panel">
       <div className="sp-chat-panel__header">
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div className="sp-flex-center sp-gap-6">
           <div className="sp-logo-icon sp-logo-icon--sm">AI</div>
           <div>
-            <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)" }}>Copilot</div>
-            <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-subtle)" }}>{pLabel}</div>
+            <div className="sp-chat-panel__title">Copilot</div>
+            <div className="sp-chat-panel__subtitle">{pLabel}</div>
           </div>
         </div>
         <button onClick={onClose} className="sp-chat-close-btn">×</button>
       </div>
       <div className="sp-chat-panel__messages">
         {messages.map((m, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+          <div key={i} className={`sp-chat-msg-row sp-chat-msg-row--${m.role === "user" ? "user" : "ai"}`}>
             <div className={`sp-chat-bubble sp-chat-bubble--${m.role}`}>{renderMd(m.content)}</div>
           </div>
         ))}
         {loading && (
-          <div style={{ display: "flex" }}>
+          <div className="sp-chat-msg-row">
             <div className="sp-chat-bubble sp-chat-bubble--assistant">
-              <div style={{ display: "flex", gap: 4 }}>
+              <div className="sp-chat-typing-dots">
                 {[0, 1, 2].map(j => <div key={j} className="sp-typing-dot" />)}
               </div>
             </div>
@@ -72,7 +72,7 @@ export function AIChatPanel({ accruals, accrualStates, editAmounts, activeTab, s
         <div ref={btm} />
       </div>
       <div className="sp-chat-panel__footer">
-        <div style={{ display: "flex", gap: 6 }}>
+        <div className="sp-chat-footer-row">
           <input
             ref={inp}
             value={input}
