@@ -453,9 +453,30 @@ const COMPONENTS = [
     ],
   },
   {
-    name: "Bar",
+    name: "Bar — General",
     className: "sp-bar",
-    description: "Inline progress / confidence bar (High · Medium · Low)",
+    description: "Single-color inline bar (generic use)",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {[70, 45, 20].map(v => (
+          <div key={v} className="sp-bar">
+            <div className="sp-bar__track">
+              <div className="sp-bar__fill" style={{ width: `${v}%` }} />
+            </div>
+            <span className="sp-bar__label">{v}%</span>
+          </div>
+        ))}
+      </div>
+    ),
+    props: [
+      { key: "sp-bar__fill:background", label: "Fill Color",  cssClass: "sp-bar__fill", cssProp: "background", tokenType: "color", default: "var(--brand-primary)" },
+      { key: "sp-bar__label:color",     label: "Label Color", cssClass: "sp-bar__label", cssProp: "color",     tokenType: "color", default: "var(--brand-primary)" },
+    ],
+  },
+  {
+    name: "Bar — Confidence",
+    className: "sp-bar",
+    description: "Color-coded confidence bar (High · Medium · Low)",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {[{ label: "High", value: 85, tier: "high" }, { label: "Medium", value: 55, tier: "medium" }, { label: "Low", value: 25, tier: "low" }]
