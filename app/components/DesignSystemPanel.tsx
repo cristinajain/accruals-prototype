@@ -576,9 +576,104 @@ function TokenRow({ token, value, dirty, onChange, onReset }) {
   );
 }
 
+// ─── Resolve a CSS token value to a displayable color string ──────────────────
+
+function resolveColor(token: string): string {
+  if (typeof window === "undefined") return "#ccc";
+  if (token === "transparent") return "transparent";
+  if (token === "white") return "#ffffff";
+  if (token === "black") return "#000000";
+  if (token.startsWith("var(--")) {
+    const name = token.slice(6, -1);
+    return getComputedStyle(document.documentElement).getPropertyValue("--" + name).trim() || "#ccc";
+  }
+  return token;
+}
+
+// ─── Custom color select with swatch dots per option ──────────────────────────
+
+function ColorSelect({ value, opts, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const label = value.startsWith("var(--") ? value.slice(6, -1) : value;
+
+  return (
+    <div ref={ref} style={{ position: "relative", flex: 1, minWidth: 0 }}>
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        style={{
+          width: "100%", display: "flex", alignItems: "center", gap: 6,
+          border: "1px solid #e2e8f0", borderRadius: 5, padding: "3px 6px",
+          fontSize: 10, fontFamily: "ui-monospace, monospace",
+          background: "#fff", color: "#0f172a", cursor: "pointer",
+          textAlign: "left", outline: "none", boxSizing: "border-box",
+        }}
+      >
+        <span style={{ width: 10, height: 10, borderRadius: "50%", background: resolveColor(value), border: "1px solid #e2e8f0", flexShrink: 0, display: "inline-block" }} />
+        <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{label}</span>
+        <span style={{ fontSize: 8, color: "#94a3b8", flexShrink: 0 }}>▾</span>
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div style={{
+          position: "absolute", right: 0, top: "100%", marginTop: 2,
+          background: "#fff", border: "1px solid #e2e8f0", borderRadius: 7,
+          boxShadow: "0 4px 16px rgba(0,0,0,0.10)", zIndex: 9999,
+          maxHeight: 260, overflowY: "auto", minWidth: 200,
+        }}>
+          {opts.map(group => (
+            <div key={group.group}>
+              <div style={{ fontSize: 9, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em", padding: "6px 10px 3px" }}>{group.group}</div>
+              {group.tokens.map(token => {
+                const lbl = token.startsWith("var(--") ? token.slice(6, -1) : token;
+                const isSelected = token === value;
+                return (
+                  <div
+                    key={token}
+                    onMouseDown={() => { onChange(token); setOpen(false); }}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 8,
+                      padding: "4px 10px", cursor: "pointer", fontSize: 10,
+                      fontFamily: "ui-monospace, monospace",
+                      background: isSelected ? "#f0fdf4" : "transparent",
+                      color: isSelected ? "#3d5a47" : "#0f172a",
+                      fontWeight: isSelected ? 600 : 400,
+                    }}
+                    onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = "#f8fafc"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = isSelected ? "#f0fdf4" : "transparent"; }}
+                  >
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: resolveColor(token), border: "1px solid #e2e8f0", flexShrink: 0, display: "inline-block" }} />
+                    {lbl}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Component prop row with token picker ──────────────────────────────────────
 
 function CompPropRow({ prop, value, dirty, onChange, onReset }) {
+  const opts = TOKEN_OPTIONS[prop.tokenType] || [];
+  const isColor = prop.tokenType === "color";
+
   const selectStyle = {
     flex: 1,
     border: "1px solid #e2e8f0",
@@ -594,31 +689,28 @@ function CompPropRow({ prop, value, dirty, onChange, onReset }) {
     minWidth: 0,
   };
 
-  const opts = TOKEN_OPTIONS[prop.tokenType] || [];
-  const isColor = prop.tokenType === "color";
-
   return (
     <div style={{ display: "grid", gridTemplateColumns: "100px 1fr auto", alignItems: "center", gap: 8, padding: "5px 0", borderBottom: "1px solid #f1f5f9" }}>
       <span style={{ fontSize: 11, color: dirty ? "#3d5a47" : "#64748b", fontWeight: dirty ? 600 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
         {prop.label}
       </span>
       <div style={{ display: "flex", alignItems: "center", gap: 5, minWidth: 0 }}>
-        {isColor && (
-          <div style={{ width: 18, height: 18, borderRadius: 3, background: value, border: "1px solid #e2e8f0", flexShrink: 0 }} />
+        {isColor ? (
+          <ColorSelect value={value} opts={opts} onChange={v => onChange(prop.key, v)} />
+        ) : (
+          <select value={value} onChange={e => onChange(prop.key, e.target.value)} style={selectStyle}>
+            {opts.map(group => (
+              <optgroup key={group.group} label={group.group}>
+                {group.tokens.map(token => (
+                  <option key={token} value={token}>{token.replace("var(--", "").replace(")", "")}</option>
+                ))}
+              </optgroup>
+            ))}
+            {!opts.flatMap(g => g.tokens).includes(value) && (
+              <option value={value}>{value}</option>
+            )}
+          </select>
         )}
-        <select value={value} onChange={e => onChange(prop.key, e.target.value)} style={selectStyle}>
-          {opts.map(group => (
-            <optgroup key={group.group} label={group.group}>
-              {group.tokens.map(token => (
-                <option key={token} value={token}>{token.replace("var(--", "").replace(")", "")}</option>
-              ))}
-            </optgroup>
-          ))}
-          {/* Always include current value if not in list */}
-          {!opts.flatMap(g => g.tokens).includes(value) && (
-            <option value={value}>{value}</option>
-          )}
-        </select>
       </div>
       <button
         onClick={() => onReset(prop.key)}
