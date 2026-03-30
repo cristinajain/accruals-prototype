@@ -741,7 +741,7 @@ export function DesignSystemPanel() {
 
   // Components state
   const [compValues, setCompValues]     = useState<Record<string, string>>(buildCompDefaults);
-  const [compDefaults]                  = useState<Record<string, string>>(buildCompDefaults);
+  const [compDefaults, setCompDefaults] = useState<Record<string, string>>(buildCompDefaults);
   const [compCollapsed, setCompCollapsed] = useState<Record<string, boolean>>({});
   const [compSaving, setCompSaving]     = useState(false);
   const [compSaved, setCompSaved]       = useState(false);
@@ -856,6 +856,7 @@ export function DesignSystemPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ classProps }),
       });
+      setCompDefaults({ ...compValues });
       setCompSaved(true);
       setTimeout(() => setCompSaved(false), 2500);
     } catch (e) {
