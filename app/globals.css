@@ -757,13 +757,17 @@ input, textarea, select {
 }
 
 .sp-bar__fill--high   { background: var(--green-600); }
-.sp-bar__fill--medium { background: var(--amber-500); }
+.sp-bar__fill--medium { background: var(--amber-800); }
 .sp-bar__fill--low    { background: var(--red-500);   }
 
 .sp-bar__label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
 }
+
+.sp-bar__label--high   { color: var(--green-600); }
+.sp-bar__label--medium { color: var(--amber-800); }
+.sp-bar__label--low    { color: var(--red-500);   }
 
 
 /* ————————————————————————————————————————————————————————————

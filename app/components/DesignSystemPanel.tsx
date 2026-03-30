@@ -458,17 +458,15 @@ const COMPONENTS = [
     description: "Inline progress / confidence bar (High · Medium · Low)",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {[{ label: "High",   value: 85, cls: "sp-bar__fill--high",   cl: "var(--green-600)" },
-          { label: "Medium", value: 55, cls: "sp-bar__fill--medium", cl: "var(--amber-500)" },
-          { label: "Low",    value: 25, cls: "sp-bar__fill--low",    cl: "var(--red-500)"   },
-        ].map(({ label, value, cls, cl }) => (
+        {[{ label: "High", value: 85, tier: "high" }, { label: "Medium", value: 55, tier: "medium" }, { label: "Low", value: 25, tier: "low" }]
+          .map(({ label, value, tier }) => (
           <div key={label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, width: 44, textAlign: "right" }}>{label}</span>
             <div className="sp-bar">
               <div className="sp-bar__track">
-                <div className={`sp-bar__fill ${cls}`} style={{ width: `${value}%` }} />
+                <div className={`sp-bar__fill sp-bar__fill--${tier}`} style={{ width: `${value}%` }} />
               </div>
-              <span className="sp-bar__label" style={{ color: cl }}>{value}%</span>
+              <span className={`sp-bar__label sp-bar__label--${tier}`}>{value}%</span>
             </div>
           </div>
         ))}
@@ -478,10 +476,13 @@ const COMPONENTS = [
       { key: "sp-bar__track:background",       label: "Track · BG",        cssClass: "sp-bar__track",       cssProp: "background",    tokenType: "color",    default: "var(--border)" },
       { key: "sp-bar__track:height",            label: "Track · Height",    cssClass: "sp-bar__track",       cssProp: "height",        tokenType: "spacing",  default: "var(--space-3)" },
       { key: "sp-bar__track:border-radius",     label: "Track · Radius",    cssClass: "sp-bar__track",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-xs)" },
-      { key: "sp-bar__fill--high:background",   label: "Fill · High",       cssClass: "sp-bar__fill--high",   cssProp: "background",    tokenType: "color",    default: "var(--green-600)" },
-      { key: "sp-bar__fill--medium:background", label: "Fill · Medium",     cssClass: "sp-bar__fill--medium", cssProp: "background",    tokenType: "color",    default: "var(--amber-500)" },
-      { key: "sp-bar__fill--low:background",    label: "Fill · Low",        cssClass: "sp-bar__fill--low",    cssProp: "background",    tokenType: "color",    default: "var(--red-500)" },
-      { key: "sp-bar__label:font-size",         label: "Label · Size",      cssClass: "sp-bar__label",       cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-sm)" },
+      { key: "sp-bar__fill--high:background",    label: "Fill · High",        cssClass: "sp-bar__fill--high",   cssProp: "background", tokenType: "color",    default: "var(--green-600)" },
+      { key: "sp-bar__label--high:color",        label: "Label · High",       cssClass: "sp-bar__label--high",  cssProp: "color",      tokenType: "color",    default: "var(--green-600)" },
+      { key: "sp-bar__fill--medium:background",  label: "Fill · Medium",      cssClass: "sp-bar__fill--medium", cssProp: "background", tokenType: "color",    default: "var(--amber-800)" },
+      { key: "sp-bar__label--medium:color",      label: "Label · Medium",     cssClass: "sp-bar__label--medium",cssProp: "color",      tokenType: "color",    default: "var(--amber-800)" },
+      { key: "sp-bar__fill--low:background",     label: "Fill · Low",         cssClass: "sp-bar__fill--low",    cssProp: "background", tokenType: "color",    default: "var(--red-500)" },
+      { key: "sp-bar__label--low:color",         label: "Label · Low",        cssClass: "sp-bar__label--low",   cssProp: "color",      tokenType: "color",    default: "var(--red-500)" },
+      { key: "sp-bar__label:font-size",          label: "Label · Size",       cssClass: "sp-bar__label",        cssProp: "font-size",  tokenType: "fontsize", default: "var(--font-size-sm)" },
     ],
   },
 ];
