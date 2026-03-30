@@ -81,6 +81,7 @@ export function AccrualsTab({
               </div>
 
               <div className={`sp-accrual-detail${isExp ? "" : " sp-accrual-detail--closed"}`}>
+                <div className="sp-accrual-detail__clip">
                 <div className="sp-accrual-detail__inner">
                   <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
                     <div>
@@ -99,6 +100,7 @@ export function AccrualsTab({
                       </div>}
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             </div>

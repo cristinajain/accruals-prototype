@@ -1511,7 +1511,6 @@ input, textarea, select {
 .sp-accrual-detail {
   display: grid;
   grid-template-rows: 1fr;
-  overflow: hidden; /* clips inner border/padding when collapsed */
   transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -1519,10 +1518,14 @@ input, textarea, select {
   grid-template-rows: 0fr;
 }
 
-/* Inner wrapper holds the visible content */
-.sp-accrual-detail__inner {
+/* Pure clip — direct grid child, MUST have no padding/border/bg */
+.sp-accrual-detail__clip {
   overflow: hidden;
   min-height: 0;
+}
+
+/* Visual panel — one level inside the clip so padding/border collapse with it */
+.sp-accrual-detail__inner {
   border-top: 1px solid var(--border-subtle);
   padding: var(--space-8) var(--space-9);
   background: var(--bg-card);
