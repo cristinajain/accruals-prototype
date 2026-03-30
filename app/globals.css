@@ -1511,6 +1511,7 @@ input, textarea, select {
 .sp-accrual-detail {
   display: grid;
   grid-template-rows: 1fr;
+  overflow: hidden; /* clips inner border/padding when collapsed */
   transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
