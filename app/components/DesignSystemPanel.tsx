@@ -191,67 +191,111 @@ const GROUPS = [
 
 // ─── Component definitions ─────────────────────────────────────────────────────
 // key = "cssClass:cssProperty", consistent with class names in globals.css
+// preview = JSX rendered live inside the panel; reflects the injected <style> overrides
 
 const COMPONENTS = [
   {
     name: "Badge",
     className: "sp-badge",
-    description: "3 types: General (gray pill) · Status (colored pill) · Category (square tile)",
+    description: "3 types: General · Status · Category",
+    preview: (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "flex-start" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
+          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>General</span>
+          <span className="sp-badge">Label</span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
+          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</span>
+          <div style={{ display: "flex", gap: 5 }}>
+            <span className="sp-badge sp-badge--status-green">Closed</span>
+            <span className="sp-badge sp-badge--status-yellow">In Review</span>
+            <span className="sp-badge sp-badge--status-red">Unbudgeted</span>
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
+          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Category</span>
+          <div style={{ display: "flex", gap: 5 }}>
+            <span className="sp-badge sp-badge--category"><span style={{ fontSize: 13, lineHeight: 1 }}>🔧</span><span>WO</span></span>
+            <span className="sp-badge sp-badge--category"><span style={{ fontSize: 13, lineHeight: 1 }}>📋</span><span>PO</span></span>
+          </div>
+        </div>
+      </div>
+    ),
     props: [
-      // General badge
-      { key: "sp-badge:background",              label: "General · BG",          cssClass: "sp-badge",                 cssProp: "background",    tokenType: "color",      default: "var(--bg-muted)" },
-      { key: "sp-badge:color",                   label: "General · Text",         cssClass: "sp-badge",                 cssProp: "color",         tokenType: "color",      default: "var(--text-muted)" },
-      { key: "sp-badge:font-size",               label: "General · Font Size",    cssClass: "sp-badge",                 cssProp: "font-size",     tokenType: "fontsize",   default: "var(--font-size-xs)" },
-      { key: "sp-badge:border-radius",           label: "General · Radius",       cssClass: "sp-badge",                 cssProp: "border-radius", tokenType: "radius",     default: "var(--radius-full)" },
-      // Status green
-      { key: "sp-badge--status-green:background",label: "Status Green · BG",      cssClass: "sp-badge--status-green",   cssProp: "background",    tokenType: "color",      default: "var(--green-50)" },
-      { key: "sp-badge--status-green:color",     label: "Status Green · Text",    cssClass: "sp-badge--status-green",   cssProp: "color",         tokenType: "color",      default: "var(--green-800)" },
-      // Status yellow
-      { key: "sp-badge--status-yellow:background",label:"Status Yellow · BG",     cssClass: "sp-badge--status-yellow",  cssProp: "background",    tokenType: "color",      default: "var(--amber-100)" },
-      // Status red
-      { key: "sp-badge--status-red:background",  label: "Status Red · BG",        cssClass: "sp-badge--status-red",     cssProp: "background",    tokenType: "color",      default: "var(--red-100)" },
-      { key: "sp-badge--status-red:color",       label: "Status Red · Text",      cssClass: "sp-badge--status-red",     cssProp: "color",         tokenType: "color",      default: "var(--red-600)" },
-      // Category badge
-      { key: "sp-badge--category:background",    label: "Category · BG",          cssClass: "sp-badge--category",       cssProp: "background",    tokenType: "color",      default: "var(--bg-muted)" },
-      { key: "sp-badge--category:border-radius", label: "Category · Radius",      cssClass: "sp-badge--category",       cssProp: "border-radius", tokenType: "radius",     default: "var(--radius-sm)" },
-      { key: "sp-badge--category:color",         label: "Category · Text",        cssClass: "sp-badge--category",       cssProp: "color",         tokenType: "color",      default: "var(--text-muted)" },
+      { key: "sp-badge:background",               label: "General · BG",         cssClass: "sp-badge",                cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp-badge:color",                    label: "General · Text",        cssClass: "sp-badge",                cssProp: "color",         tokenType: "color",    default: "var(--text-muted)" },
+      { key: "sp-badge:font-size",                label: "General · Font Size",   cssClass: "sp-badge",                cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-xs)" },
+      { key: "sp-badge:border-radius",            label: "General · Radius",      cssClass: "sp-badge",                cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-full)" },
+      { key: "sp-badge--status-green:background", label: "Status Green · BG",     cssClass: "sp-badge--status-green",  cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp-badge--status-green:color",      label: "Status Green · Text",   cssClass: "sp-badge--status-green",  cssProp: "color",         tokenType: "color",    default: "var(--green-800)" },
+      { key: "sp-badge--status-yellow:background",label: "Status Yellow · BG",    cssClass: "sp-badge--status-yellow", cssProp: "background",    tokenType: "color",    default: "var(--amber-100)" },
+      { key: "sp-badge--status-red:background",   label: "Status Red · BG",       cssClass: "sp-badge--status-red",    cssProp: "background",    tokenType: "color",    default: "var(--red-100)" },
+      { key: "sp-badge--status-red:color",        label: "Status Red · Text",     cssClass: "sp-badge--status-red",    cssProp: "color",         tokenType: "color",    default: "var(--red-600)" },
+      { key: "sp-badge--category:background",     label: "Category · BG",         cssClass: "sp-badge--category",      cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp-badge--category:border-radius",  label: "Category · Radius",     cssClass: "sp-badge--category",      cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-sm)" },
+      { key: "sp-badge--category:color",          label: "Category · Text",       cssClass: "sp-badge--category",      cssProp: "color",         tokenType: "color",    default: "var(--text-muted)" },
     ],
   },
   {
     name: "Button",
     className: "sp-btn",
     description: "Action button variants",
+    preview: (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+        <button className="sp-btn sp-btn--primary">✓ Approve</button>
+        <button className="sp-btn sp-btn--success-gradient">✓ Post All</button>
+        <button className="sp-btn sp-btn--ghost">Cancel</button>
+        <button className="sp-btn sp-btn--dashed">+ Add</button>
+      </div>
+    ),
     props: [
-      { key: "sp-btn:border-radius",              label: "Radius",             cssClass: "sp-btn",               cssProp: "border-radius",  tokenType: "radius",     default: "var(--radius-lg)" },
-      { key: "sp-btn:font-size",                  label: "Font Size",          cssClass: "sp-btn",               cssProp: "font-size",      tokenType: "fontsize",   default: "var(--font-size-base)" },
-      { key: "sp-btn--primary:background",        label: "Primary · BG",       cssClass: "sp-btn--primary",      cssProp: "background",     tokenType: "color",      default: "var(--green-50)" },
-      { key: "sp-btn--primary:color",             label: "Primary · Text",     cssClass: "sp-btn--primary",      cssProp: "color",          tokenType: "color",      default: "var(--brand-primary)" },
-      { key: "sp-btn--success-gradient:background", label: "Success · BG",    cssClass: "sp-btn--success-gradient", cssProp: "background", tokenType: "color",      default: "var(--green-50)" },
-      { key: "sp-btn--success-gradient:color",    label: "Success · Text",     cssClass: "sp-btn--success-gradient", cssProp: "color",      tokenType: "color",      default: "var(--brand-primary)" },
-      { key: "sp-btn--ghost:background",          label: "Ghost · BG",         cssClass: "sp-btn--ghost",        cssProp: "background",     tokenType: "color",      default: "var(--bg-muted)" },
-      { key: "sp-btn--ghost:color",               label: "Ghost · Text",       cssClass: "sp-btn--ghost",        cssProp: "color",          tokenType: "color",      default: "var(--text-secondary)" },
-      { key: "sp-btn--dashed:background",         label: "Dashed · BG",        cssClass: "sp-btn--dashed",       cssProp: "background",     tokenType: "color",      default: "var(--green-50)" },
-      { key: "sp-btn--dashed:color",              label: "Dashed · Text",      cssClass: "sp-btn--dashed",       cssProp: "color",          tokenType: "color",      default: "var(--brand-primary)" },
+      { key: "sp-btn:border-radius",               label: "Radius",           cssClass: "sp-btn",                   cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp-btn:font-size",                   label: "Font Size",        cssClass: "sp-btn",                   cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-base)" },
+      { key: "sp-btn--primary:background",         label: "Primary · BG",    cssClass: "sp-btn--primary",          cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp-btn--primary:color",              label: "Primary · Text",   cssClass: "sp-btn--primary",          cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp-btn--success-gradient:background",label: "Success · BG",    cssClass: "sp-btn--success-gradient", cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp-btn--success-gradient:color",     label: "Success · Text",   cssClass: "sp-btn--success-gradient", cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp-btn--ghost:background",           label: "Ghost · BG",      cssClass: "sp-btn--ghost",            cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp-btn--ghost:color",                label: "Ghost · Text",     cssClass: "sp-btn--ghost",            cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
+      { key: "sp-btn--dashed:background",          label: "Dashed · BG",     cssClass: "sp-btn--dashed",           cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp-btn--dashed:color",               label: "Dashed · Text",    cssClass: "sp-btn--dashed",           cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
     ],
   },
   {
     name: "Tab Bar",
     className: "sp-tabs",
     description: "Navigation tab bar",
+    preview: (
+      <div className="sp-tabs" style={{ width: "100%" }}>
+        <button className="sp-tab sp-tab--active">Estimate</button>
+        <button className="sp-tab">Variance</button>
+        <button className="sp-tab">Reconcile</button>
+        <button className="sp-tab">Journal</button>
+      </div>
+    ),
     props: [
-      { key: "sp-tabs:background",       label: "Bar · BG",         cssClass: "sp-tabs",       cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-tabs:border-radius",    label: "Bar · Radius",     cssClass: "sp-tabs",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-2xl)" },
-      { key: "sp-tab:font-size",         label: "Tab · Font Size",  cssClass: "sp-tab",        cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-md)" },
-      { key: "sp-tab:color",             label: "Tab · Text",       cssClass: "sp-tab",        cssProp: "color",         tokenType: "color",    default: "var(--text-subtle)" },
-      { key: "sp-tab:border-radius",     label: "Tab · Radius",     cssClass: "sp-tab",        cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
-      { key: "sp-tab--active:background",label: "Active · BG",      cssClass: "sp-tab--active",cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
-      { key: "sp-tab--active:color",     label: "Active · Text",    cssClass: "sp-tab--active",cssProp: "color",         tokenType: "color",    default: "var(--text-primary)" },
+      { key: "sp-tabs:background",        label: "Bar · BG",        cssClass: "sp-tabs",        cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp-tabs:border-radius",     label: "Bar · Radius",    cssClass: "sp-tabs",        cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-2xl)" },
+      { key: "sp-tab:font-size",          label: "Tab · Font Size", cssClass: "sp-tab",         cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-md)" },
+      { key: "sp-tab:color",              label: "Tab · Text",      cssClass: "sp-tab",         cssProp: "color",         tokenType: "color",    default: "var(--text-subtle)" },
+      { key: "sp-tab:border-radius",      label: "Tab · Radius",    cssClass: "sp-tab",         cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp-tab--active:background", label: "Active · BG",     cssClass: "sp-tab--active", cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp-tab--active:color",      label: "Active · Text",   cssClass: "sp-tab--active", cssProp: "color",         tokenType: "color",    default: "var(--text-primary)" },
     ],
   },
   {
     name: "Card",
     className: "sp-card",
     description: "Content card container",
+    preview: (
+      <div className="sp-card" style={{ width: "100%" }}>
+        <div className="sp-card__header">
+          <div className="sp-card__title">Card Title</div>
+          <span style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>Action</span>
+        </div>
+        <div style={{ padding: "10px 20px", fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>Card content area</div>
+      </div>
+    ),
     props: [
       { key: "sp-card:background",    label: "Background", cssClass: "sp-card", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
       { key: "sp-card:border-radius", label: "Radius",     cssClass: "sp-card", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
@@ -261,18 +305,38 @@ const COMPONENTS = [
     name: "Stat Card",
     className: "sp-stat-card",
     description: "KPI summary tile",
+    preview: (
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, width: "100%" }}>
+        <div className="sp-stat-card">
+          <div className="sp-stat-card__label">Properties</div>
+          <div className="sp-stat-card__value" style={{ color: "var(--brand-primary)" }}>12</div>
+          <div className="sp-stat-card__sub">4 closed</div>
+        </div>
+        <div className="sp-stat-card">
+          <div className="sp-stat-card__label">Accruals</div>
+          <div className="sp-stat-card__value" style={{ color: "var(--brand-primary)" }}>$48K</div>
+          <div className="sp-stat-card__sub">32 approved</div>
+        </div>
+      </div>
+    ),
     props: [
-      { key: "sp-stat-card:background",    label: "Background",    cssClass: "sp-stat-card", cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
-      { key: "sp-stat-card:border-radius", label: "Radius",        cssClass: "sp-stat-card", cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-3xl)" },
-      { key: "sp-stat-card__value:font-size",  label: "Value · Size",   cssClass: "sp-stat-card__value", cssProp: "font-size",  tokenType: "fontsize",  default: "var(--font-size-4xl)" },
-      { key: "sp-stat-card__label:font-size",  label: "Label · Size",   cssClass: "sp-stat-card__label", cssProp: "font-size",  tokenType: "fontsize",  default: "var(--font-size-sm)" },
-      { key: "sp-stat-card__label:color",      label: "Label · Color",  cssClass: "sp-stat-card__label", cssProp: "color",      tokenType: "color",     default: "var(--text-subtle)" },
+      { key: "sp-stat-card:background",       label: "Background",   cssClass: "sp-stat-card",       cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp-stat-card:border-radius",    label: "Radius",       cssClass: "sp-stat-card",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-3xl)" },
+      { key: "sp-stat-card__value:font-size", label: "Value · Size", cssClass: "sp-stat-card__value", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-4xl)" },
+      { key: "sp-stat-card__label:font-size", label: "Label · Size", cssClass: "sp-stat-card__label", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-sm)" },
+      { key: "sp-stat-card__label:color",     label: "Label · Color",cssClass: "sp-stat-card__label", cssProp: "color",        tokenType: "color",    default: "var(--text-subtle)" },
     ],
   },
   {
     name: "Banner",
     className: "sp-banner",
     description: "Highlight / info banner",
+    preview: (
+      <div className="sp-banner" style={{ marginBottom: 0, width: "100%" }}>
+        <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)", color: "var(--text-primary)" }}>Reconcile Actuals — Jan 2026</div>
+        <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)", marginTop: 2 }}>Match invoices to accruals and post JEs</div>
+      </div>
+    ),
     props: [
       { key: "sp-banner:background",    label: "Background", cssClass: "sp-banner", cssProp: "background",    tokenType: "color",  default: "var(--bg-muted)" },
       { key: "sp-banner:border-radius", label: "Radius",     cssClass: "sp-banner", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
@@ -282,6 +346,14 @@ const COMPONENTS = [
     name: "Input",
     className: "sp-input",
     description: "Text input / select / textarea",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
+        <input className="sp-input" placeholder="Text input field" readOnly style={{ pointerEvents: "none" }} />
+        <select className="sp-select" style={{ pointerEvents: "none" }}>
+          <option>Select an option</option>
+        </select>
+      </div>
+    ),
     props: [
       { key: "sp-input:background",    label: "Background", cssClass: "sp-input", cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
       { key: "sp-input:border-radius", label: "Radius",     cssClass: "sp-input", cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
@@ -292,6 +364,15 @@ const COMPONENTS = [
     name: "Modal",
     className: "sp-modal",
     description: "Dialog / overlay modal",
+    preview: (
+      <div className="sp-modal" style={{ width: "100%", boxShadow: "var(--shadow-md)" }}>
+        <div className="sp-modal__header" style={{ padding: "12px 16px" }}>
+          <div className="sp-modal__title">Add Accrual</div>
+          <span style={{ fontSize: "var(--font-size-lg)", color: "var(--text-muted)", cursor: "pointer" }}>✕</span>
+        </div>
+        <div style={{ padding: "12px 16px", fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>Modal body content</div>
+      </div>
+    ),
     props: [
       { key: "sp-modal:background",    label: "Background", cssClass: "sp-modal", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
       { key: "sp-modal:border-radius", label: "Radius",     cssClass: "sp-modal", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-6xl)" },
@@ -301,6 +382,28 @@ const COMPONENTS = [
     name: "Row Card",
     className: "sp-row-card",
     description: "Accrual / reconcile list row",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
+        <div className="sp-row-card" style={{ border: "1px solid var(--green-200)" }}>
+          <div className="sp-row-card__body" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
+            <div>
+              <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)" }}>Metro HVAC Services</div>
+              <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>6210 — R&M HVAC</div>
+            </div>
+            <div style={{ fontWeight: "var(--font-weight-bold)", color: "var(--brand-primary)" }}>$14,200</div>
+          </div>
+        </div>
+        <div className="sp-row-card">
+          <div className="sp-row-card__body" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
+            <div>
+              <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)" }}>ConEd — Electric</div>
+              <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>6110 — Utilities</div>
+            </div>
+            <div style={{ fontWeight: "var(--font-weight-bold)", color: "var(--text-primary)" }}>$31,500</div>
+          </div>
+        </div>
+      </div>
+    ),
     props: [
       { key: "sp-row-card:background",    label: "Background", cssClass: "sp-row-card", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
       { key: "sp-row-card:border-radius", label: "Radius",     cssClass: "sp-row-card", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
@@ -310,6 +413,18 @@ const COMPONENTS = [
     name: "Top Bar",
     className: "sp-topbar",
     description: "Page navigation top bar",
+    preview: (
+      <div className="sp-topbar" style={{ borderRadius: 8, padding: "10px 14px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 26, height: 26, borderRadius: 6, background: "var(--brand-primary)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 700, fontSize: 12 }}>S</div>
+          <div>
+            <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-base)" }}>Stackpoint</div>
+            <div style={{ fontSize: "var(--font-size-xs)", color: "var(--text-subtle)" }}>AI Property Accounting</div>
+          </div>
+        </div>
+        <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)", border: "1px solid var(--border)", borderRadius: 999, padding: "3px 10px" }}>Jan 2026 Close</div>
+      </div>
+    ),
     props: [
       { key: "sp-topbar:background", label: "Background", cssClass: "sp-topbar", cssProp: "background", tokenType: "color", default: "var(--bg-card)" },
     ],
@@ -811,6 +926,19 @@ export function DesignSystemPanel() {
                     </div>
                     {!isCollapsed && (
                       <div style={{ paddingBottom: 8 }}>
+                        {/* Live preview — reflects injected <style> overrides instantly */}
+                        {comp.preview && (
+                          <div style={{
+                            background: "#f4f6f8",
+                            border: "1px solid #e2e8f0",
+                            borderRadius: 8,
+                            padding: "12px 14px",
+                            marginBottom: 10,
+                          }}>
+                            <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#94a3b8", marginBottom: 10 }}>Preview</div>
+                            {comp.preview}
+                          </div>
+                        )}
                         {comp.props.map(prop => (
                           <CompPropRow
                             key={prop.key}
