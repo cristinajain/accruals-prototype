@@ -2012,9 +2012,6 @@ input, textarea, select {
   display: flex;
   min-height: 100vh;
   background: var(--bg-app);
-  padding: 8px;
-  gap: 8px;
-  align-items: flex-start;
 }
 
 .sp-main {
@@ -2026,33 +2023,82 @@ input, textarea, select {
 .sp-sidebar {
   width: 255px;
   flex-shrink: 0;
-  height: calc(100vh - 16px);
+  height: 100vh;
   position: sticky;
-  top: 8px;
+  top: 0;
   background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-4xl);
+  border: none;
+  border-right: 1px solid var(--border);
+  border-radius: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-sidebar--collapsed {
+  width: 0;
+}
+
+/* Re-open button shown when sidebar is closed */
+.sp-sidebar-reopen {
+  position: fixed;
+  top: 12px;
+  left: 8px;
+  z-index: 50;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-subtle);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.sp-sidebar-reopen:hover {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
 }
 
 /* ── Header ─────────────────────────────────── */
 .sp-sidebar__header-wrap {
-  padding: var(--space-2);
+  padding: 12px 12px 8px 12px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.sp-sidebar__brand {
+.sp-sidebar__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.sp-sidebar__brand-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: var(--space-2);
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: background 0.15s ease;
+  min-width: 0;
 }
-.sp-sidebar__brand:hover { background: var(--bg-subtle); }
+
+/* Portfolio name + selector button (inline) */
+.sp-sidebar__portfolio-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  min-width: 0;
+}
+.sp-sidebar__portfolio-selector:hover .sp-sidebar__brand-name {
+  color: var(--text-primary);
+}
 
 .sp-sidebar__logo {
   width: 32px;
@@ -2066,24 +2112,17 @@ input, textarea, select {
   color: white;
 }
 
-.sp-sidebar__brand-text {
-  flex: 1;
-  min-width: 0;
-}
-
 .sp-sidebar__brand-name {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .sp-sidebar__brand-sub {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
-  line-height: 1.4;
+  padding-left: 40px; /* indent under logo */
 }
 
 .sp-sidebar__icon-muted {
@@ -2093,10 +2132,31 @@ input, textarea, select {
   align-items: center;
 }
 
+/* Collapse/expand toggle button */
+.sp-sidebar__toggle-btn {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-subtle);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.sp-sidebar__toggle-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+}
+
 /* ── Section ─────────────────────────────────── */
 .sp-sidebar__section {
-  padding: var(--space-2);
+  padding: 4px 8px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .sp-sidebar__section--scroll {
@@ -2146,10 +2206,11 @@ input, textarea, select {
   cursor: pointer;
   text-align: left;
   transition: background 0.15s ease;
+  white-space: nowrap;
 }
-.sp-sidebar__menu-btn:hover            { background: var(--bg-subtle); }
-.sp-sidebar__menu-btn--active          { background: var(--bg-subtle); }
-.sp-sidebar__menu-btn--muted           { opacity: 0.6; }
+.sp-sidebar__menu-btn:hover   { background: var(--bg-subtle); }
+.sp-sidebar__menu-btn--active { background: var(--bg-subtle); }
+.sp-sidebar__menu-btn--muted  { opacity: 0.6; }
 
 .sp-sidebar__menu-icon {
   flex-shrink: 0;
@@ -2173,7 +2234,7 @@ input, textarea, select {
   align-items: center;
 }
 
-/* ── Sub-items drawer (same grid trick as accrual detail) ────────── */
+/* ── Sub-items drawer ────────────────────────── */
 .sp-sidebar__sub {
   display: grid;
   grid-template-rows: 1fr;
@@ -2191,7 +2252,7 @@ input, textarea, select {
   flex-direction: column;
   gap: 1px;
   padding: 2px 0 4px 10px;
-  margin-left: 19px; /* aligns vertical line with icon centre */
+  margin-left: 19px;
   border-left: 1px solid var(--border);
 }
 
@@ -2211,15 +2272,16 @@ input, textarea, select {
   white-space: nowrap;
   transition: background 0.15s ease;
 }
-.sp-sidebar__sub-btn:hover:not(:disabled)   { background: var(--bg-subtle); }
-.sp-sidebar__sub-btn--active                { background: var(--bg-subtle); color: var(--brand-primary); font-weight: var(--font-weight-semibold); }
-.sp-sidebar__sub-btn--disabled              { opacity: 0.4; cursor: default; }
+.sp-sidebar__sub-btn:hover:not(:disabled) { background: var(--bg-subtle); }
+.sp-sidebar__sub-btn--active              { background: var(--bg-subtle); color: var(--brand-primary); font-weight: var(--font-weight-semibold); }
+.sp-sidebar__sub-btn--disabled            { opacity: 0.4; cursor: default; }
 
 /* ── Footer ──────────────────────────────────── */
 .sp-sidebar__footer {
-  padding: var(--space-2);
+  padding: 8px;
   flex-shrink: 0;
   border-top: 1px solid var(--border-subtle);
+  white-space: nowrap;
 }
 
 .sp-sidebar__user {

@@ -15,7 +15,7 @@ const SUB_ITEMS = [
 ];
 
 /* ── Icons ───────────────────────────────────────────────────────── */
-const Icon = ({ d, d2 = null, children = null }: { d?: string; d2?: string; children?: React.ReactNode }) => (
+const Icon = ({ d, d2 = null, children = null }) => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     {d && <path d={d} />}
     {d2 && <path d={d2} />}
@@ -32,9 +32,16 @@ const IconAgents       = () => <Icon><rect width="18" height="18" x="3" y="3" rx
 const IconIntegrations = () => <Icon d="M21.21 15.89A10 10 0 1 1 8 2.83" d2="M22 12A10 10 0 0 0 12 2v10z" />;
 const IconMore         = () => <Icon><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></Icon>;
 const IconLogo         = () => <Icon><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></Icon>;
+const IconPanelClose   = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="18" height="18" x="3" y="3" rx="2"/>
+    <path d="M9 3v18"/>
+    <path d="m16 15-3-3 3-3"/>
+  </svg>
+);
 
 /* ── Sidebar ─────────────────────────────────────────────────────── */
-export function Sidebar() {
+export function Sidebar({ open, onToggle }: { open: boolean; onToggle: () => void }) {
   const router   = useRouter();
   const pathname = usePathname();
 
@@ -57,18 +64,25 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="sp-sidebar">
+    <aside className={`sp-sidebar${open ? "" : " sp-sidebar--collapsed"}`}>
 
       {/* ── Header ─────────────────────────────────────── */}
       <div className="sp-sidebar__header-wrap">
-        <div className="sp-sidebar__brand">
-          <div className="sp-sidebar__logo"><IconLogo /></div>
-          <div className="sp-sidebar__brand-text">
-            <div className="sp-sidebar__brand-name">Portfolio Alpha</div>
-            <div className="sp-sidebar__brand-sub">Jan 2026 Close</div>
+        <div className="sp-sidebar__header-row">
+          {/* Logo + portfolio name + selector (inline) */}
+          <div className="sp-sidebar__brand-group">
+            <div className="sp-sidebar__logo"><IconLogo /></div>
+            <button className="sp-sidebar__portfolio-selector">
+              <span className="sp-sidebar__brand-name">Portfolio Alpha</span>
+              <span className="sp-sidebar__icon-muted"><IconChevronsUD /></span>
+            </button>
           </div>
-          <span className="sp-sidebar__icon-muted"><IconChevronsUD /></span>
+          {/* Collapse toggle — top right */}
+          <button className="sp-sidebar__toggle-btn" onClick={onToggle} title="Collapse sidebar">
+            <IconPanelClose />
+          </button>
         </div>
+        <div className="sp-sidebar__brand-sub">Jan 2026 Close</div>
       </div>
 
       {/* ── Properties ─────────────────────────────────── */}
