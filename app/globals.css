@@ -10,16 +10,16 @@
 :root {
 
   /* — Brand — */
-  --brand-primary:   #6366f1;   /* indigo-500  */
-  --brand-secondary: #8b5cf6;   /* violet-500  */
-  --brand-gradient:  linear-gradient(135deg, #6366f1, #8b5cf6);
+  --brand-primary:   #3d5a47;   /* forest green */
+  --brand-secondary: #e4ebe6;   /* light sage   */
+  --brand-gradient:  linear-gradient(135deg, #3d5a47, #5a7a62);
 
   /* — Backgrounds — */
   --bg-app:     #f8fafc;   /* slate-50  — page background   */
   --bg-card:    #ffffff;   /* white     — card / panel      */
   --bg-subtle:  #f8fafc;   /* slate-50  — table header, row hover */
   --bg-muted:   #f1f5f9;   /* slate-100 — tab bar, pill bg  */
-  --bg-inset:   #fafbfc;   /* near-white — expanded row bg  */
+  --bg-inset:   #ffffff;   /* white — expanded row bg       */
 
   /* — Text — */
   --text-primary:     #0f172a;  /* slate-900 */
@@ -27,34 +27,35 @@
   --text-muted:       #475569;  /* slate-600 */
   --text-subtle:      #64748b;  /* slate-500 */
   --text-placeholder: #94a3b8;  /* slate-400 */
-  --text-disabled:    #d1d5db;  /* gray-300  */
+  --text-disabled:    #f1f5f9;  /* slate-100 */
 
   /* — Borders — */
   --border:        #e2e8f0;  /* slate-200 — standard border  */
   --border-subtle: #f1f5f9;  /* slate-100 — row dividers     */
 
   /* — Semantic: Success / Green — */
-  --green-50:  #f0fdf4;
-  --green-100: #dcfce7;
-  --green-200: #bbf7d0;
-  --green-500: #22c55e;
-  --green-600: #16a34a;
-  --green-700: #059669;  /* emerald-600, used for actuals */
-  --green-800: #166534;
-  --green-900: #065f46;
+  --green-50:  #edfde4;
+  --green-100: #ddffcc;
+  --green-200: #b3ffa7;
+  --green-500: #5aff3f;
+  --green-600: #00af00;
+  --green-700: #00af00;
+  --green-800: #006f00;
+  --green-900: #006f00;
 
   /* — Semantic: Warning / Amber — */
-  --amber-100: #fef3c7;
-  --amber-200: #fde68a;
-  --amber-500: #f59e0b;
-  --amber-800: #92400e;
+  --amber-100: #fffbbc;
+  --amber-200: #fff968;
+  --amber-500: #ffec00;
+  --amber-800: #ffcc00;
 
   /* — Semantic: Danger / Red — */
   --red-100: #fee2e2;
-  --red-200: #fecaca;
-  --red-500: #ef4444;
-  --red-600: #dc2626;
-  --red-800: #991b1b;
+  --red-200: #ffc4c5;
+  --red-500: #ff868b;
+  --red-600: #ff4b45;
+  --red-800: #ee0009;
+  --red-900: #860000;
 
   /* — Semantic: Info / Indigo — */
   --indigo-50:  #eef2ff;
@@ -67,22 +68,29 @@
   /* — Violet — */
   --violet-50:  #faf5ff;
   --violet-100: #ede9fe;
-  --violet-200: #ddd6fe;
-  --violet-500: #8b5cf6;
-  --violet-700: #7c3aed;
-  --violet-800: #5b21b6;
+  --violet-200: #e7cfff;
+  --violet-300: #cfa0ff;
+  --violet-500: #a242ff;
+  --violet-700: #7b00ea;
+  --violet-800: #43008a;
 
   /* — Other semantic colors — */
-  --blue-100: #dbeafe;
-  --blue-800: #1e40af;
+  --blue-100: #d0f3ff;
+  --blue-200: #74dbfc;
+  --blue-500: #00aeff;
+  --blue-700: #005cff;
+  --blue-800: #002770;
   --cyan-100: #cffafe;
   --cyan-800: #155e75;
   --emerald-100: #d1fae5;
   --rose-100: #ffe4e6;
   --rose-800: #9f1239;
-  --orange-100: #ffedd5;
-  --orange-200: #fed7aa;
-  --orange-800: #9a3412;
+  --orange-100: #ffe5bb;
+  --orange-200: #ffc489;
+  --orange-500: #ff8e00;
+  --orange-700: #ff6d00;
+  --orange-800: #ff6d00;
+  --orange-900: #7a3100;
 
   /* — Typography — */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -265,7 +273,7 @@ input, textarea, select {
 .sp-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-4xl);
+  border-radius: var(--radius-3xl);
   overflow: hidden;
 }
 
@@ -290,8 +298,8 @@ input, textarea, select {
 .sp-stat-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-4xl);
-  padding: var(--space-8) var(--space-9);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-7) var(--space-8);
 }
 
 .sp-stat-card__label {
@@ -340,22 +348,21 @@ input, textarea, select {
 
 /* Banner / highlight card (variance, reconcile header) */
 .sp-banner {
-  border-radius: var(--radius-4xl);
-  border: 1px solid;
-  padding: var(--space-8) var(--space-10);
+  border-radius: var(--radius-3xl);
+  border: 1px solid var(--border);
+  padding: var(--space-6) var(--space-9);
   margin-bottom: var(--space-8);
+  background: var(--bg-muted);
 }
 
 .sp-banner--purple {
-  background: linear-gradient(135deg, var(--violet-50), #f5f3ff);
-  border-color: var(--violet-200);
-  color: var(--violet-800);
+  background: var(--bg-muted);
+  border-color: var(--border);
 }
 
 .sp-banner--green {
-  background: linear-gradient(135deg, #ecfdf5, var(--green-50));
-  border-color: var(--green-200);
-  color: var(--green-900);
+  background: var(--bg-muted);
+  border-color: var(--border);
 }
 
 
@@ -372,17 +379,17 @@ input, textarea, select {
   white-space: nowrap;
 }
 
-.sp-badge--green   { background: var(--green-100);   color: var(--green-800);   }
-.sp-badge--blue    { background: var(--blue-100);    color: var(--blue-800);    }
-.sp-badge--amber   { background: var(--amber-100);   color: var(--amber-800);   }
-.sp-badge--red     { background: var(--red-100);     color: var(--red-800);     }
+.sp-badge--green   { background: var(--green-50);    color: var(--green-900);   }
+.sp-badge--blue    { background: var(--blue-100);    color: var(--blue-700);    }
+.sp-badge--amber   { background: var(--amber-100);   color: var(--text-secondary); }
+.sp-badge--red     { background: var(--red-100);     color: var(--red-600);     }
 .sp-badge--gray    { background: var(--bg-muted);    color: var(--text-muted);  }
-.sp-badge--purple  { background: var(--violet-100);  color: var(--violet-800);  }
-.sp-badge--indigo  { background: var(--indigo-100);  color: var(--indigo-800);  }
-.sp-badge--emerald { background: var(--emerald-100); color: var(--green-900);   }
+.sp-badge--purple  { background: var(--violet-200);  color: var(--violet-700);  }
+.sp-badge--indigo  { background: var(--indigo-100);  color: var(--indigo-700);  }
+.sp-badge--emerald { background: var(--green-50);    color: var(--green-900);   }
 .sp-badge--cyan    { background: var(--cyan-100);    color: var(--cyan-800);    }
 .sp-badge--rose    { background: var(--rose-100);    color: var(--rose-800);    }
-.sp-badge--orange  { background: var(--orange-100);  color: var(--orange-800);  }
+.sp-badge--orange  { background: var(--orange-100);  color: var(--orange-700);  }
 
 
 /* ————————————————————————————————————————————————————————————
@@ -394,10 +401,10 @@ input, textarea, select {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-xl);
-  border: none;
-  font-size: var(--font-size-sm);
+  padding: var(--space-3) var(--space-7);
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   white-space: nowrap;
@@ -409,10 +416,11 @@ input, textarea, select {
   opacity: 0.5;
 }
 
-/* Primary — gradient brand */
+/* Primary — brand green */
 .sp-btn--primary {
-  background: var(--brand-gradient);
-  color: #fff;
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  color: var(--brand-primary);
 }
 
 /* Success */
@@ -423,15 +431,16 @@ input, textarea, select {
 
 /* Success gradient (post all) */
 .sp-btn--success-gradient {
-  background: linear-gradient(135deg, var(--green-700), #10b981);
-  color: #fff;
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  color: var(--brand-primary);
 }
 
 /* Ghost / outline */
 .sp-btn--ghost {
-  background: var(--bg-card);
+  background: var(--bg-muted);
   border: 1px solid var(--border);
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .sp-btn--ghost:hover {
@@ -440,9 +449,9 @@ input, textarea, select {
 
 /* Dashed add button */
 .sp-btn--dashed {
-  background: var(--indigo-50);
-  border: 1px dashed var(--indigo-200);
-  color: var(--indigo-700);
+  background: var(--green-50);
+  border: 1px dashed var(--green-200);
+  color: var(--brand-primary);
 }
 
 /* Icon-only (dismiss ✕, move ↗) */
@@ -483,12 +492,12 @@ input, textarea, select {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-6);
+  padding: 7px var(--space-8);
   border-radius: var(--radius-lg);
   border: none;
   background: transparent;
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
   color: var(--text-subtle);
   cursor: pointer;
 }
@@ -573,7 +582,7 @@ input, textarea, select {
 .sp-select:focus,
 .sp-textarea:focus {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
+  box-shadow: 0 0 0 2px rgba(61, 90, 71, 0.12);
 }
 
 .sp-textarea {
@@ -743,13 +752,13 @@ input, textarea, select {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-circle);
-  background: var(--indigo-100);
+  background: var(--brand-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--indigo-700);
+  color: var(--brand-primary);
   flex-shrink: 0;
 }
 
@@ -999,7 +1008,7 @@ input, textarea, select {
 
 .sp-chat-input:focus {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
+  box-shadow: 0 0 0 2px rgba(61, 90, 71, 0.12);
 }
 
 /* Chat send button */
@@ -1281,13 +1290,13 @@ input, textarea, select {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-circle);
-  background: var(--indigo-100);
+  background: var(--brand-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--indigo-700);
+  color: var(--brand-primary);
   flex-shrink: 0;
 }
 
@@ -1382,10 +1391,10 @@ input, textarea, select {
 
 .sp-btn--add-accrual {
   padding: var(--space-3) var(--space-7);
-  border-radius: var(--radius-xl);
-  border: 1px dashed var(--indigo-200);
-  background: var(--indigo-50);
-  color: var(--indigo-700);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--green-200);
+  background: var(--green-50);
+  color: var(--brand-primary);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   cursor: pointer;
@@ -1413,8 +1422,9 @@ input, textarea, select {
   margin-bottom: var(--space-4);
 }
 
-.sp-detail-section-label--green  { color: var(--green-700); }
-.sp-detail-section-label--indigo { color: var(--brand-primary); }
+.sp-detail-section-label--green  { color: var(--green-600); }
+.sp-detail-section-label--brand  { color: var(--brand-primary); }
+.sp-detail-section-label--indigo { color: var(--brand-primary); } /* legacy alias */
 
 /* Rationale text */
 .sp-rationale {
@@ -1488,13 +1498,13 @@ input, textarea, select {
 
 /* — Inline action buttons (approve / dismiss / undo) — */
 .sp-btn--approve {
-  padding: var(--space-3) 11px;
+  padding: var(--space-3) var(--space-7);
   border-radius: var(--radius-lg);
-  border: none;
-  background: var(--green-500);
-  color: #fff;
+  border: 1px solid var(--green-200);
+  background: var(--green-50);
+  color: var(--brand-primary);
   font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -1520,12 +1530,13 @@ input, textarea, select {
 }
 
 .sp-btn--undo {
-  padding: var(--space-3) 11px;
+  padding: var(--space-3) var(--space-7);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-subtle);
-  font-size: var(--font-size-sm);
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
 }
 
@@ -1618,24 +1629,24 @@ input, textarea, select {
 .sp-var-banner__title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  color: var(--violet-800);
+  color: var(--text-primary);
 }
 
 .sp-var-banner__sub {
   font-size: var(--font-size-base);
-  color: var(--violet-700);
+  color: var(--text-muted);
   margin-top: var(--space-1);
 }
 
 .sp-var-banner__kpi-label {
   font-size: var(--font-size-xs);
-  color: var(--violet-700);
+  color: var(--text-subtle);
 }
 
 .sp-var-banner__kpi-value {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
-  color: var(--violet-800);
+  color: var(--brand-primary);
 }
 
 .sp-var-legend-item {
@@ -1643,7 +1654,7 @@ input, textarea, select {
   align-items: center;
   gap: var(--space-2);
   font-size: var(--font-size-sm);
-  color: var(--violet-700);
+  color: var(--text-muted);
 }
 
 /* Variance table — uses sp-card as outer wrapper */
@@ -1699,24 +1710,24 @@ input, textarea, select {
 .sp-recon-banner__title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  color: var(--green-900);
+  color: var(--text-primary);
 }
 
 .sp-recon-banner__sub {
   font-size: var(--font-size-base);
-  color: var(--green-700);
+  color: var(--text-muted);
   margin-top: var(--space-1);
 }
 
 .sp-recon-banner__kpi-label {
   font-size: var(--font-size-xs);
-  color: var(--green-700);
+  color: var(--text-subtle);
 }
 
 .sp-recon-banner__kpi-value {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
-  color: var(--green-900);
+  color: var(--brand-primary);
 }
 
 /* JE sub-table inside reconcile expanded */

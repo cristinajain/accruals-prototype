@@ -10,13 +10,13 @@ import { AddAccrualModal } from "./AddAccrualModal";
 import { MoveAccrualModal } from "./MoveAccrualModal";
 
 export function PropertyView({
-  setView,
+  onBack,
+  onTabChange,
+  onPeriodChange,
   setChatOpen,
   chatOpen,
   selectedPeriod,
-  setSelectedPeriod,
   activeTab,
-  setActiveTab,
   setExpandedId,
   setExpandedActual,
   pLabel,
@@ -64,7 +64,7 @@ export function PropertyView({
   return (
     <div className="sp-app">
       <div className="sp-topbar" style={{ padding: "10px 24px", gap: 10 }}>
-        <button onClick={() => { setView("dashboard"); setChatOpen(false); }} className="sp-btn--nav">←</button>
+        <button onClick={() => { onBack(); setChatOpen(false); }} className="sp-btn--nav">←</button>
         <div>
           <div className="sp-topbar__prop-name">Park Avenue Tower</div>
           <div className="sp-topbar__prop-sub">245K sqft · NYC · Sarah Chen</div>
@@ -73,7 +73,7 @@ export function PropertyView({
           {PERIODS.map(p => (
             <button
               key={p.key}
-              onClick={() => { setSelectedPeriod(p.key); setExpandedId(null); setExpandedActual(null); }}
+              onClick={() => { onPeriodChange(p.key); }}
               className={`sp-period-btn ${selectedPeriod === p.key ? "sp-period-btn--active" : ""}`}
             >
               {p.short}
@@ -86,7 +86,7 @@ export function PropertyView({
             {[{ key: "accruals", label: "Estimate", icon: "🤖" }, { key: "variance", label: "Variance", icon: "📊" }, { key: "reconcile", label: "Reconcile", icon: "🔄" }, { key: "journal", label: "JEs", icon: "📝" }].map(t => (
               <button
                 key={t.key}
-                onClick={() => { setActiveTab(t.key); setExpandedId(null); setExpandedActual(null); }}
+                onClick={() => { onTabChange(t.key); }}
                 className={`sp-tab ${activeTab === t.key ? "sp-tab--active" : ""}`}
               >
                 <span>{t.icon}</span>{t.label}

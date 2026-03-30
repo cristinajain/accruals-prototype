@@ -31,7 +31,7 @@ export function AccrualsTab({
       <div className="sp-accruals-header">
         <div><span className="sp-accruals-header__title">{pLabel} Accruals</span><span className="sp-accruals-header__meta">{approvedCount} approved · {pendingCount} pending · {Dl(approvedTotal)}</span></div>
         <div className="sp-flex-center sp-gap-6">
-          {pendingCount > 0 && <button onClick={() => monthAccruals.forEach(a => { if (accrualStates[a.id] === "suggested") setStatus(a.id, "approved"); })} className="sp-btn sp-btn--primary" style={{ padding: "6px 14px" }}>✓ Approve All ({pendingCount})</button>}
+          {pendingCount > 0 && <button onClick={() => monthAccruals.forEach(a => { if (accrualStates[a.id] === "suggested") setStatus(a.id, "approved"); })} className="sp-btn sp-btn--primary">✓ Approve All ({pendingCount})</button>}
           <button onClick={() => setShowAddModal(true)} className="sp-btn--add-accrual">+ Add Accrual</button>
         </div>
       </div>
@@ -66,7 +66,7 @@ export function AccrualsTab({
             {isExp && <div className="sp-accrual-detail">
               <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
                 <div>
-                  <div className="sp-detail-section-label sp-detail-section-label--indigo">{src.icon} Source: {src.label}</div>
+                  <div className="sp-detail-section-label sp-detail-section-label--brand">{src.icon} Source: {src.label}</div>
                   <p className="sp-rationale">{acc.rationale}</p>
                   {acc.signals.map((s, i) => <div key={i} className="sp-signal-row"><Badge color="gray">{s.type}</Badge><span className="sp-signal-row__text">{s.detail}</span></div>)}
                   {acc.movedFrom && <div className="sp-callout sp-callout--moved sp-mt-6">↗ Moved from {acc.movedFrom}</div>}

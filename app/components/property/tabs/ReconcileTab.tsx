@@ -65,7 +65,7 @@ export function ReconcileTab({ pLabel, reconciledCount, reconcileStates, setReco
           const sp = act.spread, curAmt = sp.schedule.find(p => p.status === "current")?.amount || 0;
           const isExp = expandedActual === act.id, rS = reconcileStates[act.id];
           const mLbl = { "straight-line": "Straight-Line", weighted: "Weighted" }[sp.method] || sp.method;
-          return (<div key={act.id} style={{ background: "var(--bg-card)", borderRadius: "var(--radius-3xl)", border: `1px solid ${rS === "reconciled" ? "var(--green-200)" : "var(--indigo-200)"}`, opacity: rS === "reconciled" ? 0.7 : 1 }}>
+          return (<div key={act.id} style={{ background: "var(--bg-card)", borderRadius: "var(--radius-3xl)", border: `1px solid ${rS === "reconciled" ? "var(--green-200)" : "var(--border)"}`, opacity: rS === "reconciled" ? 0.7 : 1 }}>
             <div onClick={() => setExpandedActual(isExp ? null : act.id)} style={{ padding: "12px 18px", cursor: "pointer", display: "grid", gridTemplateColumns: chatOpen ? "1fr 80px 80px 100px" : "1fr 100px 100px 100px 150px", alignItems: "center", gap: 12 }}>
               <div><div className="sp-flex-center sp-gap-5 sp-mb-2"><span className="sp-text-md-semibold">{act.vendor}</span><Badge color="purple">Multi-Period</Badge><Badge color="cyan">{mLbl}</Badge>{rS === "reconciled" && <Badge color="emerald">Posted</Badge>}</div><div className="sp-text-sm-muted">{act.glCode} · {sp.startMonth} → {sp.endMonth}</div></div>
               <div><div className="sp-text-xs-muted">Total</div><div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>{Dl(act.actualAmount)}</div></div>
@@ -76,10 +76,10 @@ export function ReconcileTab({ pLabel, reconciledCount, reconcileStates, setReco
                 : <button onClick={e => { e.stopPropagation(); setReconcileStates(p => ({ ...p, [act.id]: "pending" })); }} className="sp-btn--undo">↩</button>}
               </div>
             </div>
-            {isExp && <div style={{ borderTop: "1px solid var(--indigo-100)", padding: "14px 18px", background: "#fafbfe" }}>
+            {isExp && <div style={{ borderTop: "1px solid var(--border-subtle)", padding: "14px 18px", background: "var(--bg-inset)" }}>
               <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
                 <div>
-                  <div className="sp-detail-section-label sp-detail-section-label--indigo">📅 Allocation — {mLbl}</div>
+                  <div className="sp-detail-section-label sp-detail-section-label--brand">📅 Allocation — {mLbl}</div>
                   <div className="sp-je-wrap">
                     <table className="sp-je-table-inner">
                       <thead><tr style={{ background: "var(--bg-subtle)" }}><th style={{ textAlign: "left", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Period</th><th style={{ textAlign: "right", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Amount</th>{sp.method !== "straight-line" && <th style={{ textAlign: "right", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Weight</th>}<th style={{ textAlign: "center", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Status</th></tr></thead>
