@@ -2037,28 +2037,60 @@ input, textarea, select {
 }
 
 .sp-sidebar--collapsed {
-  width: 0;
+  width: 48px;
 }
 
-/* Re-open button shown when sidebar is closed */
-.sp-sidebar-reopen {
+/* Collapsed: center icons, hide text labels */
+.sp-sidebar--collapsed .sp-sidebar__menu-btn {
+  justify-content: center;
+  padding: 0;
+}
+.sp-sidebar--collapsed .sp-sidebar__header-row {
+  justify-content: center;
+}
+.sp-sidebar--collapsed .sp-sidebar__user {
+  justify-content: center;
+  padding: 0;
+}
+.sp-sidebar--collapsed .sp-sidebar__section {
+  padding: 4px 6px;
+}
+.sp-sidebar--collapsed .sp-sidebar__footer {
+  padding: 8px 6px;
+}
+
+/* Elements that fade out when collapsed */
+.sp-sidebar__fade-on-collapse {
+  transition: opacity 0.15s ease;
+}
+.sp-sidebar--collapsed .sp-sidebar__fade-on-collapse {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Fixed toggle pill — always visible at the sidebar's right edge */
+.sp-sidebar-toggle {
   position: fixed;
-  top: 12px;
-  left: 8px;
-  z-index: 50;
-  width: 30px;
-  height: 30px;
+  top: 14px;
+  left: 243px; /* 255 - 12 */
+  z-index: 100;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full);
   color: var(--text-subtle);
   cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease, background 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
-.sp-sidebar-reopen:hover {
+.sp-sidebar-toggle--collapsed {
+  left: 36px; /* 48 - 12 */
+}
+.sp-sidebar-toggle:hover {
   color: var(--text-primary);
   background: var(--bg-subtle);
 }
@@ -2132,25 +2164,6 @@ input, textarea, select {
   align-items: center;
 }
 
-/* Collapse/expand toggle button */
-.sp-sidebar__toggle-btn {
-  flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-md);
-  color: var(--text-subtle);
-  cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease;
-}
-.sp-sidebar__toggle-btn:hover {
-  color: var(--text-primary);
-  background: var(--bg-subtle);
-}
 
 /* ── Section ─────────────────────────────────── */
 .sp-sidebar__section {

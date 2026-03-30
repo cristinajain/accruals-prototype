@@ -32,16 +32,9 @@ const IconAgents       = () => <Icon><rect width="18" height="18" x="3" y="3" rx
 const IconIntegrations = () => <Icon d="M21.21 15.89A10 10 0 1 1 8 2.83" d2="M22 12A10 10 0 0 0 12 2v10z" />;
 const IconMore         = () => <Icon><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></Icon>;
 const IconLogo         = () => <Icon><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></Icon>;
-const IconPanelClose   = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="18" height="18" x="3" y="3" rx="2"/>
-    <path d="M9 3v18"/>
-    <path d="m16 15-3-3 3-3"/>
-  </svg>
-);
 
 /* ── Sidebar ─────────────────────────────────────────────────────── */
-export function Sidebar({ open, onToggle }: { open: boolean; onToggle: () => void }) {
+export function Sidebar({ open }: { open: boolean }) {
   const router   = useRouter();
   const pathname = usePathname();
 
@@ -69,54 +62,49 @@ export function Sidebar({ open, onToggle }: { open: boolean; onToggle: () => voi
       {/* ── Header ─────────────────────────────────────── */}
       <div className="sp-sidebar__header-wrap">
         <div className="sp-sidebar__header-row">
-          {/* Logo + portfolio name + selector (inline) */}
-          <div className="sp-sidebar__brand-group">
-            <div className="sp-sidebar__logo"><IconLogo /></div>
-            <button className="sp-sidebar__portfolio-selector">
-              <span className="sp-sidebar__brand-name">Portfolio Alpha</span>
-              <span className="sp-sidebar__icon-muted"><IconChevronsUD /></span>
-            </button>
-          </div>
-          {/* Collapse toggle — top right */}
-          <button className="sp-sidebar__toggle-btn" onClick={onToggle} title="Collapse sidebar">
-            <IconPanelClose />
+          <div className="sp-sidebar__logo"><IconLogo /></div>
+          <button className="sp-sidebar__portfolio-selector sp-sidebar__fade-on-collapse">
+            <span className="sp-sidebar__brand-name">Portfolio Alpha</span>
+            <span className="sp-sidebar__icon-muted"><IconChevronsUD /></span>
           </button>
         </div>
-        <div className="sp-sidebar__brand-sub">Jan 2026 Close</div>
+        <div className="sp-sidebar__brand-sub sp-sidebar__fade-on-collapse">Jan 2026 Close</div>
       </div>
 
       {/* ── Properties ─────────────────────────────────── */}
       <div className="sp-sidebar__section sp-sidebar__section--scroll">
-        <div className="sp-sidebar__section-label">{PORTFOLIO.length} Properties</div>
+        <div className="sp-sidebar__section-label sp-sidebar__fade-on-collapse">{PORTFOLIO.length} Properties</div>
 
         <nav className="sp-sidebar__menu">
           {/* Dashboard */}
           <button
             className={`sp-sidebar__menu-btn${isDashboard ? " sp-sidebar__menu-btn--active" : ""}`}
             onClick={() => go("/")}
+            title="Dashboard"
           >
             <span className="sp-sidebar__menu-icon"><IconDashboard /></span>
-            <span>Dashboard</span>
+            <span className="sp-sidebar__fade-on-collapse">Dashboard</span>
           </button>
 
           {/* Property rows */}
           {PORTFOLIO.map((p) => {
-            const isExpanded = expandedId === p.id;
+            const isExpanded = open && expandedId === p.id;
             const isActive   = currentPropertyId === p.id;
             return (
               <div key={p.id} className="sp-sidebar__menu-item">
                 <button
                   className={`sp-sidebar__menu-btn${isActive ? " sp-sidebar__menu-btn--active" : ""}`}
                   onClick={() => toggleProperty(p.id)}
+                  title={p.name}
                 >
                   <span className="sp-sidebar__menu-icon"><IconBuilding /></span>
-                  <span className="sp-sidebar__menu-label">{p.name}</span>
-                  <span className="sp-sidebar__menu-chevron">
+                  <span className="sp-sidebar__menu-label sp-sidebar__fade-on-collapse">{p.name}</span>
+                  <span className="sp-sidebar__menu-chevron sp-sidebar__fade-on-collapse">
                     {isExpanded ? <IconChevronDown /> : <IconChevronRight />}
                   </span>
                 </button>
 
-                {/* Sub-items drawer */}
+                {/* Sub-items drawer — only animate when open */}
                 <div className={`sp-sidebar__sub${isExpanded ? "" : " sp-sidebar__sub--closed"}`}>
                   <div className="sp-sidebar__sub-clip">
                     <div className="sp-sidebar__sub-list">
@@ -144,19 +132,19 @@ export function Sidebar({ open, onToggle }: { open: boolean; onToggle: () => voi
 
       {/* ── Tools ──────────────────────────────────────── */}
       <div className="sp-sidebar__section sp-sidebar__section--tools">
-        <div className="sp-sidebar__section-label">Tools</div>
+        <div className="sp-sidebar__section-label sp-sidebar__fade-on-collapse">Tools</div>
         <nav className="sp-sidebar__menu">
-          <button className="sp-sidebar__menu-btn">
+          <button className="sp-sidebar__menu-btn" title="Agents">
             <span className="sp-sidebar__menu-icon"><IconAgents /></span>
-            <span>Agents</span>
+            <span className="sp-sidebar__fade-on-collapse">Agents</span>
           </button>
-          <button className="sp-sidebar__menu-btn">
+          <button className="sp-sidebar__menu-btn" title="Integrations">
             <span className="sp-sidebar__menu-icon"><IconIntegrations /></span>
-            <span>Integrations</span>
+            <span className="sp-sidebar__fade-on-collapse">Integrations</span>
           </button>
-          <button className="sp-sidebar__menu-btn sp-sidebar__menu-btn--muted">
+          <button className="sp-sidebar__menu-btn sp-sidebar__menu-btn--muted" title="More">
             <span className="sp-sidebar__menu-icon"><IconMore /></span>
-            <span>More</span>
+            <span className="sp-sidebar__fade-on-collapse">More</span>
           </button>
         </nav>
       </div>
@@ -165,11 +153,11 @@ export function Sidebar({ open, onToggle }: { open: boolean; onToggle: () => voi
       <div className="sp-sidebar__footer">
         <div className="sp-sidebar__user">
           <div className="sp-sidebar__avatar">SC</div>
-          <div className="sp-sidebar__user-info">
+          <div className="sp-sidebar__user-info sp-sidebar__fade-on-collapse">
             <div className="sp-sidebar__user-name">Sarah Chen</div>
             <div className="sp-sidebar__user-email">s.chen@stackpoint.com</div>
           </div>
-          <span className="sp-sidebar__icon-muted"><IconChevronsUD /></span>
+          <span className="sp-sidebar__icon-muted sp-sidebar__fade-on-collapse"><IconChevronsUD /></span>
         </div>
       </div>
 
