@@ -32,7 +32,7 @@ export function AccrualsTab({
         <div><span className="sp-accruals-header__title">{pLabel} Accruals</span><span className="sp-accruals-header__meta">{approvedCount} approved · {pendingCount} pending · {Dl(approvedTotal)}</span></div>
         <div className="sp-flex-center sp-gap-6">
           {pendingCount > 0 && <button onClick={() => monthAccruals.forEach(a => { if (accrualStates[a.id] === "suggested") setStatus(a.id, "approved"); })} className="sp-btn sp-btn--primary">✓ Approve All ({pendingCount})</button>}
-          <button onClick={() => setShowAddModal(true)} className="sp-btn--add-accrual">+ Add Accrual</button>
+          <button onClick={() => setShowAddModal(true)} className="sp-btn sp-btn--secondary">+ Add Accrual</button>
         </div>
       </div>
 
