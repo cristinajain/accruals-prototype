@@ -458,12 +458,12 @@ const COMPONENTS = [
     description: "Single-color inline bar (generic use)",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {[70, 45, 20].map(v => (
+        {[{ v: 70, label: "7/10" }, { v: 45, label: "9/20" }, { v: 20, label: "1/5" }].map(({ v, label }) => (
           <div key={v} className="sp-bar">
             <div className="sp-bar__track">
               <div className="sp-bar__fill" style={{ width: `${v}%` }} />
             </div>
-            <span className="sp-bar__label">{v}%</span>
+            <span className="sp-bar__label">{label}</span>
           </div>
         ))}
       </div>
