@@ -1469,18 +1469,31 @@ input, textarea, select {
 
 /* Accrual row — flat list item */
 .sp-accrual-row {
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.sp-accrual-row:last-child {
-  border-bottom: none;
-}
-
-/* Expanded row gets a card border wrapping both top + panel */
-.sp-accrual-row--expanded {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-3xl);
+  border: 1px solid transparent;
+  border-bottom-color: var(--border-subtle);
+  border-radius: 0;
+  background: transparent;
   overflow: hidden;
+  transition:
+    background 0.2s ease,
+    border-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    margin 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-accrual-row:last-child:not(.sp-accrual-row--expanded) {
+  border-bottom-color: transparent;
+}
+
+.sp-accrual-row:not(.sp-accrual-row--expanded):hover {
+  background: var(--bg-subtle);
+  border-bottom-color: var(--border);
+}
+
+/* Expanded row morphs into a card */
+.sp-accrual-row--expanded {
+  border-color: var(--border);
+  border-radius: var(--radius-3xl);
   margin: var(--space-2) 0;
 }
 
@@ -1494,8 +1507,21 @@ input, textarea, select {
   gap: 14px;
 }
 
-/* Expanded detail panel */
+/* Drawer container — always in DOM, animates open/closed */
 .sp-accrual-detail {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-accrual-detail--closed {
+  grid-template-rows: 0fr;
+}
+
+/* Inner wrapper holds the visible content */
+.sp-accrual-detail__inner {
+  overflow: hidden;
+  min-height: 0;
   border-top: 1px solid var(--border-subtle);
   padding: var(--space-8) var(--space-9);
   background: var(--bg-card);

@@ -80,25 +80,27 @@ export function AccrualsTab({
                 </div>
               </div>
 
-              {isExp && <div className="sp-accrual-detail">
-                <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
-                  <div>
-                    <div className="sp-detail-section-label sp-detail-section-label--brand">Source: {src.label}</div>
-                    <p className="sp-rationale">{acc.rationale}</p>
-                    {acc.signals.map((s, i) => <div key={i} className="sp-signal-row"><Badge>{s.type}</Badge><span className="sp-signal-row__text">{s.detail}</span></div>)}
-                    {acc.movedFrom && <div className="sp-callout sp-callout--moved sp-mt-6">↗ Moved from {acc.movedFrom}</div>}
-                  </div>
-                  <div>
-                    <div className="sp-detail-section-label sp-detail-section-label--green">Actions</div>
-                    <div className="sp-flex sp-flex-wrap sp-gap-5 sp-mb-12">{src.actions.map(a => <SourceAction key={a} action={a} accrualId={acc.id} actionStates={actionStates} setActionStates={setActionStates} />)}</div>
-                    {st !== "dismissed" && <div className="sp-adjust-box">
-                      <div className="sp-adjust-box__label">Adjust Amount</div>
-                      <div className="sp-adjust-box__row"><span className="sp-adjust-box__currency">$</span><input type="number" value={amt} onChange={e => setEditAmounts(p => ({ ...p, [acc.id]: Number(e.target.value) }))} onClick={e => e.stopPropagation()} className="sp-adjust-box__input" /></div>
-                      <label className="sp-adjust-box__checkbox-label"><input type="checkbox" checked={acc.autoReverse} onChange={() => setAccruals(p => p.map(a => a.id === acc.id ? { ...a, autoReverse: !a.autoReverse } : a))} /> Auto-reverse next period</label>
-                    </div>}
+              <div className={`sp-accrual-detail${isExp ? "" : " sp-accrual-detail--closed"}`}>
+                <div className="sp-accrual-detail__inner">
+                  <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
+                    <div>
+                      <div className="sp-detail-section-label sp-detail-section-label--brand">Source: {src.label}</div>
+                      <p className="sp-rationale">{acc.rationale}</p>
+                      {acc.signals.map((s, i) => <div key={i} className="sp-signal-row"><Badge>{s.type}</Badge><span className="sp-signal-row__text">{s.detail}</span></div>)}
+                      {acc.movedFrom && <div className="sp-callout sp-callout--moved sp-mt-6">↗ Moved from {acc.movedFrom}</div>}
+                    </div>
+                    <div>
+                      <div className="sp-detail-section-label sp-detail-section-label--green">Actions</div>
+                      <div className="sp-flex sp-flex-wrap sp-gap-5 sp-mb-12">{src.actions.map(a => <SourceAction key={a} action={a} accrualId={acc.id} actionStates={actionStates} setActionStates={setActionStates} />)}</div>
+                      {st !== "dismissed" && <div className="sp-adjust-box">
+                        <div className="sp-adjust-box__label">Adjust Amount</div>
+                        <div className="sp-adjust-box__row"><span className="sp-adjust-box__currency">$</span><input type="number" value={amt} onChange={e => setEditAmounts(p => ({ ...p, [acc.id]: Number(e.target.value) }))} onClick={e => e.stopPropagation()} className="sp-adjust-box__input" /></div>
+                        <label className="sp-adjust-box__checkbox-label"><input type="checkbox" checked={acc.autoReverse} onChange={() => setAccruals(p => p.map(a => a.id === acc.id ? { ...a, autoReverse: !a.autoReverse } : a))} /> Auto-reverse next period</label>
+                      </div>}
+                    </div>
                   </div>
                 </div>
-              </div>}
+              </div>
             </div>
           );
         })}

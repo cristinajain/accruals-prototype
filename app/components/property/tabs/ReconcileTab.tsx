@@ -33,25 +33,27 @@ export function ReconcileTab({ pLabel, reconciledCount, reconcileStates, setReco
                   : <button onClick={e => { e.stopPropagation(); setReconcileStates(p => ({ ...p, [act.id]: "pending" })); }} className="sp-btn--undo">↩</button>}
                 </div>
               </div>
-              {isExp && <div className="sp-accrual-detail">
-                <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
-                  <div>
-                    <div className="sp-detail-section-label sp-detail-section-label--green">Analysis</div>
-                    {act.status === "matched" && <p className="sp-rationale" style={{ margin: 0 }}>Exact match — zero variance.</p>}
-                    {act.status === "variance" && <><p className="sp-rationale" style={{ margin: "0 0 8px" }}>Actual was <strong style={{ color: v > 0 ? "var(--red-600)" : "var(--green-700)" }}>{Dl(Math.abs(v))} {v > 0 ? "over" : "under"}</strong>.</p>{act.notes && <div className="sp-callout sp-callout--warning">💡 {act.notes}</div>}</>}
-                    {act.status === "unmatched" && <><div className="sp-callout sp-callout--error sp-mb-6">⚠️ No accrual — full {Dl(act.actualAmount)} hits P&amp;L.</div>{act.notes && <p className="sp-rationale" style={{ margin: 0 }}>{act.notes}</p>}<div className="sp-callout sp-callout--info sp-mt-6">🧠 Added to AI watchlist for future periods.</div></>}
-                  </div>
-                  <div>
-                    <div className="sp-detail-section-label sp-detail-section-label--green">Journal Entry</div>
-                    <div className="sp-je-wrap">
-                      {act.accrualAmount > 0 && <><div className="sp-je-header">Reverse Accrual</div><table className="sp-je-table-inner"><tbody><tr><td>DR 2100 — Accrued Exp</td><td>{Dl(act.accrualAmount)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR {act.glCode}</td><td>{Dl(act.accrualAmount)}</td></tr></tbody></table></>}
-                      <div className="sp-je-header">Book Actual</div>
-                      <table className="sp-je-table-inner"><tbody><tr><td>DR {act.glCode}</td><td>{Dl(act.actualAmount)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR 2000 — AP</td><td>{Dl(act.actualAmount)}</td></tr></tbody></table>
-                      {v !== 0 && act.accrualAmount > 0 && <div className={`sp-je-footer ${v > 0 ? "sp-je-footer--amber" : "sp-je-footer--green"}`}><strong>Net:</strong> {v > 0 ? "+" : ""}{Dl(v)} to P&amp;L</div>}
+              <div className={`sp-accrual-detail${isExp ? "" : " sp-accrual-detail--closed"}`}>
+                <div className="sp-accrual-detail__inner">
+                  <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
+                    <div>
+                      <div className="sp-detail-section-label sp-detail-section-label--green">Analysis</div>
+                      {act.status === "matched" && <p className="sp-rationale" style={{ margin: 0 }}>Exact match — zero variance.</p>}
+                      {act.status === "variance" && <><p className="sp-rationale" style={{ margin: "0 0 8px" }}>Actual was <strong style={{ color: v > 0 ? "var(--red-600)" : "var(--green-700)" }}>{Dl(Math.abs(v))} {v > 0 ? "over" : "under"}</strong>.</p>{act.notes && <div className="sp-callout sp-callout--warning">💡 {act.notes}</div>}</>}
+                      {act.status === "unmatched" && <><div className="sp-callout sp-callout--error sp-mb-6">⚠️ No accrual — full {Dl(act.actualAmount)} hits P&amp;L.</div>{act.notes && <p className="sp-rationale" style={{ margin: 0 }}>{act.notes}</p>}<div className="sp-callout sp-callout--info sp-mt-6">🧠 Added to AI watchlist for future periods.</div></>}
+                    </div>
+                    <div>
+                      <div className="sp-detail-section-label sp-detail-section-label--green">Journal Entry</div>
+                      <div className="sp-je-wrap">
+                        {act.accrualAmount > 0 && <><div className="sp-je-header">Reverse Accrual</div><table className="sp-je-table-inner"><tbody><tr><td>DR 2100 — Accrued Exp</td><td>{Dl(act.accrualAmount)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR {act.glCode}</td><td>{Dl(act.accrualAmount)}</td></tr></tbody></table></>}
+                        <div className="sp-je-header">Book Actual</div>
+                        <table className="sp-je-table-inner"><tbody><tr><td>DR {act.glCode}</td><td>{Dl(act.actualAmount)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR 2000 — AP</td><td>{Dl(act.actualAmount)}</td></tr></tbody></table>
+                        {v !== 0 && act.accrualAmount > 0 && <div className={`sp-je-footer ${v > 0 ? "sp-je-footer--amber" : "sp-je-footer--green"}`}><strong>Net:</strong> {v > 0 ? "+" : ""}{Dl(v)} to P&amp;L</div>}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>}
+              </div>
             </div>
           );
         })}
@@ -79,31 +81,33 @@ export function ReconcileTab({ pLabel, reconciledCount, reconcileStates, setReco
                   : <button onClick={e => { e.stopPropagation(); setReconcileStates(p => ({ ...p, [act.id]: "pending" })); }} className="sp-btn--undo">↩</button>}
                 </div>
               </div>
-              {isExp && <div className="sp-accrual-detail">
-                <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
-                  <div>
-                    <div className="sp-detail-section-label sp-detail-section-label--brand">Allocation — {mLbl}</div>
-                    <div className="sp-je-wrap">
-                      <table className="sp-je-table-inner">
-                        <thead><tr style={{ background: "var(--bg-subtle)" }}><th style={{ textAlign: "left", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Period</th><th style={{ textAlign: "right", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Amount</th>{sp.method !== "straight-line" && <th style={{ textAlign: "right", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Weight</th>}<th style={{ textAlign: "center", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Status</th></tr></thead>
-                        <tbody>{sp.schedule.map((r, i) => <tr key={i} style={{ background: r.status === "current" ? "var(--green-50)" : "transparent" }}><td style={{ fontWeight: r.status === "current" ? "var(--font-weight-semibold)" : "var(--font-weight-normal)" }}>{r.month}</td><td style={{ textAlign: "right", fontWeight: "var(--font-weight-semibold)" }}>{Dl(r.amount)}</td>{sp.method !== "straight-line" && <td style={{ textAlign: "right", fontSize: "var(--font-size-sm)", color: "var(--text-subtle)" }}>{r.weight || ""}</td>}<td style={{ textAlign: "center" }}>{r.status === "current" ? <Badge color="green">Current</Badge> : <Badge color="gray">Future</Badge>}</td></tr>)}</tbody>
-                      </table>
+              <div className={`sp-accrual-detail${isExp ? "" : " sp-accrual-detail--closed"}`}>
+                <div className="sp-accrual-detail__inner">
+                  <div style={{ display: "grid", gridTemplateColumns: chatOpen ? "1fr" : "1fr 1fr", gap: 18 }}>
+                    <div>
+                      <div className="sp-detail-section-label sp-detail-section-label--brand">Allocation — {mLbl}</div>
+                      <div className="sp-je-wrap">
+                        <table className="sp-je-table-inner">
+                          <thead><tr style={{ background: "var(--bg-subtle)" }}><th style={{ textAlign: "left", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Period</th><th style={{ textAlign: "right", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Amount</th>{sp.method !== "straight-line" && <th style={{ textAlign: "right", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Weight</th>}<th style={{ textAlign: "center", color: "var(--text-subtle)", fontSize: "var(--font-size-xs)" }}>Status</th></tr></thead>
+                          <tbody>{sp.schedule.map((r, i) => <tr key={i} style={{ background: r.status === "current" ? "var(--green-50)" : "transparent" }}><td style={{ fontWeight: r.status === "current" ? "var(--font-weight-semibold)" : "var(--font-weight-normal)" }}>{r.month}</td><td style={{ textAlign: "right", fontWeight: "var(--font-weight-semibold)" }}>{Dl(r.amount)}</td>{sp.method !== "straight-line" && <td style={{ textAlign: "right", fontSize: "var(--font-size-sm)", color: "var(--text-subtle)" }}>{r.weight || ""}</td>}<td style={{ textAlign: "center" }}>{r.status === "current" ? <Badge color="green">Current</Badge> : <Badge color="gray">Future</Badge>}</td></tr>)}</tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div className="sp-detail-section-label sp-detail-section-label--green">Journal Entries</div>
-                    <div className="sp-je-wrap sp-mb-8">
-                      <div className="sp-je-header">1. Book to Prepaid</div>
-                      <table className="sp-je-table-inner"><tbody><tr><td>DR {sp.glPrepaid}</td><td>{Dl(act.actualAmount)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR 2000 — AP</td><td>{Dl(act.actualAmount)}</td></tr></tbody></table>
-                    </div>
-                    <div className="sp-je-wrap">
-                      <div className="sp-je-header sp-je-header--green">2. {pLabel} Amortization</div>
-                      <table className="sp-je-table-inner"><tbody><tr><td>DR {act.glCode}</td><td>{Dl(curAmt)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR {sp.glPrepaid}</td><td>{Dl(curAmt)}</td></tr></tbody></table>
-                      <div className="sp-je-footer sp-je-footer--green"><strong>P&amp;L:</strong> {Dl(curAmt)} · <strong>Prepaid:</strong> {Dl(act.actualAmount - curAmt)}</div>
+                    <div>
+                      <div className="sp-detail-section-label sp-detail-section-label--green">Journal Entries</div>
+                      <div className="sp-je-wrap sp-mb-8">
+                        <div className="sp-je-header">1. Book to Prepaid</div>
+                        <table className="sp-je-table-inner"><tbody><tr><td>DR {sp.glPrepaid}</td><td>{Dl(act.actualAmount)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR 2000 — AP</td><td>{Dl(act.actualAmount)}</td></tr></tbody></table>
+                      </div>
+                      <div className="sp-je-wrap">
+                        <div className="sp-je-header sp-je-header--green">2. {pLabel} Amortization</div>
+                        <table className="sp-je-table-inner"><tbody><tr><td>DR {act.glCode}</td><td>{Dl(curAmt)}</td></tr><tr><td style={{ paddingLeft: 20 }}>CR {sp.glPrepaid}</td><td>{Dl(curAmt)}</td></tr></tbody></table>
+                        <div className="sp-je-footer sp-je-footer--green"><strong>P&amp;L:</strong> {Dl(curAmt)} · <strong>Prepaid:</strong> {Dl(act.actualAmount - curAmt)}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>}
+              </div>
             </div>
           );
         })}
