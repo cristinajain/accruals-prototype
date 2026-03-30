@@ -415,9 +415,13 @@ input, textarea, select {
 
 /* ————————————————————————————————————————————————————————————
    7. BUTTONS
+   Two visual variants matching Figma (node 25:14):
+     Primary  — green-50 bg, green-200 border, brand-primary text
+                for bulk / main actions (Approve All, Post All, Add)
+     Ghost    — bg-muted bg, border, text-secondary text
+                for all row actions (Approve, Undo, Move, Dismiss)
    ———————————————————————————————————————————————————————————— */
 
-/* Base */
 .sp-btn {
   display: inline-flex;
   align-items: center;
@@ -429,7 +433,7 @@ input, textarea, select {
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   white-space: nowrap;
-  transition: opacity var(--transition-fast);
+  transition: background var(--transition-fast);
 }
 
 .sp-btn:disabled {
@@ -437,58 +441,40 @@ input, textarea, select {
   opacity: 0.5;
 }
 
-/* Primary — brand green */
+/* Primary — bulk / main actions */
 .sp-btn--primary {
   background: var(--green-50);
-  border: 1px solid var(--green-200);
+  border-color: var(--green-200);
   color: var(--brand-primary);
 }
 
-/* Success */
-.sp-btn--success {
-  background: var(--green-500);
-  color: #fff;
+.sp-btn--primary:hover:not(:disabled) {
+  background: var(--green-100);
 }
 
-/* Success gradient (post all) */
-.sp-btn--success-gradient {
-  background: var(--green-50);
-  border: 1px solid var(--green-200);
-  color: var(--brand-primary);
-}
-
-/* Ghost / outline */
+/* Ghost — secondary / row actions */
 .sp-btn--ghost {
   background: var(--bg-muted);
-  border: 1px solid var(--border);
+  border-color: var(--border);
   color: var(--text-secondary);
 }
 
-.sp-btn--ghost:hover {
+.sp-btn--ghost:hover:not(:disabled) {
   background: var(--bg-subtle);
 }
 
-/* Dashed add button */
+/* Dashed — add / create actions (primary variant) */
 .sp-btn--dashed {
   background: var(--green-50);
   border: 1px dashed var(--green-200);
   color: var(--brand-primary);
 }
 
-/* Icon-only (dismiss ✕, move ↗) */
-.sp-btn--icon {
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-lg);
+.sp-btn--dashed:hover:not(:disabled) {
+  background: var(--green-100);
 }
 
-/* Disabled state (used inline on primary) */
-.sp-btn--disabled {
-  background: var(--border);
-  color: var(--text-placeholder);
-  cursor: default;
-}
-
-/* Full-width */
+/* Full-width variant */
 .sp-btn--full {
   width: 100%;
   justify-content: center;
@@ -1421,6 +1407,10 @@ input, textarea, select {
   cursor: pointer;
 }
 
+.sp-btn--add-accrual:hover {
+  background: var(--green-100);
+}
+
 /* Accrual list gap */
 .sp-accrual-list {
   display: flex;
@@ -1517,37 +1507,49 @@ input, textarea, select {
   text-align: center;
 }
 
-/* — Inline action buttons (approve / dismiss / undo) — */
+/* — Row action buttons — all use ghost pattern — */
 .sp-btn--approve {
   padding: var(--space-3) var(--space-7);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--green-200);
-  background: var(--green-50);
-  color: var(--brand-primary);
+  border: 1px solid var(--border);
+  background: var(--bg-muted);
+  color: var(--text-secondary);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
   cursor: pointer;
   white-space: nowrap;
 }
 
+.sp-btn--approve:hover {
+  background: var(--bg-subtle);
+}
+
 .sp-btn--move {
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-subtle);
+  background: var(--bg-muted);
+  color: var(--text-muted);
   font-size: var(--font-size-sm);
   cursor: pointer;
+}
+
+.sp-btn--move:hover {
+  background: var(--bg-subtle);
 }
 
 .sp-btn--dismiss {
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text-subtle);
+  background: var(--bg-muted);
+  color: var(--text-muted);
   font-size: var(--font-size-sm);
   cursor: pointer;
+}
+
+.sp-btn--dismiss:hover {
+  background: var(--bg-subtle);
 }
 
 .sp-btn--undo {
@@ -1559,6 +1561,10 @@ input, textarea, select {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
+}
+
+.sp-btn--undo:hover {
+  background: var(--bg-subtle);
 }
 
 /* — Modal tab switcher (Add Accrual) — */

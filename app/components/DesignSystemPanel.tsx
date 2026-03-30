@@ -239,26 +239,40 @@ const COMPONENTS = [
   {
     name: "Button",
     className: "sp-btn",
-    description: "Action button variants",
+    description: "Primary (bulk actions) · Ghost (row actions) · Dashed (add/create)",
     preview: (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-        <button className="sp-btn sp-btn--primary">✓ Approve</button>
-        <button className="sp-btn sp-btn--success-gradient">✓ Post All</button>
-        <button className="sp-btn sp-btn--ghost">Cancel</button>
-        <button className="sp-btn sp-btn--dashed">+ Add</button>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Primary — bulk actions</span>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button className="sp-btn sp-btn--primary">✓ Approve All</button>
+            <button className="sp-btn sp-btn--primary">✓ Post All</button>
+            <button className="sp-btn sp-btn--dashed">+ Add Accrual</button>
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Ghost — row actions</span>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button className="sp-btn--approve">✓ Approve</button>
+            <button className="sp-btn--undo">↩ Undo</button>
+            <button className="sp-btn sp-btn--ghost">Action</button>
+            <button className="sp-btn--move">↗</button>
+            <button className="sp-btn--dismiss">✕</button>
+          </div>
+        </div>
       </div>
     ),
     props: [
-      { key: "sp-btn:border-radius",               label: "Radius",           cssClass: "sp-btn",                   cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
-      { key: "sp-btn:font-size",                   label: "Font Size",        cssClass: "sp-btn",                   cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-base)" },
-      { key: "sp-btn--primary:background",         label: "Primary · BG",    cssClass: "sp-btn--primary",          cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
-      { key: "sp-btn--primary:color",              label: "Primary · Text",   cssClass: "sp-btn--primary",          cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
-      { key: "sp-btn--success-gradient:background",label: "Success · BG",    cssClass: "sp-btn--success-gradient", cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
-      { key: "sp-btn--success-gradient:color",     label: "Success · Text",   cssClass: "sp-btn--success-gradient", cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
-      { key: "sp-btn--ghost:background",           label: "Ghost · BG",      cssClass: "sp-btn--ghost",            cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-btn--ghost:color",                label: "Ghost · Text",     cssClass: "sp-btn--ghost",            cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
-      { key: "sp-btn--dashed:background",          label: "Dashed · BG",     cssClass: "sp-btn--dashed",           cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
-      { key: "sp-btn--dashed:color",               label: "Dashed · Text",    cssClass: "sp-btn--dashed",           cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp-btn:border-radius",       label: "Radius",          cssClass: "sp-btn",          cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp-btn:font-size",           label: "Font Size",       cssClass: "sp-btn",          cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-base)" },
+      { key: "sp-btn--primary:background", label: "Primary · BG",   cssClass: "sp-btn--primary", cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp-btn--primary:color",      label: "Primary · Text",  cssClass: "sp-btn--primary", cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp-btn--ghost:background",   label: "Ghost · BG",     cssClass: "sp-btn--ghost",   cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp-btn--ghost:color",        label: "Ghost · Text",    cssClass: "sp-btn--ghost",   cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
+      { key: "sp-btn--dashed:background",  label: "Dashed · BG",    cssClass: "sp-btn--dashed",  cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp-btn--dashed:color",       label: "Dashed · Text",   cssClass: "sp-btn--dashed",  cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp-btn--approve:background", label: "Approve · BG",   cssClass: "sp-btn--approve", cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp-btn--approve:color",      label: "Approve · Text",  cssClass: "sp-btn--approve", cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
     ],
   },
   {

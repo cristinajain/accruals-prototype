@@ -43,7 +43,7 @@ export function AddAccrualModal({
         </div> : <div className="sp-modal__body--md">
           <textarea value={uploadText} onChange={e => setUploadText(e.target.value)} placeholder="Paste PM email, invoice list, notes..." rows={6} className="sp-textarea sp-mb-10" />
           <button onClick={parseUpload} disabled={!uploadText.trim() || parseLoading} className={`sp-btn sp-btn--full sp-mb-10 ${!uploadText.trim() || parseLoading ? "sp-btn--disabled" : "sp-btn--primary"}`}>{parseLoading ? "🤖 Parsing..." : "🤖 Extract Accruals"}</button>
-          {parsedItems.length > 0 && <div>{parsedItems.map((item, i) => <div key={i} className="sp-parsed-item"><span className="sp-parsed-item__vendor">{item.vendor}</span><span className="sp-parsed-item__amount">{Dl(item.amount)}</span></div>)}<button onClick={addParsedItems} className="sp-btn sp-btn--full sp-btn--success-gradient sp-mt-4">✓ Add All ({parsedItems.length})</button></div>}
+          {parsedItems.length > 0 && <div>{parsedItems.map((item, i) => <div key={i} className="sp-parsed-item"><span className="sp-parsed-item__vendor">{item.vendor}</span><span className="sp-parsed-item__amount">{Dl(item.amount)}</span></div>)}<button onClick={addParsedItems} className="sp-btn sp-btn--full sp-btn--primary sp-mt-4">✓ Add All ({parsedItems.length})</button></div>}
         </div>}
       </div>
     </div>

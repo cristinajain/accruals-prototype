@@ -15,7 +15,7 @@ export function ReconcileTab({ pLabel, reconciledCount, reconcileStates, setReco
       {/* Single-period */}
       <div className="sp-flex-between sp-mb-8">
         <div className="sp-section-label" style={{ marginBottom: 0 }}>📄 Single-Period Invoices</div>
-        {(() => { const pending = ACTUALS_DATA.filter(a => !a.spread && reconcileStates[a.id] !== "reconciled").length; return pending > 0 && <button onClick={() => { const n = { ...reconcileStates }; ACTUALS_DATA.filter(a => !a.spread).forEach(a => { n[a.id] = "reconciled"; }); setReconcileStates(n); }} className="sp-btn sp-btn--success-gradient" style={{ padding: "5px 14px" }}>✓ Post All ({pending})</button>; })()}
+        {(() => { const pending = ACTUALS_DATA.filter(a => !a.spread && reconcileStates[a.id] !== "reconciled").length; return pending > 0 && <button onClick={() => { const n = { ...reconcileStates }; ACTUALS_DATA.filter(a => !a.spread).forEach(a => { n[a.id] = "reconciled"; }); setReconcileStates(n); }} className="sp-btn sp-btn--primary" style={{ padding: "5px 14px" }}>✓ Post All ({pending})</button>; })()}
       </div>
       <div className="sp-accrual-list sp-mb-24">
         {ACTUALS_DATA.filter(a => !a.spread).map(act => {
@@ -58,7 +58,7 @@ export function ReconcileTab({ pLabel, reconciledCount, reconcileStates, setReco
       {/* Multi-period */}
       <div className="sp-flex-between sp-mb-8">
         <div className="sp-section-label" style={{ marginBottom: 0 }}>📅 Multi-Period Invoices</div>
-        {(() => { const pending = ACTUALS_DATA.filter(a => a.spread && reconcileStates[a.id] !== "reconciled").length; return pending > 0 && <button onClick={() => { const n = { ...reconcileStates }; ACTUALS_DATA.filter(a => a.spread).forEach(a => { n[a.id] = "reconciled"; }); setReconcileStates(n); }} className="sp-btn sp-btn--success-gradient" style={{ padding: "5px 14px" }}>✓ Post All ({pending})</button>; })()}
+        {(() => { const pending = ACTUALS_DATA.filter(a => a.spread && reconcileStates[a.id] !== "reconciled").length; return pending > 0 && <button onClick={() => { const n = { ...reconcileStates }; ACTUALS_DATA.filter(a => a.spread).forEach(a => { n[a.id] = "reconciled"; }); setReconcileStates(n); }} className="sp-btn sp-btn--primary" style={{ padding: "5px 14px" }}>✓ Post All ({pending})</button>; })()}
       </div>
       <div className="sp-accrual-list sp-mb-20">
         {ACTUALS_DATA.filter(a => a.spread).map(act => {
