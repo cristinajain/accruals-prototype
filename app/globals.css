@@ -1043,13 +1043,52 @@ input, textarea, select {
    21. ADDITIONAL COMPONENT STATES
    ———————————————————————————————————————————————————————————— */
 
-/* Source action button — completed state */
-.sp-btn--action-done {
-  border: 1px solid var(--green-200);
-  background: var(--green-50);
-  color: var(--green-800);
+/* Source action task item */
+.sp-task-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+
+.sp-task-item:hover {
+  background: var(--bg-subtle);
+}
+
+.sp-task-item__checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.sp-task-item__checkbox--done {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  color: #fff;
+}
+
+.sp-task-item--done {
+  color: var(--text-muted);
+}
+
+.sp-task-item--done .sp-task-item__text {
   text-decoration: line-through;
-  opacity: 0.7;
 }
 
 /* Chat input field */
@@ -1964,3 +2003,269 @@ input, textarea, select {
 
 /* — Width helpers — */
 .sp-w-full { width: 100%; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   APP SHELL + SIDEBAR
+   ═══════════════════════════════════════════════════════════════════ */
+
+.sp-app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-app);
+  padding: 8px;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.sp-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Sidebar container ───────────────────────── */
+.sp-sidebar {
+  width: 255px;
+  flex-shrink: 0;
+  height: calc(100vh - 16px);
+  position: sticky;
+  top: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-4xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Header ─────────────────────────────────── */
+.sp-sidebar__header-wrap {
+  padding: var(--space-2);
+  flex-shrink: 0;
+}
+
+.sp-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.sp-sidebar__brand:hover { background: var(--bg-subtle); }
+
+.sp-sidebar__logo {
+  width: 32px;
+  height: 32px;
+  background: var(--text-primary);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+.sp-sidebar__brand-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-sidebar__brand-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-sidebar__brand-sub {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.sp-sidebar__icon-muted {
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Section ─────────────────────────────────── */
+.sp-sidebar__section {
+  padding: var(--space-2);
+  flex-shrink: 0;
+}
+
+.sp-sidebar__section--scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.sp-sidebar__section--tools {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.sp-sidebar__section-label {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ── Menu ────────────────────────────────────── */
+.sp-sidebar__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sp-sidebar__menu-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-sidebar__menu-btn {
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 var(--space-2);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+.sp-sidebar__menu-btn:hover            { background: var(--bg-subtle); }
+.sp-sidebar__menu-btn--active          { background: var(--bg-subtle); }
+.sp-sidebar__menu-btn--muted           { opacity: 0.6; }
+
+.sp-sidebar__menu-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--text-subtle);
+}
+
+.sp-sidebar__menu-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-sidebar__menu-chevron {
+  flex-shrink: 0;
+  color: var(--text-subtle);
+  display: flex;
+  align-items: center;
+}
+
+/* ── Sub-items drawer (same grid trick as accrual detail) ────────── */
+.sp-sidebar__sub {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sp-sidebar__sub--closed { grid-template-rows: 0fr; }
+
+.sp-sidebar__sub-clip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.sp-sidebar__sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 2px 0 4px 10px;
+  margin-left: 19px; /* aligns vertical line with icon centre */
+  border-left: 1px solid var(--border);
+}
+
+.sp-sidebar__sub-btn {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.sp-sidebar__sub-btn:hover:not(:disabled)   { background: var(--bg-subtle); }
+.sp-sidebar__sub-btn--active                { background: var(--bg-subtle); color: var(--brand-primary); font-weight: var(--font-weight-semibold); }
+.sp-sidebar__sub-btn--disabled              { opacity: 0.4; cursor: default; }
+
+/* ── Footer ──────────────────────────────────── */
+.sp-sidebar__footer {
+  padding: var(--space-2);
+  flex-shrink: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.sp-sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.sp-sidebar__user:hover { background: var(--bg-subtle); }
+
+.sp-sidebar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.sp-sidebar__user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-sidebar__user-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-sidebar__user-email {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
