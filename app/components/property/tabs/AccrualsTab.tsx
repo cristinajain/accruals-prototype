@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { Badge } from "../../ui/Badge";
-import { ConfBar } from "../../ui/ConfBar";
+import { Bar } from "../../ui/Bar";
 import { SourceAction } from "../../ui/SourceAction";
 import { Dl } from "../../../lib/utils";
 import { SOURCE_TYPES, BUDGET } from "../../../lib/data";
@@ -56,7 +56,7 @@ export function AccrualsTab({
                 <div style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-xl)", color: st === "dismissed" ? "var(--text-placeholder)" : "var(--text-primary)", textDecoration: st === "dismissed" ? "line-through" : "none" }}>{Dl(amt)}</div>
                 {budgetVal > 0 && <div style={{ fontSize: "var(--font-size-xs)", color: budgetVar > 0 ? "var(--red-600)" : budgetVar < 0 ? "var(--green-700)" : "var(--text-placeholder)" }}>{budgetVar === 0 ? "On budget" : `${budgetVar > 0 ? "+" : ""}${Dl(budgetVar)}`}</div>}
               </div>
-              <ConfBar value={acc.confidence} />
+              <Bar value={acc.confidence} />
               {!chatOpen && <div className="sp-text-base-muted">{budgetVal > 0 ? Dl(budgetVal) : "—"}<div className="sp-text-xs-muted">budget</div></div>}
               <div className="sp-flex-end sp-gap-5" style={{ flexShrink: 0 }}>
                 {st === "suggested" && <><button onClick={e => { e.stopPropagation(); setStatus(acc.id, "approved"); }} className="sp-btn--approve">✓ Approve</button><button onClick={e => { e.stopPropagation(); setShowMoveModal(acc.id); }} className="sp-btn--move" title="Move">↗</button><button onClick={e => { e.stopPropagation(); setStatus(acc.id, "dismissed"); }} className="sp-btn--dismiss">✕</button></>}

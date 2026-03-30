@@ -389,9 +389,9 @@ input, textarea, select {
 }
 
 /* 2. Status Badges — colored pill */
-.sp-badge--status-green  { background: var(--green-50);  color: var(--green-800);  }
+.sp-badge--status-green  { background: var(--green-50);  color: var(--green-900);  }
 .sp-badge--status-yellow { background: var(--amber-100); color: #7c5800;           }
-.sp-badge--status-red    { background: var(--red-100);   color: var(--red-600);    }
+.sp-badge--status-red    { background: var(--red-100);   color: var(--red-900);    }
 
 /* 3. Category Badge — square tile (icon + 2-char code) */
 .sp-badge--category {
@@ -444,7 +444,7 @@ input, textarea, select {
 /* Primary — bulk / main actions */
 .sp-btn--primary {
   background: var(--green-50);
-  border-color: var(--green-200);
+  border-color: var(--brand-secondary);
   color: var(--brand-primary);
 }
 
@@ -465,8 +465,8 @@ input, textarea, select {
 
 /* Secondary — add / create actions (muted bg, primary text + border) */
 .sp-btn--secondary {
-  background: var(--bg-muted);
-  border-color: var(--brand-primary);
+  background: var(--bg-inset);
+  border-color: var(--brand-secondary);
   color: var(--brand-primary);
 }
 
@@ -736,14 +736,14 @@ input, textarea, select {
 .sp-progress--green  .sp-progress__fill { background: var(--green-500); }
 .sp-progress--amber  .sp-progress__fill { background: var(--amber-500); }
 
-/* Confidence bar (inline, small) */
-.sp-conf-bar {
+/* Bar (inline progress / confidence bar) */
+.sp-bar {
   display: flex;
   align-items: center;
   gap: var(--space-3);
 }
 
-.sp-conf-bar__track {
+.sp-bar__track {
   width: 40px;
   height: 5px;
   border-radius: var(--radius-xs);
@@ -751,12 +751,16 @@ input, textarea, select {
   overflow: hidden;
 }
 
-.sp-conf-bar__fill {
+.sp-bar__fill {
   height: 100%;
   border-radius: var(--radius-xs);
 }
 
-.sp-conf-bar__label {
+.sp-bar__fill--high   { background: var(--green-600); }
+.sp-bar__fill--medium { background: var(--amber-500); }
+.sp-bar__fill--low    { background: var(--red-500);   }
+
+.sp-bar__label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
 }
