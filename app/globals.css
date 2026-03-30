@@ -1436,14 +1436,40 @@ input, textarea, select {
 .sp-accrual-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
 }
 
-/* Accrual row card detail section */
+/* Accrual row — flat list item */
+.sp-accrual-row {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sp-accrual-row:last-child {
+  border-bottom: none;
+}
+
+/* Expanded row gets a card border wrapping both top + panel */
+.sp-accrual-row--expanded {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  margin: var(--space-2) 0;
+}
+
+/* Top row — 68px fixed height */
+.sp-accrual-row__top {
+  height: 68px;
+  display: grid;
+  align-items: center;
+  padding: 0 var(--space-8);
+  cursor: pointer;
+  gap: 14px;
+}
+
+/* Expanded detail panel */
 .sp-accrual-detail {
   border-top: 1px solid var(--border-subtle);
-  padding: var(--space-7) var(--space-9);
-  background: var(--bg-inset);
+  padding: var(--space-8) var(--space-9);
+  background: var(--bg-card);
 }
 
 /* Source section label inside detail */
