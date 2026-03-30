@@ -196,23 +196,25 @@ const COMPONENTS = [
   {
     name: "Badge",
     className: "sp-badge",
-    description: "Status and label pill",
+    description: "3 types: General (gray pill) · Status (colored pill) · Category (square tile)",
     props: [
-      { key: "sp-badge:font-size",          label: "Font Size",      cssClass: "sp-badge",       cssProp: "font-size",      tokenType: "fontsize",    default: "var(--font-size-sm)" },
-      { key: "sp-badge:font-weight",        label: "Font Weight",    cssClass: "sp-badge",       cssProp: "font-weight",    tokenType: "fontweight",  default: "var(--font-weight-semibold)" },
-      { key: "sp-badge:border-radius",      label: "Radius",         cssClass: "sp-badge",       cssProp: "border-radius",  tokenType: "radius",      default: "var(--radius-full)" },
-      { key: "sp-badge--green:background",  label: "Green · BG",     cssClass: "sp-badge--green",  cssProp: "background",   tokenType: "color",       default: "var(--green-50)" },
-      { key: "sp-badge--green:color",       label: "Green · Text",   cssClass: "sp-badge--green",  cssProp: "color",        tokenType: "color",       default: "var(--green-900)" },
-      { key: "sp-badge--amber:background",  label: "Amber · BG",     cssClass: "sp-badge--amber",  cssProp: "background",   tokenType: "color",       default: "var(--amber-100)" },
-      { key: "sp-badge--amber:color",       label: "Amber · Text",   cssClass: "sp-badge--amber",  cssProp: "color",        tokenType: "color",       default: "var(--text-secondary)" },
-      { key: "sp-badge--red:background",    label: "Red · BG",       cssClass: "sp-badge--red",    cssProp: "background",   tokenType: "color",       default: "var(--red-100)" },
-      { key: "sp-badge--red:color",         label: "Red · Text",     cssClass: "sp-badge--red",    cssProp: "color",        tokenType: "color",       default: "var(--red-600)" },
-      { key: "sp-badge--gray:background",   label: "Gray · BG",      cssClass: "sp-badge--gray",   cssProp: "background",   tokenType: "color",       default: "var(--bg-muted)" },
-      { key: "sp-badge--gray:color",        label: "Gray · Text",    cssClass: "sp-badge--gray",   cssProp: "color",        tokenType: "color",       default: "var(--text-muted)" },
-      { key: "sp-badge--purple:background", label: "Purple · BG",    cssClass: "sp-badge--purple", cssProp: "background",   tokenType: "color",       default: "var(--violet-200)" },
-      { key: "sp-badge--purple:color",      label: "Purple · Text",  cssClass: "sp-badge--purple", cssProp: "color",        tokenType: "color",       default: "var(--violet-700)" },
-      { key: "sp-badge--blue:background",   label: "Blue · BG",      cssClass: "sp-badge--blue",   cssProp: "background",   tokenType: "color",       default: "var(--blue-100)" },
-      { key: "sp-badge--blue:color",        label: "Blue · Text",    cssClass: "sp-badge--blue",   cssProp: "color",        tokenType: "color",       default: "var(--blue-700)" },
+      // General badge
+      { key: "sp-badge:background",              label: "General · BG",          cssClass: "sp-badge",                 cssProp: "background",    tokenType: "color",      default: "var(--bg-muted)" },
+      { key: "sp-badge:color",                   label: "General · Text",         cssClass: "sp-badge",                 cssProp: "color",         tokenType: "color",      default: "var(--text-muted)" },
+      { key: "sp-badge:font-size",               label: "General · Font Size",    cssClass: "sp-badge",                 cssProp: "font-size",     tokenType: "fontsize",   default: "var(--font-size-xs)" },
+      { key: "sp-badge:border-radius",           label: "General · Radius",       cssClass: "sp-badge",                 cssProp: "border-radius", tokenType: "radius",     default: "var(--radius-full)" },
+      // Status green
+      { key: "sp-badge--status-green:background",label: "Status Green · BG",      cssClass: "sp-badge--status-green",   cssProp: "background",    tokenType: "color",      default: "var(--green-50)" },
+      { key: "sp-badge--status-green:color",     label: "Status Green · Text",    cssClass: "sp-badge--status-green",   cssProp: "color",         tokenType: "color",      default: "var(--green-800)" },
+      // Status yellow
+      { key: "sp-badge--status-yellow:background",label:"Status Yellow · BG",     cssClass: "sp-badge--status-yellow",  cssProp: "background",    tokenType: "color",      default: "var(--amber-100)" },
+      // Status red
+      { key: "sp-badge--status-red:background",  label: "Status Red · BG",        cssClass: "sp-badge--status-red",     cssProp: "background",    tokenType: "color",      default: "var(--red-100)" },
+      { key: "sp-badge--status-red:color",       label: "Status Red · Text",      cssClass: "sp-badge--status-red",     cssProp: "color",         tokenType: "color",      default: "var(--red-600)" },
+      // Category badge
+      { key: "sp-badge--category:background",    label: "Category · BG",          cssClass: "sp-badge--category",       cssProp: "background",    tokenType: "color",      default: "var(--bg-muted)" },
+      { key: "sp-badge--category:border-radius", label: "Category · Radius",      cssClass: "sp-badge--category",       cssProp: "border-radius", tokenType: "radius",     default: "var(--radius-sm)" },
+      { key: "sp-badge--category:color",         label: "Category · Text",        cssClass: "sp-badge--category",       cssProp: "color",         tokenType: "color",      default: "var(--text-muted)" },
     ],
   },
   {

@@ -47,8 +47,8 @@ export function AccrualsTab({
               <div style={{ minWidth: 0 }}>
                 <div className="sp-flex-center sp-flex-wrap sp-gap-5 sp-mb-2">
                   <span className="sp-text-md-semibold">{acc.vendor}</span>
-                  <Badge color={src.color}>{src.icon} {src.label}</Badge>
-                  {acc.movedFrom && <Badge color="orange">↗ {acc.movedFrom}</Badge>}
+                  <Badge variant="category" icon={src.icon} code={src.code} />
+                  {acc.movedFrom && <Badge>↗ {acc.movedFrom}</Badge>}
                 </div>
                 <div className="sp-text-sm-muted">{acc.glCode}</div>
               </div>
@@ -68,7 +68,7 @@ export function AccrualsTab({
                 <div>
                   <div className="sp-detail-section-label sp-detail-section-label--brand">{src.icon} Source: {src.label}</div>
                   <p className="sp-rationale">{acc.rationale}</p>
-                  {acc.signals.map((s, i) => <div key={i} className="sp-signal-row"><Badge color="gray">{s.type}</Badge><span className="sp-signal-row__text">{s.detail}</span></div>)}
+                  {acc.signals.map((s, i) => <div key={i} className="sp-signal-row"><Badge>{s.type}</Badge><span className="sp-signal-row__text">{s.detail}</span></div>)}
                   {acc.movedFrom && <div className="sp-callout sp-callout--moved sp-mt-6">↗ Moved from {acc.movedFrom}</div>}
                 </div>
                 <div>

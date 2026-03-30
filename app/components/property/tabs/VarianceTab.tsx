@@ -138,10 +138,10 @@ export function VarianceTab({ varianceData, totBudget, totAccrual, totActual, pL
                 <div className="sp-flex sp-flex-wrap sp-gap-4 sp-mb-2">
                   {r.source === "actual" && r.accrualTotal > 0 && !r.isOnBudget && <Badge color="green">Actual received</Badge>}
                   {r.source === "accrual" && !r.isOnBudget && <Badge color="green">AI estimate</Badge>}
-                  {r.movedItems.map((m, j) => <Badge key={j} color="orange">↗ {m.movedFrom}</Badge>)}
+                  {r.movedItems.map((m, j) => <Badge key={j}>↗ {m.movedFrom}</Badge>)}
                   {r.bestKnown > 0 && r.budgetVal === 0 && <Badge color="red">Unbudgeted</Badge>}
-                  {r.bestKnown === 0 && r.budgetVal > 0 && <Badge color="gray">No activity</Badge>}
-                  {r.matchingActuals.filter(a => a.spread).length > 0 && <Badge color="purple">Multi-period</Badge>}
+                  {r.bestKnown === 0 && r.budgetVal > 0 && <Badge>No activity</Badge>}
+                  {r.matchingActuals.filter(a => a.spread).length > 0 && <Badge>Multi-period</Badge>}
                 </div>
                 <div className="sp-text-sm-muted">{r.explanation}</div>
               </> : null}

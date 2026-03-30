@@ -1,14 +1,15 @@
 // @ts-nocheck
 
+// code = short code shown in category badge tile
 export const SOURCE_TYPES = {
-  "open-po": { label: "Open PO", icon: "📋", color: "blue", actions: ["Follow Up with Vendor", "Confirm Receipt with PM", "Close PO"] },
-  "gl-pattern": { label: "GL Pattern", icon: "📊", color: "indigo", actions: ["Wait for Invoice", "Flag if Overdue"] },
-  "contract": { label: "Contract", icon: "📄", color: "purple", actions: ["Book per Contract", "Verify Terms"] },
-  "work-order": { label: "Work Order", icon: "🔧", color: "amber", actions: ["Confirm Completion", "Get Vendor Quote", "Create PO"] },
-  "pm-email": { label: "PM Email", icon: "💬", color: "cyan", actions: ["Verify with PM", "Request Documentation", "Create PO"] },
-  "utility-model": { label: "Utility Model", icon: "⚡", color: "emerald", actions: ["Wait for Bill", "Adjust for Occupancy"] },
-  "budget": { label: "Budget", icon: "📑", color: "rose", actions: ["Verify with PM", "Adjust Estimate", "Defer to Next Month"] },
-  "manual": { label: "Manual", icon: "✏️", color: "gray", actions: ["Verify", "Request Documentation"] },
+  "open-po":       { label: "Open PO",       icon: "📋", code: "PO",  actions: ["Follow Up with Vendor", "Confirm Receipt with PM", "Close PO"] },
+  "gl-pattern":    { label: "GL Pattern",    icon: "📊", code: "GL",  actions: ["Wait for Invoice", "Flag if Overdue"] },
+  "contract":      { label: "Contract",      icon: "📄", code: "CT",  actions: ["Book per Contract", "Verify Terms"] },
+  "work-order":    { label: "Work Order",    icon: "🔧", code: "WO",  actions: ["Confirm Completion", "Get Vendor Quote", "Create PO"] },
+  "pm-email":      { label: "PM Email",      icon: "💬", code: "PM",  actions: ["Verify with PM", "Request Documentation", "Create PO"] },
+  "utility-model": { label: "Utility Model", icon: "⚡", code: "UT",  actions: ["Wait for Bill", "Adjust for Occupancy"] },
+  "budget":        { label: "Budget",        icon: "📑", code: "BG",  actions: ["Verify with PM", "Adjust Estimate", "Defer to Next Month"] },
+  "manual":        { label: "Manual",        icon: "✏️", code: "MN",  actions: ["Verify", "Request Documentation"] },
 };
 
 export const MONTHS = ["Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026"];
