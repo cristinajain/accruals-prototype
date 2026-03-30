@@ -208,6 +208,35 @@ input, textarea, select {
   justify-content: space-between;
 }
 
+/* Design system toggle — sits in sp-topbar row (no floating overlap) */
+.sp-ds-nav-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-subtle);
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.sp-ds-nav-btn:hover {
+  color: var(--text-primary);
+}
+
+.sp-ds-nav-btn--open {
+  color: var(--brand-primary);
+}
+
 /* Centered content wrapper */
 .sp-content {
   max-width: 1100px;

@@ -16,21 +16,23 @@ export function JournalTab({ journalEntries }) {
       ) : (
         <div className="sp-accrual-list">
           {journalEntries.map(je => (
-            <div key={je.id} style={{ background: "var(--bg-card)", borderRadius: "var(--radius-3xl)", border: `1px solid ${je.type === "Auto-Reverse" ? "var(--amber-200)" : "var(--green-200)"}`, padding: "12px 18px" }}>
-              <div className="sp-je-card__row">
-                <div className="sp-flex-center sp-gap-5">
-                  <Badge color={je.type === "Auto-Reverse" ? "amber" : "green"}>{je.type === "Auto-Reverse" ? "🔄 Auto-Reverse" : "✓ Accrual"}</Badge>
-                  <span className="sp-text-md-semibold">{je.vendor}</span>
+            <div key={je.id} className="sp-accrual-row">
+              <div style={{ padding: "12px 18px" }}>
+                <div className="sp-je-card__row">
+                  <div className="sp-flex-center sp-gap-5">
+                    <Badge color={je.type === "Auto-Reverse" ? "amber" : "green"}>{je.type === "Auto-Reverse" ? "Auto-Reverse" : "Accrual"}</Badge>
+                    <span className="sp-text-md-semibold">{je.vendor}</span>
+                  </div>
+                  <span className="sp-je-card__meta">{je.date} · {je.period}</span>
                 </div>
-                <span className="sp-je-card__meta">{je.date} · {je.period}</span>
+                <div className="sp-je-body">
+                  <table className="sp-je-table-inner"><tbody>
+                    <tr><td>DR: {je.debitAcct}</td><td>{Dl(je.debitAmt)}</td></tr>
+                    <tr><td style={{ paddingLeft: 20 }}>CR: {je.creditAcct}</td><td>{Dl(je.creditAmt)}</td></tr>
+                  </tbody></table>
+                </div>
+                <div className="sp-je-card__memo">{je.memo}</div>
               </div>
-              <div className="sp-je-body">
-                <table className="sp-je-table-inner"><tbody>
-                  <tr><td>DR: {je.debitAcct}</td><td>{Dl(je.debitAmt)}</td></tr>
-                  <tr><td style={{ paddingLeft: 20 }}>CR: {je.creditAcct}</td><td>{Dl(je.creditAmt)}</td></tr>
-                </tbody></table>
-              </div>
-              <div className="sp-je-card__memo">{je.memo}</div>
             </div>
           ))}
         </div>

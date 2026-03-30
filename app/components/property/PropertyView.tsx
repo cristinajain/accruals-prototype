@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { PERIODS } from "../../lib/data";
+import { DesignSystemNavButton } from "../DesignSystemPanel";
 import { AIChatPanel } from "../AIChatPanel";
 import { AccrualsTab } from "./tabs/AccrualsTab";
 import { VarianceTab } from "./tabs/VarianceTab";
@@ -94,6 +95,7 @@ export function PropertyView({
             ))}
           </div>
           <button onClick={() => setChatOpen(v => !v)} className="sp-btn--ai">🤖 AI</button>
+          <DesignSystemNavButton />
         </div>
       </div>
 

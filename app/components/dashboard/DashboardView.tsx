@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/Badge";
 import { Bar } from "../ui/Bar";
+import { DesignSystemNavButton } from "../DesignSystemPanel";
 import { Dl } from "../../lib/utils";
 
 export function DashboardView({ PORTFOLIO, pLabel }) {
@@ -29,7 +30,10 @@ export function DashboardView({ PORTFOLIO, pLabel }) {
             <div className="sp-wordmark-sub">AI Property Accounting</div>
           </div>
         </div>
-        <div className="sp-period-chip" style={{ borderRadius: 999, border: "1px solid var(--border)", background: "var(--bg-card)" }}>📅 {pLabel} Close</div>
+        <div className="sp-flex-center sp-gap-8">
+          <div className="sp-period-chip" style={{ borderRadius: 999, border: "1px solid var(--border)", background: "var(--bg-card)" }}>📅 {pLabel} Close</div>
+          <DesignSystemNavButton />
+        </div>
       </div>
       <div className="sp-content">
         {/* Portfolio Summary */}

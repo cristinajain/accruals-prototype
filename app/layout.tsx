@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DesignSystemPanel } from "./components/DesignSystemPanel";
+import { DesignSystemProvider } from "./components/DesignSystemPanel";
 
 export const metadata: Metadata = {
   title: "Stackpoint — AI Property Accounting",
@@ -11,8 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        {children}
-        <DesignSystemPanel />
+        <DesignSystemProvider>{children}</DesignSystemProvider>
       </body>
     </html>
   );

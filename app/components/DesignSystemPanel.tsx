@@ -1,7 +1,21 @@
 // @ts-nocheck
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  createContext,
+  useContext,
+  useMemo,
+  type ReactNode,
+} from "react";
+
+const DesignSystemContext = createContext<{
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+} | null>(null);
 
 // ─── Foundation token groups ───────────────────────────────────────────────────
 
@@ -782,8 +796,10 @@ function CompPropRow({ prop, value, dirty, onChange, onReset }) {
 
 // ─── Main Panel ───────────────────────────────────────────────────────────────
 
-export function DesignSystemPanel() {
-  const [open, setOpen] = useState(false);
+function DesignSystemPanelInner() {
+  const ctx = useContext(DesignSystemContext);
+  if (!ctx) return null;
+  const { open, setOpen } = ctx;
   const [tab, setTab] = useState<"foundations" | "components">("foundations");
 
   // Foundations state
@@ -931,25 +947,6 @@ export function DesignSystemPanel() {
   const toggleComp = (name: string) => setCompCollapsed(prev => ({ ...prev, [name]: !prev[name] }));
 
   const S = {
-    trigger: {
-      position: "fixed" as const,
-      top: 8,
-      right: 12,
-      zIndex: 400,
-      width: 30,
-      height: 30,
-      borderRadius: 7,
-      border: "1px solid #e2e8f0",
-      background: open ? "#e4ebe6" : "#ffffff",
-      color: open ? "#3d5a47" : "#475569",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: 15,
-      fontWeight: 700,
-      boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-    },
     panel: {
       position: "fixed" as const,
       top: 0,
@@ -1005,9 +1002,6 @@ export function DesignSystemPanel() {
 
   return (
     <>
-      {/* Trigger */}
-      <button onClick={() => setOpen(v => !v)} style={S.trigger} title="Design System">⋮</button>
-
       {/* Backdrop */}
       {open && <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 300, background: "transparent" }} />}
 
@@ -1135,5 +1129,34 @@ export function DesignSystemPanel() {
         )}
       </div>
     </>
+  );
+}
+
+export function DesignSystemNavButton() {
+  const ctx = useContext(DesignSystemContext);
+  if (!ctx) return null;
+  const { open, setOpen } = ctx;
+  return (
+    <button
+      type="button"
+      onClick={() => setOpen(v => !v)}
+      className={`sp-ds-nav-btn${open ? " sp-ds-nav-btn--open" : ""}`}
+      title="Design System"
+      aria-expanded={open}
+      aria-label="Design system"
+    >
+      ⋮
+    </button>
+  );
+}
+
+export function DesignSystemProvider({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const value = useMemo(() => ({ open, setOpen }), [open]);
+  return (
+    <DesignSystemContext.Provider value={value}>
+      {children}
+      <DesignSystemPanelInner />
+    </DesignSystemContext.Provider>
   );
 }
