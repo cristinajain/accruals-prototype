@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/Badge";
+import { Bar } from "../ui/Bar";
 import { Dl } from "../../lib/utils";
 
 export function DashboardView({ PORTFOLIO, pLabel }) {
@@ -126,10 +127,7 @@ export function DashboardView({ PORTFOLIO, pLabel }) {
                       {p.daysToClose > 0 && <div className="sp-text-xs-muted sp-mt-2">{p.daysToClose}d to close</div>}
                     </td>
                     <td className="sp-table__td-dash">
-                      <div className="sp-flex-center sp-gap-4">
-                        <span style={{ fontWeight: "var(--font-weight-semibold)" }}>{p.approvedCount}</span><span className="sp-text-xs-muted">/{p.accrualCount}</span>
-                      </div>
-                      <div className="sp-accrual-bar"><div className="sp-accrual-bar__fill" style={{ width: `${(p.approvedCount / p.accrualCount) * 100}%` }} /></div>
+                      <Bar variant="general" value={p.accrualCount > 0 ? Math.round((p.approvedCount / p.accrualCount) * 100) : 0} label={`${p.approvedCount}/${p.accrualCount}`} />
                     </td>
                     <td className="sp-table__td-dash sp-text-base-muted">{Dl(p.totalBudget)}</td>
                     <td className="sp-table__td-dash sp-text-right">
