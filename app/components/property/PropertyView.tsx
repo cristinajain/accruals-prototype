@@ -1,5 +1,8 @@
 // @ts-nocheck
+"use client";
 
+import { MessageCircle } from "lucide-react";
+import { TabGroup } from "../ui/TabGroup";
 import { PERIODS } from "../../lib/data";
 import { DesignSystemNavButton } from "../DesignSystemPanel";
 import { AIChatPanel } from "../AIChatPanel";
@@ -11,9 +14,8 @@ import { AddAccrualModal } from "./AddAccrualModal";
 import { MoveAccrualModal } from "./MoveAccrualModal";
 
 export function PropertyView({
-  onBack,
-  onTabChange,
   onPeriodChange,
+  onTabChange,
   setChatOpen,
   chatOpen,
   selectedPeriod,
@@ -63,43 +65,26 @@ export function PropertyView({
   journalEntries,
 }) {
   return (
-    <div className="sp-app">
-      <div className="sp-topbar" style={{ padding: "10px 24px", gap: 10 }}>
-        <button onClick={() => { onBack(); setChatOpen(false); }} className="sp-btn--nav">←</button>
+    <div className="sp11-app">
+      <div className="sp11-topbar" style={{ position: "relative" }}>
         <div>
-          <div className="sp-topbar__prop-name">Park Avenue Tower</div>
-          <div className="sp-topbar__prop-sub">245K sqft · NYC · Sarah Chen</div>
+          <div className="sp11-topbar__prop-name">Park Avenue Tower</div>
+          <div className="sp11-topbar__prop-sub">245K sqft · NYC · Sarah Chen</div>
         </div>
-        <div className="sp-period-selector sp-ml-12">
-          {PERIODS.map(p => (
-            <button
-              key={p.key}
-              onClick={() => { onPeriodChange(p.key); }}
-              className={`sp-period-btn ${selectedPeriod === p.key ? "sp-period-btn--active" : ""}`}
-            >
-              {p.short}
-              {p.status === "active" && <span className="sp-period-btn__dot" />}
-            </button>
-          ))}
+        <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+          <TabGroup
+            tabs={PERIODS.map(p => ({ key: p.key, label: p.short, dot: p.status === "active" }))}
+            activeKey={selectedPeriod}
+            onChange={onPeriodChange}
+          />
         </div>
-        <div className="sp-flex-center sp-gap-5 sp-ml-auto">
-          <div className="sp-tabs">
-            {[{ key: "accruals", label: "Estimate", icon: "🤖" }, { key: "variance", label: "Variance", icon: "📊" }, { key: "reconcile", label: "Reconcile", icon: "🔄" }, { key: "journal", label: "JEs", icon: "📝" }].map(t => (
-              <button
-                key={t.key}
-                onClick={() => { onTabChange(t.key); }}
-                className={`sp-tab ${activeTab === t.key ? "sp-tab--active" : ""}`}
-              >
-                <span>{t.icon}</span>{t.label}
-              </button>
-            ))}
-          </div>
-          <button onClick={() => setChatOpen(v => !v)} className="sp-btn--ai">🤖 AI</button>
+        <div className="sp11-flex-center sp11-gap-5 sp11-ml-auto">
+          <button onClick={() => setChatOpen(v => !v)} className="sp11-btn sp11-btn--secondary sp11-flex-center sp11-gap-4"><MessageCircle size={14} strokeWidth={2} />Ask AI</button>
           <DesignSystemNavButton />
         </div>
       </div>
 
-      <div style={{ maxWidth: chatOpen ? 700 : 1060, margin: "0 auto", padding: "18px 24px", transition: "max-width 0.3s" }}>
+      <div className={`sp11-prop-content${activeTab === "variance" ? " sp11-prop-content--full" : ""}`}>
 
         {activeTab === "accruals" && (
           <>
@@ -121,7 +106,6 @@ export function PropertyView({
               setShowAddModal={setShowAddModal}
               setShowMoveModal={setShowMoveModal}
               setAccruals={setAccruals}
-              chatOpen={chatOpen}
             />
             {showAddModal && (
               <AddAccrualModal
@@ -172,7 +156,6 @@ export function PropertyView({
             setReconcileStates={setReconcileStates}
             expandedActual={expandedActual}
             setExpandedActual={setExpandedActual}
-            chatOpen={chatOpen}
           />
         )}
 

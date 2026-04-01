@@ -4,6 +4,7 @@
 import {
   useState,
   useEffect,
+  useLayoutEffect,
   useCallback,
   useRef,
   createContext,
@@ -11,6 +12,11 @@ import {
   useMemo,
   type ReactNode,
 } from "react";
+import { RingProgress } from "./ui/RingProgress";
+import { ProgressIndicator } from "./ui/ProgressIndicator";
+import { ConfBar } from "./ui/ConfBar";
+import { TabGroup } from "./ui/TabGroup";
+import { Target, Activity, ClipboardList, TrendingUp, FileCheck, Wrench, Mail, Zap, Calculator, PenLine, File, FileText, BarChart2, CheckCheck, BookOpen } from "lucide-react";
 
 const DesignSystemContext = createContext<{
   open: boolean;
@@ -201,7 +207,30 @@ const GROUPS = [
       { name: "shadow-lg", label: "lg", type: "text", default: "0 20px 60px rgba(0, 0, 0, 0.15)" },
     ],
   },
+  {
+    label: "Status Indicators",
+    tokens: [
+      { name: "indicator-empty",    label: "Empty",    type: "color", default: "#9ca3af" },
+      { name: "indicator-progress", label: "Progress", type: "color", default: "#ffec00" },
+      { name: "indicator-review",   label: "Review",   type: "color", default: "#22c55e" },
+      { name: "indicator-done",     label: "Done",     type: "color", default: "#3d5a47" },
+    ],
+  },
 ];
+
+// ─── Tab Group interactive preview ─────────────────────────────────────────────
+// Thin stateful wrapper — delegates to the real TabGroup component
+
+function TabGroupDemo({ tabs, dotIndex }: { tabs: { key: string; label: string; icon?: ReactNode }[]; dotIndex?: number }) {
+  const [activeKey, setActiveKey] = useState(tabs[0]?.key ?? "");
+  return (
+    <TabGroup
+      tabs={tabs.map((t, i) => ({ ...t, dot: i === dotIndex }))}
+      activeKey={activeKey}
+      onChange={setActiveKey}
+    />
+  );
+}
 
 // ─── Component definitions ─────────────────────────────────────────────────────
 // key = "cssClass:cssProperty", consistent with class names in globals.css
@@ -210,219 +239,207 @@ const GROUPS = [
 const COMPONENTS = [
   {
     name: "Badge",
-    className: "sp-badge",
+    className: "sp11-badge",
     description: "3 types: General · Status · Category",
     preview: (
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "flex-start" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
           <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>General</span>
-          <span className="sp-badge">Label</span>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
-          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</span>
           <div style={{ display: "flex", gap: 5 }}>
-            <span className="sp-badge sp-badge--status-green">Closed</span>
-            <span className="sp-badge sp-badge--status-yellow">In Review</span>
-            <span className="sp-badge sp-badge--status-red">Unbudgeted</span>
+            <span className="sp11-badge">Label</span>
+            <span className="sp11-badge sp11-badge--white">White</span>
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4, width: "100%", minWidth: 0 }}>
+          <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</span>
+          <div style={{ display: "flex", gap: 5, width: "100%", maxWidth: "100%", minWidth: 0, overflowX: "auto", whiteSpace: "nowrap", paddingBottom: 2 }}>
+            <span className="sp11-badge sp11-badge--status-primary">Closed</span>
+            <span className="sp11-badge sp11-badge--status-green">In Review</span>
+            <span className="sp11-badge sp11-badge--status-yellow">In Progress</span>
+            <span className="sp11-badge">Not Started</span>
+            <span className="sp11-badge sp11-badge--status-red">Unbudgeted</span>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
           <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Category</span>
           <div style={{ display: "flex", gap: 5 }}>
-            <span className="sp-badge sp-badge--category"><span style={{ fontSize: 13, lineHeight: 1 }}>🔧</span><span>WO</span></span>
-            <span className="sp-badge sp-badge--category"><span style={{ fontSize: 13, lineHeight: 1 }}>📋</span><span>PO</span></span>
+            <span className="sp11-badge sp11-badge--category"><span className="sp11-badge__cat-icon"><Wrench size={13} strokeWidth={2} /></span><span>WO</span></span>
+            <span className="sp11-badge sp11-badge--category"><span className="sp11-badge__cat-icon"><ClipboardList size={13} strokeWidth={2} /></span><span>PO</span></span>
+            <span className="sp11-badge sp11-badge--category"><span className="sp11-badge__cat-icon"><FileCheck size={13} strokeWidth={2} /></span><span>CT</span></span>
+            <span className="sp11-badge sp11-badge--category"><span className="sp11-badge__cat-icon"><TrendingUp size={13} strokeWidth={2} /></span><span>GL</span></span>
           </div>
         </div>
       </div>
     ),
     props: [
-      { key: "sp-badge:background",               label: "General · BG",         cssClass: "sp-badge",                cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-badge:color",                    label: "General · Text",        cssClass: "sp-badge",                cssProp: "color",         tokenType: "color",    default: "var(--text-muted)" },
-      { key: "sp-badge:font-size",                label: "General · Font Size",   cssClass: "sp-badge",                cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-xs)" },
-      { key: "sp-badge:border-radius",            label: "General · Radius",      cssClass: "sp-badge",                cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-full)" },
-      { key: "sp-badge--status-green:background", label: "Status Green · BG",     cssClass: "sp-badge--status-green",  cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
-      { key: "sp-badge--status-green:color",      label: "Status Green · Text",   cssClass: "sp-badge--status-green",  cssProp: "color",         tokenType: "color",    default: "var(--green-800)" },
-      { key: "sp-badge--status-yellow:background",label: "Status Yellow · BG",    cssClass: "sp-badge--status-yellow", cssProp: "background",    tokenType: "color",    default: "var(--amber-100)" },
-      { key: "sp-badge--status-red:background",   label: "Status Red · BG",       cssClass: "sp-badge--status-red",    cssProp: "background",    tokenType: "color",    default: "var(--red-100)" },
-      { key: "sp-badge--status-red:color",        label: "Status Red · Text",     cssClass: "sp-badge--status-red",    cssProp: "color",         tokenType: "color",    default: "var(--red-600)" },
-      { key: "sp-badge--category:background",     label: "Category · BG",         cssClass: "sp-badge--category",      cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-badge--category:border-radius",  label: "Category · Radius",     cssClass: "sp-badge--category",      cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-sm)" },
-      { key: "sp-badge--category:color",          label: "Category · Text",       cssClass: "sp-badge--category",      cssProp: "color",         tokenType: "color",    default: "var(--text-muted)" },
+      { key: "sp11-badge:background",               label: "General · BG",         cssClass: "sp11-badge",                cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp11-badge:color",                    label: "General · Text",        cssClass: "sp11-badge",                cssProp: "color",         tokenType: "color",    default: "var(--text-muted)" },
+      { key: "sp11-badge:font-size",                label: "General · Font Size",   cssClass: "sp11-badge",                cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-xs)" },
+      { key: "sp11-badge:border-radius",            label: "General · Radius",      cssClass: "sp11-badge",                cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-full)" },
+      { key: "sp11-badge--white:background",        label: "White · BG",            cssClass: "sp11-badge--white",         cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp11-badge--white:color",             label: "White · Text",          cssClass: "sp11-badge--white",         cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
+      { key: "sp11-badge--white:border",            label: "White · Border",        cssClass: "sp11-badge--white",         cssProp: "border",        tokenType: "color",    default: "1px solid var(--brand-secondary)" },
+      { key: "sp11-badge--status-green:background", label: "Status Green · BG",     cssClass: "sp11-badge--status-green",  cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp11-badge--status-green:color",      label: "Status Green · Text",   cssClass: "sp11-badge--status-green",  cssProp: "color",         tokenType: "color",    default: "var(--green-800)" },
+      { key: "sp11-badge--status-yellow:background",label: "Status Yellow · BG",    cssClass: "sp11-badge--status-yellow", cssProp: "background",    tokenType: "color",    default: "var(--amber-100)" },
+      { key: "sp11-badge--status-red:background",   label: "Status Red · BG",       cssClass: "sp11-badge--status-red",    cssProp: "background",    tokenType: "color",    default: "var(--red-100)" },
+      { key: "sp11-badge--status-red:color",        label: "Status Red · Text",     cssClass: "sp11-badge--status-red",    cssProp: "color",         tokenType: "color",    default: "var(--red-600)" },
+      { key: "sp11-badge--category:background",     label: "Category · BG",         cssClass: "sp11-badge--category",      cssProp: "background",    tokenType: "color",    default: "var(--brand-secondary)" },
+      { key: "sp11-badge--category:border-radius",  label: "Category · Radius",     cssClass: "sp11-badge--category",      cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-sm)" },
+      { key: "sp11-badge--category:color",          label: "Category · Text",       cssClass: "sp11-badge--category",      cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
     ],
   },
   {
     name: "Button",
-    className: "sp-btn",
+    className: "sp11-btn",
     description: "Primary (bulk actions) · Secondary (add/create) · Ghost (row actions)",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Primary — bulk actions</span>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button className="sp-btn sp-btn--primary">✓ Approve All</button>
-            <button className="sp-btn sp-btn--primary">✓ Post All</button>
+            <button className="sp11-btn sp11-btn--primary">Book All</button>
+            <button className="sp11-btn sp11-btn--primary">✓ Post All</button>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Secondary — add / create</span>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button className="sp-btn sp-btn--secondary">+ Add Accrual</button>
+            <button className="sp11-btn sp11-btn--secondary">+ Add Accrual</button>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>Ghost — row actions</span>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <button className="sp-btn--approve">✓ Approve</button>
-            <button className="sp-btn--undo">↩ Undo</button>
-            <button className="sp-btn sp-btn--ghost">Action</button>
-            <button className="sp-btn--move">↗</button>
-            <button className="sp-btn--dismiss">✕</button>
+            <button className="sp11-btn--approve">Book</button>
+            <button className="sp11-btn--undo">↩ Undo</button>
+            <button className="sp11-btn sp11-btn--ghost">Action</button>
+            <button className="sp11-btn--move">↗</button>
+            <button className="sp11-btn--dismiss">✕</button>
           </div>
         </div>
       </div>
     ),
     props: [
-      { key: "sp-btn:border-radius",             label: "Radius",              cssClass: "sp-btn",              cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
-      { key: "sp-btn:font-size",               label: "Font Size",           cssClass: "sp-btn",              cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-base)" },
-      { key: "sp-btn--primary:background",     label: "Primary · BG",       cssClass: "sp-btn--primary",     cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
-      { key: "sp-btn--primary:border-color",   label: "Primary · Border",   cssClass: "sp-btn--primary",     cssProp: "border-color",  tokenType: "color",    default: "var(--green-200)" },
-      { key: "sp-btn--primary:color",          label: "Primary · Text",     cssClass: "sp-btn--primary",     cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
-      { key: "sp-btn--secondary:background",   label: "Secondary · BG",     cssClass: "sp-btn--secondary",   cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-btn--secondary:border-color", label: "Secondary · Border", cssClass: "sp-btn--secondary",   cssProp: "border-color",  tokenType: "color",    default: "var(--brand-primary)" },
-      { key: "sp-btn--secondary:color",        label: "Secondary · Text",   cssClass: "sp-btn--secondary",   cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
-      { key: "sp-btn--ghost:background",       label: "Ghost · BG",         cssClass: "sp-btn--ghost",       cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-btn--ghost:border-color",     label: "Ghost · Border",     cssClass: "sp-btn--ghost",       cssProp: "border-color",  tokenType: "color",    default: "var(--border)" },
-      { key: "sp-btn--ghost:color",            label: "Ghost · Text",       cssClass: "sp-btn--ghost",       cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
-      { key: "sp-btn--approve:background",     label: "Approve · BG",       cssClass: "sp-btn--approve",     cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-btn--approve:border-color",   label: "Approve · Border",   cssClass: "sp-btn--approve",     cssProp: "border-color",  tokenType: "color",    default: "var(--border)" },
-      { key: "sp-btn--approve:color",          label: "Approve · Text",     cssClass: "sp-btn--approve",     cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
-    ],
-  },
-  {
-    name: "Tab Bar",
-    className: "sp-tabs",
-    description: "Navigation tab bar",
-    preview: (
-      <div className="sp-tabs" style={{ width: "100%" }}>
-        <button className="sp-tab sp-tab--active">Estimate</button>
-        <button className="sp-tab">Variance</button>
-        <button className="sp-tab">Reconcile</button>
-        <button className="sp-tab">Journal</button>
-      </div>
-    ),
-    props: [
-      { key: "sp-tabs:background",        label: "Bar · BG",        cssClass: "sp-tabs",        cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
-      { key: "sp-tabs:border-radius",     label: "Bar · Radius",    cssClass: "sp-tabs",        cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-2xl)" },
-      { key: "sp-tab:font-size",          label: "Tab · Font Size", cssClass: "sp-tab",         cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-md)" },
-      { key: "sp-tab:color",              label: "Tab · Text",      cssClass: "sp-tab",         cssProp: "color",         tokenType: "color",    default: "var(--text-subtle)" },
-      { key: "sp-tab:border-radius",      label: "Tab · Radius",    cssClass: "sp-tab",         cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
-      { key: "sp-tab--active:background", label: "Active · BG",     cssClass: "sp-tab--active", cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
-      { key: "sp-tab--active:color",      label: "Active · Text",   cssClass: "sp-tab--active", cssProp: "color",         tokenType: "color",    default: "var(--text-primary)" },
+      { key: "sp11-btn:border-radius",             label: "Radius",              cssClass: "sp11-btn",              cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp11-btn:font-size",               label: "Font Size",           cssClass: "sp11-btn",              cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-base)" },
+      { key: "sp11-btn--primary:background",     label: "Primary · BG",       cssClass: "sp11-btn--primary",     cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp11-btn--primary:border-color",   label: "Primary · Border",   cssClass: "sp11-btn--primary",     cssProp: "border-color",  tokenType: "color",    default: "var(--green-200)" },
+      { key: "sp11-btn--primary:color",          label: "Primary · Text",     cssClass: "sp11-btn--primary",     cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp11-btn--secondary:background",   label: "Secondary · BG",     cssClass: "sp11-btn--secondary",   cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp11-btn--secondary:border-color", label: "Secondary · Border", cssClass: "sp11-btn--secondary",   cssProp: "border-color",  tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp11-btn--secondary:color",        label: "Secondary · Text",   cssClass: "sp11-btn--secondary",   cssProp: "color",         tokenType: "color",    default: "var(--brand-primary)" },
+      { key: "sp11-btn--ghost:background",       label: "Ghost · BG",         cssClass: "sp11-btn--ghost",       cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp11-btn--ghost:border-color",     label: "Ghost · Border",     cssClass: "sp11-btn--ghost",       cssProp: "border-color",  tokenType: "color",    default: "var(--border)" },
+      { key: "sp11-btn--ghost:color",            label: "Ghost · Text",       cssClass: "sp11-btn--ghost",       cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
+      { key: "sp11-btn--approve:background",     label: "Book · BG",       cssClass: "sp11-btn--approve",     cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp11-btn--approve:border-color",   label: "Book · Border",   cssClass: "sp11-btn--approve",     cssProp: "border-color",  tokenType: "color",    default: "var(--border)" },
+      { key: "sp11-btn--approve:color",          label: "Book · Text",     cssClass: "sp11-btn--approve",     cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
     ],
   },
   {
     name: "Card",
-    className: "sp-card",
+    className: "sp11-card",
     description: "Content card container",
     preview: (
-      <div className="sp-card" style={{ width: "100%" }}>
-        <div className="sp-card__header">
-          <div className="sp-card__title">Card Title</div>
+      <div className="sp11-card" style={{ width: "100%" }}>
+        <div className="sp11-card__header">
+          <div className="sp11-card__title">Card Title</div>
           <span style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>Action</span>
         </div>
         <div style={{ padding: "10px 20px", fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>Card content area</div>
       </div>
     ),
     props: [
-      { key: "sp-card:background",    label: "Background", cssClass: "sp-card", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
-      { key: "sp-card:border-radius", label: "Radius",     cssClass: "sp-card", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
+      { key: "sp11-card:background",    label: "Background", cssClass: "sp11-card", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
+      { key: "sp11-card:border-radius", label: "Radius",     cssClass: "sp11-card", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
     ],
   },
   {
     name: "Stat Card",
-    className: "sp-stat-card",
+    className: "sp11-stat-card",
     description: "KPI summary tile",
     preview: (
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, width: "100%" }}>
-        <div className="sp-stat-card">
-          <div className="sp-stat-card__label">Properties</div>
-          <div className="sp-stat-card__value" style={{ color: "var(--brand-primary)" }}>12</div>
-          <div className="sp-stat-card__sub">4 closed</div>
+        <div className="sp11-stat-card">
+          <div className="sp11-stat-card__label">Properties</div>
+          <div className="sp11-stat-card__value" style={{ color: "var(--brand-primary)" }}>12</div>
+          <div className="sp11-stat-card__sub">4 closed</div>
         </div>
-        <div className="sp-stat-card">
-          <div className="sp-stat-card__label">Accruals</div>
-          <div className="sp-stat-card__value" style={{ color: "var(--brand-primary)" }}>$48K</div>
-          <div className="sp-stat-card__sub">32 approved</div>
+        <div className="sp11-stat-card">
+          <div className="sp11-stat-card__label">Accruals</div>
+          <div className="sp11-stat-card__value" style={{ color: "var(--brand-primary)" }}>$48K</div>
+          <div className="sp11-stat-card__sub">32 approved</div>
         </div>
       </div>
     ),
     props: [
-      { key: "sp-stat-card:background",       label: "Background",   cssClass: "sp-stat-card",       cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
-      { key: "sp-stat-card:border-radius",    label: "Radius",       cssClass: "sp-stat-card",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-3xl)" },
-      { key: "sp-stat-card__value:font-size", label: "Value · Size", cssClass: "sp-stat-card__value", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-4xl)" },
-      { key: "sp-stat-card__label:font-size", label: "Label · Size", cssClass: "sp-stat-card__label", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-sm)" },
-      { key: "sp-stat-card__label:color",     label: "Label · Color",cssClass: "sp-stat-card__label", cssProp: "color",        tokenType: "color",    default: "var(--text-subtle)" },
+      { key: "sp11-stat-card:background",       label: "Background",   cssClass: "sp11-stat-card",       cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp11-stat-card:border-radius",    label: "Radius",       cssClass: "sp11-stat-card",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-3xl)" },
+      { key: "sp11-stat-card__value:font-size", label: "Value · Size", cssClass: "sp11-stat-card__value", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-4xl)" },
+      { key: "sp11-stat-card__label:font-size", label: "Label · Size", cssClass: "sp11-stat-card__label", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-sm)" },
+      { key: "sp11-stat-card__label:color",     label: "Label · Color",cssClass: "sp11-stat-card__label", cssProp: "color",        tokenType: "color",    default: "var(--text-subtle)" },
     ],
   },
   {
     name: "Banner",
-    className: "sp-banner",
+    className: "sp11-banner",
     description: "Highlight / info banner",
     preview: (
-      <div className="sp-banner" style={{ marginBottom: 0, width: "100%" }}>
+      <div className="sp11-banner" style={{ marginBottom: 0, width: "100%" }}>
         <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)", color: "var(--text-primary)" }}>Reconcile Actuals — Jan 2026</div>
         <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)", marginTop: 2 }}>Match invoices to accruals and post JEs</div>
       </div>
     ),
     props: [
-      { key: "sp-banner:background",    label: "Background", cssClass: "sp-banner", cssProp: "background",    tokenType: "color",  default: "var(--bg-muted)" },
-      { key: "sp-banner:border-radius", label: "Radius",     cssClass: "sp-banner", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
+      { key: "sp11-banner:background",    label: "Background", cssClass: "sp11-banner", cssProp: "background",    tokenType: "color",  default: "var(--bg-muted)" },
+      { key: "sp11-banner:border-radius", label: "Radius",     cssClass: "sp11-banner", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
     ],
   },
   {
     name: "Input",
-    className: "sp-input",
+    className: "sp11-input",
     description: "Text input / select / textarea",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
-        <input className="sp-input" placeholder="Text input field" readOnly style={{ pointerEvents: "none" }} />
-        <select className="sp-select" style={{ pointerEvents: "none" }}>
+        <input className="sp11-input" placeholder="Text input field" readOnly style={{ pointerEvents: "none" }} />
+        <select className="sp11-select" style={{ pointerEvents: "none" }}>
           <option>Select an option</option>
         </select>
       </div>
     ),
     props: [
-      { key: "sp-input:background",    label: "Background", cssClass: "sp-input", cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
-      { key: "sp-input:border-radius", label: "Radius",     cssClass: "sp-input", cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
-      { key: "sp-input:font-size",     label: "Font Size",  cssClass: "sp-input", cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-md)" },
+      { key: "sp11-input:background",    label: "Background", cssClass: "sp11-input", cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp11-input:border-radius", label: "Radius",     cssClass: "sp11-input", cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp11-input:font-size",     label: "Font Size",  cssClass: "sp11-input", cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-md)" },
     ],
   },
   {
     name: "Modal",
-    className: "sp-modal",
+    className: "sp11-modal",
     description: "Dialog / overlay modal",
     preview: (
-      <div className="sp-modal" style={{ width: "100%", boxShadow: "var(--shadow-md)" }}>
-        <div className="sp-modal__header" style={{ padding: "12px 16px" }}>
-          <div className="sp-modal__title">Add Accrual</div>
+      <div className="sp11-modal" style={{ width: "100%", boxShadow: "var(--shadow-md)" }}>
+        <div className="sp11-modal__header" style={{ padding: "12px 16px" }}>
+          <div className="sp11-modal__title">Add Accrual</div>
           <span style={{ fontSize: "var(--font-size-lg)", color: "var(--text-muted)", cursor: "pointer" }}>✕</span>
         </div>
         <div style={{ padding: "12px 16px", fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>Modal body content</div>
       </div>
     ),
     props: [
-      { key: "sp-modal:background",    label: "Background", cssClass: "sp-modal", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
-      { key: "sp-modal:border-radius", label: "Radius",     cssClass: "sp-modal", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-6xl)" },
+      { key: "sp11-modal:background",    label: "Background", cssClass: "sp11-modal", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
+      { key: "sp11-modal:border-radius", label: "Radius",     cssClass: "sp11-modal", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-6xl)" },
     ],
   },
   {
     name: "Row Card",
-    className: "sp-row-card",
+    className: "sp11-row-card",
     description: "Accrual / reconcile list row",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
-        <div className="sp-row-card" style={{ border: "1px solid var(--green-200)" }}>
-          <div className="sp-row-card__body" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
+        <div className="sp11-row-card" style={{ border: "1px solid var(--green-200)" }}>
+          <div className="sp11-row-card__body" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
             <div>
               <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)" }}>Metro HVAC Services</div>
               <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>6210 — R&M HVAC</div>
@@ -430,8 +447,8 @@ const COMPONENTS = [
             <div style={{ fontWeight: "var(--font-weight-bold)", color: "var(--brand-primary)" }}>$14,200</div>
           </div>
         </div>
-        <div className="sp-row-card">
-          <div className="sp-row-card__body" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
+        <div className="sp11-row-card">
+          <div className="sp11-row-card__body" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
             <div>
               <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-md)" }}>ConEd — Electric</div>
               <div style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)" }}>6110 — Utilities</div>
@@ -442,16 +459,16 @@ const COMPONENTS = [
       </div>
     ),
     props: [
-      { key: "sp-row-card:background",    label: "Background", cssClass: "sp-row-card", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
-      { key: "sp-row-card:border-radius", label: "Radius",     cssClass: "sp-row-card", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
+      { key: "sp11-row-card:background",    label: "Background", cssClass: "sp11-row-card", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
+      { key: "sp11-row-card:border-radius", label: "Radius",     cssClass: "sp11-row-card", cssProp: "border-radius", tokenType: "radius", default: "var(--radius-3xl)" },
     ],
   },
   {
     name: "Top Bar",
-    className: "sp-topbar",
+    className: "sp11-topbar",
     description: "Page navigation top bar",
     preview: (
-      <div className="sp-topbar" style={{ borderRadius: 8, padding: "10px 14px" }}>
+      <div className="sp11-topbar" style={{ borderRadius: 8, padding: "10px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 26, height: 26, borderRadius: 6, background: "var(--brand-primary)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 700, fontSize: 12 }}>S</div>
           <div>
@@ -463,33 +480,33 @@ const COMPONENTS = [
       </div>
     ),
     props: [
-      { key: "sp-topbar:background", label: "Background", cssClass: "sp-topbar", cssProp: "background", tokenType: "color", default: "var(--bg-card)" },
+      { key: "sp11-topbar:background", label: "Background", cssClass: "sp11-topbar", cssProp: "background", tokenType: "color", default: "var(--bg-card)" },
     ],
   },
   {
     name: "Bar — General",
-    className: "sp-bar",
+    className: "sp11-bar",
     description: "Single-color inline bar (generic use)",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {[{ v: 70, label: "7/10" }, { v: 45, label: "9/20" }, { v: 20, label: "1/5" }].map(({ v, label }) => (
-          <div key={v} className="sp-bar">
-            <div className="sp-bar__track">
-              <div className="sp-bar__fill" style={{ width: `${v}%` }} />
+          <div key={v} className="sp11-bar">
+            <div className="sp11-bar__track">
+              <div className="sp11-bar__fill" style={{ width: `${v}%` }} />
             </div>
-            <span className="sp-bar__label">{label}</span>
+            <span className="sp11-bar__label">{label}</span>
           </div>
         ))}
       </div>
     ),
     props: [
-      { key: "sp-bar__fill:background", label: "Fill Color",  cssClass: "sp-bar__fill", cssProp: "background", tokenType: "color", default: "var(--brand-primary)" },
-      { key: "sp-bar__label:color",     label: "Label Color", cssClass: "sp-bar__label", cssProp: "color",     tokenType: "color", default: "var(--brand-primary)" },
+      { key: "sp11-bar__fill:background", label: "Fill Color",  cssClass: "sp11-bar__fill", cssProp: "background", tokenType: "color", default: "var(--brand-primary)" },
+      { key: "sp11-bar__label:color",     label: "Label Color", cssClass: "sp11-bar__label", cssProp: "color",     tokenType: "color", default: "var(--brand-primary)" },
     ],
   },
   {
     name: "Bar — Confidence",
-    className: "sp-bar",
+    className: "sp11-bar",
     description: "Color-coded confidence bar (High · Medium · Low)",
     preview: (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -497,27 +514,365 @@ const COMPONENTS = [
           .map(({ label, value, tier }) => (
           <div key={label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600, width: 44, textAlign: "right" }}>{label}</span>
-            <div className="sp-bar">
-              <div className="sp-bar__track">
-                <div className={`sp-bar__fill sp-bar__fill--${tier}`} style={{ width: `${value}%` }} />
+            <div className="sp11-bar">
+              <div className="sp11-bar__track">
+                <div className={`sp11-bar__fill sp11-bar__fill--${tier}`} style={{ width: `${value}%` }} />
               </div>
-              <span className={`sp-bar__label sp-bar__label--${tier}`}>{value}%</span>
+              <span className={`sp11-bar__label sp11-bar__label--${tier}`}>{value}%</span>
             </div>
           </div>
         ))}
       </div>
     ),
     props: [
-      { key: "sp-bar__track:background",       label: "Track · BG",        cssClass: "sp-bar__track",       cssProp: "background",    tokenType: "color",    default: "var(--border)" },
-      { key: "sp-bar__track:height",            label: "Track · Height",    cssClass: "sp-bar__track",       cssProp: "height",        tokenType: "spacing",  default: "var(--space-3)" },
-      { key: "sp-bar__track:border-radius",     label: "Track · Radius",    cssClass: "sp-bar__track",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-xs)" },
-      { key: "sp-bar__fill--high:background",    label: "Fill · High",        cssClass: "sp-bar__fill--high",   cssProp: "background", tokenType: "color",    default: "var(--green-600)" },
-      { key: "sp-bar__label--high:color",        label: "Label · High",       cssClass: "sp-bar__label--high",  cssProp: "color",      tokenType: "color",    default: "var(--green-600)" },
-      { key: "sp-bar__fill--medium:background",  label: "Fill · Medium",      cssClass: "sp-bar__fill--medium", cssProp: "background", tokenType: "color",    default: "var(--amber-800)" },
-      { key: "sp-bar__label--medium:color",      label: "Label · Medium",     cssClass: "sp-bar__label--medium",cssProp: "color",      tokenType: "color",    default: "var(--amber-800)" },
-      { key: "sp-bar__fill--low:background",     label: "Fill · Low",         cssClass: "sp-bar__fill--low",    cssProp: "background", tokenType: "color",    default: "var(--red-500)" },
-      { key: "sp-bar__label--low:color",         label: "Label · Low",        cssClass: "sp-bar__label--low",   cssProp: "color",      tokenType: "color",    default: "var(--red-500)" },
-      { key: "sp-bar__label:font-size",          label: "Label · Size",       cssClass: "sp-bar__label",        cssProp: "font-size",  tokenType: "fontsize", default: "var(--font-size-sm)" },
+      { key: "sp11-bar__track:background",       label: "Track · BG",        cssClass: "sp11-bar__track",       cssProp: "background",    tokenType: "color",    default: "var(--border)" },
+      { key: "sp11-bar__track:height",            label: "Track · Height",    cssClass: "sp11-bar__track",       cssProp: "height",        tokenType: "spacing",  default: "var(--space-3)" },
+      { key: "sp11-bar__track:border-radius",     label: "Track · Radius",    cssClass: "sp11-bar__track",       cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-xs)" },
+      { key: "sp11-bar__fill--high:background",    label: "Fill · High",        cssClass: "sp11-bar__fill--high",   cssProp: "background", tokenType: "color",    default: "var(--green-600)" },
+      { key: "sp11-bar__label--high:color",        label: "Label · High",       cssClass: "sp11-bar__label--high",  cssProp: "color",      tokenType: "color",    default: "var(--green-600)" },
+      { key: "sp11-bar__fill--medium:background",  label: "Fill · Medium",      cssClass: "sp11-bar__fill--medium", cssProp: "background", tokenType: "color",    default: "var(--amber-800)" },
+      { key: "sp11-bar__label--medium:color",      label: "Label · Medium",     cssClass: "sp11-bar__label--medium",cssProp: "color",      tokenType: "color",    default: "var(--amber-800)" },
+      { key: "sp11-bar__fill--low:background",     label: "Fill · Low",         cssClass: "sp11-bar__fill--low",    cssProp: "background", tokenType: "color",    default: "var(--red-500)" },
+      { key: "sp11-bar__label--low:color",         label: "Label · Low",        cssClass: "sp11-bar__label--low",   cssProp: "color",      tokenType: "color",    default: "var(--red-500)" },
+      { key: "sp11-bar__label:font-size",          label: "Label · Size",       cssClass: "sp11-bar__label",        cssProp: "font-size",  tokenType: "fontsize", default: "var(--font-size-sm)" },
+    ],
+  },
+  {
+    name: "Progress Indicator",
+    className: "sp11-progress-indicator",
+    description: "4-state SVG status icon: Not Started · In Progress · In Review · Done",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          {(["not-started", "in-progress", "in-review", "done"] as const).map(s => (
+            <div key={s} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+              <ProgressIndicator status={s} size={24} />
+              <span style={{ fontSize: 9, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
+                {s === "not-started" ? "Draft" : s === "in-progress" ? "In Progress" : s === "in-review" ? "In Review" : "Done"}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          {([16, 20, 24, 28] as const).map(sz => (
+            <div key={sz} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+              <ProgressIndicator status="in-review" size={sz} />
+              <span style={{ fontSize: 9, color: "var(--text-muted)" }}>{sz}px</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+    props: [
+      { key: "indicator-empty:color",    label: "Empty color",    cssClass: "indicator-empty",    cssProp: "color", tokenType: "color", default: "var(--indicator-empty)" },
+      { key: "indicator-progress:color", label: "Progress color", cssClass: "indicator-progress", cssProp: "color", tokenType: "color", default: "var(--indicator-progress)" },
+      { key: "indicator-review:color",   label: "Review color",   cssClass: "indicator-review",   cssProp: "color", tokenType: "color", default: "var(--indicator-review)" },
+      { key: "indicator-done:color",     label: "Done color",     cssClass: "indicator-done",     cssProp: "color", tokenType: "color", default: "var(--indicator-done)" },
+    ],
+  },
+  {
+    name: "Ring Progress",
+    className: "sp11-ring-progress",
+    description: "SVG donut arc showing 0–100%. Shows checkmark at 100%.",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
+          {[0, 25, 50, 75, 100].map(v => (
+            <div key={v} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+              <RingProgress value={v} size={28} />
+              <span style={{ fontSize: 9, color: "var(--text-muted)" }}>{v}%</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          {[16, 20, 24, 28, 32].map(sz => (
+            <div key={sz} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+              <RingProgress value={60} size={sz} />
+              <span style={{ fontSize: 9, color: "var(--text-muted)" }}>{sz}px</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+    props: [
+      { key: "sp11-ring-progress:color",       label: "Arc color",   cssClass: "sp11-ring-progress", cssProp: "color",            tokenType: "color", default: "var(--brand-primary)" },
+      { key: "sp11-ring-progress:track-color", label: "Track color", cssClass: "sp11-ring-progress", cssProp: "background-color", tokenType: "color", default: "var(--border-subtle)" },
+    ],
+  },
+  {
+    name: "Tab Group",
+    className: "sp11-tab-group",
+    description: "Animated segmented pill navigation — used for dashboard and property-level tabs",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <TabGroupDemo tabs={[
+          { label: "Overview",  icon: <Target   size={13} strokeWidth={1.5} /> },
+          { label: "Monitor",   icon: <Activity size={13} strokeWidth={1.5} /> },
+        ]} />
+        <TabGroupDemo tabs={[
+          { label: "Accruals",  icon: <FileText   size={13} strokeWidth={1.5} /> },
+          { label: "Variance",  icon: <BarChart2  size={13} strokeWidth={1.5} /> },
+          { label: "Reconcile", icon: <CheckCheck size={13} strokeWidth={1.5} /> },
+          { label: "Journal",   icon: <BookOpen   size={13} strokeWidth={1.5} /> },
+        ]} />
+      </div>
+    ),
+    props: [
+      { key: "sp11-tab-group:background",    label: "Container · BG",     cssClass: "sp11-tab-group",   cssProp: "background",    tokenType: "color",  default: "var(--bg-subtle)" },
+      { key: "sp11-tab-group:border-color",  label: "Container · Border",  cssClass: "sp11-tab-group",   cssProp: "border-color",  tokenType: "color",  default: "var(--border-subtle)" },
+      { key: "sp11-tab--active:background",  label: "Active tab · BG",    cssClass: "sp11-tab--active", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
+      { key: "sp11-tab--active:color",       label: "Active tab · Text",  cssClass: "sp11-tab--active", cssProp: "color",         tokenType: "color",  default: "var(--text-primary)" },
+      { key: "sp11-tab:color",               label: "Inactive tab · Text", cssClass: "sp11-tab",         cssProp: "color",         tokenType: "color",  default: "var(--text-subtle)" },
+      { key: "sp11-tab:border-radius",       label: "Tab · Radius",       cssClass: "sp11-tab",         cssProp: "border-radius", tokenType: "radius", default: "var(--radius-full)" },
+    ],
+  },
+  {
+    name: "Account Card",
+    className: "sp11-account-card",
+    description: "Accountant summary card grouping properties with accrual/variance/reports status",
+    preview: (
+      <div className="sp11-account-card" style={{ width: "100%" }}>
+        <div className="sp11-account-card__name">Sarah Chen</div>
+        <div className="sp11-account-card__grid">
+          {[
+            { name: "Park Avenue Tower", accrualPct: 26, accrualLabel: "26% of 22" },
+            { name: "Harbor Industrial", accrualPct: 100, accrualLabel: "100% of 15" },
+          ].map((p, i) => (
+            <div key={i} className="sp11-account-card__prop">
+              <div className="sp11-account-card__prop-header">
+                <span className="sp11-account-card__prop-name">{p.name}</span>
+                <ProgressIndicator status={i === 0 ? "in-progress" : "done"} size={18} />
+              </div>
+              <div className="sp11-account-card__rows">
+                <div className="sp11-account-card__row">
+                  <span className="sp11-account-card__row-label">Accruals</span>
+                  <span className="sp11-account-card__row-value">
+                    <RingProgress value={p.accrualPct} size={15} />
+                    <span className="sp11-account-card__row-text">{p.accrualLabel}</span>
+                  </span>
+                </div>
+                <div className="sp11-account-card__row">
+                  <span className="sp11-account-card__row-label">Variance</span>
+                  <span className="sp11-account-card__row-value">
+                    <ProgressIndicator status={i === 0 ? "in-review" : "done"} size={15} />
+                    <span className="sp11-account-card__row-text">{i === 0 ? "In Review" : "Done"}</span>
+                  </span>
+                </div>
+                <div className="sp11-account-card__row">
+                  <span className="sp11-account-card__row-label">Reports</span>
+                  <span className="sp11-account-card__row-value">
+                    <ProgressIndicator status={i === 0 ? "not-started" : "done"} size={15} />
+                    <span className="sp11-account-card__row-text">{i === 0 ? "Draft" : "Done"}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+    props: [
+      { key: "sp11-account-card:background",         label: "Card · BG",        cssClass: "sp11-account-card",          cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
+      { key: "sp11-account-card:border-radius",      label: "Card · Radius",    cssClass: "sp11-account-card",          cssProp: "border-radius", tokenType: "radius", default: "var(--radius-xl)" },
+      { key: "sp11-account-card__name:font-size",    label: "Name · Size",      cssClass: "sp11-account-card__name",    cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-xl)" },
+      { key: "sp11-account-card__row-label:color",   label: "Label · Color",    cssClass: "sp11-account-card__row-label", cssProp: "color",       tokenType: "color",  default: "var(--text-subtle)" },
+    ],
+  },
+  {
+    name: "Conf Bar",
+    className: "sp11-conf-bar",
+    description: "Confidence score bar with tier-based color coding (≥90 high · ≥75 medium · ≥60 warning · <60 low)",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}>
+        {[{ value: 94, label: "High (94%)" }, { value: 78, label: "Medium (78%)" }, { value: 62, label: "Warning (62%)" }, { value: 41, label: "Low (41%)" }, { value: 0, label: "Manual" }].map(({ value, label }) => (
+          <div key={label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: 11, color: "var(--text-muted)", width: 90, flexShrink: 0 }}>{label}</span>
+            <div style={{ flex: 1 }}><ConfBar value={value} /></div>
+          </div>
+        ))}
+      </div>
+    ),
+    props: [
+      { key: "sp11-conf-bar__track:background", label: "Track · BG",    cssClass: "sp11-conf-bar__track", cssProp: "background",   tokenType: "color",   default: "var(--bg-muted)" },
+      { key: "sp11-conf-bar__track:height",     label: "Track · Height", cssClass: "sp11-conf-bar__track", cssProp: "height",       tokenType: "spacing", default: "4px" },
+      { key: "sp11-conf-bar__label:font-size",  label: "Label · Size",   cssClass: "sp11-conf-bar__label", cssProp: "font-size",    tokenType: "fontsize", default: "var(--font-size-xs)" },
+    ],
+  },
+  {
+    name: "Source Action",
+    className: "sp11-task-item",
+    description: "Checkable task/action button — available and done states",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
+        {[
+          { action: "Request invoice",    done: false },
+          { action: "Verify GL code",     done: true  },
+          { action: "Flag for review",    done: false },
+        ].map(({ action, done }) => (
+          <div key={action} className={`sp11-task-item ${done ? "sp11-task-item--done" : ""}`}>
+            <span className={`sp11-task-item__checkbox ${done ? "sp11-task-item__checkbox--done" : ""}`} aria-hidden="true">{done ? "✓" : ""}</span>
+            <span className="sp11-task-item__text">{action}</span>
+          </div>
+        ))}
+      </div>
+    ),
+    props: [
+      { key: "sp11-task-item:background",           label: "BG",             cssClass: "sp11-task-item",                cssProp: "background",    tokenType: "color",    default: "var(--bg-muted)" },
+      { key: "sp11-task-item:border-radius",         label: "Radius",         cssClass: "sp11-task-item",                cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp11-task-item__text:font-size",       label: "Text · Size",    cssClass: "sp11-task-item__text",          cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-sm)" },
+      { key: "sp11-task-item__checkbox--done:background", label: "Done · BG", cssClass: "sp11-task-item__checkbox--done", cssProp: "background",  tokenType: "color",    default: "var(--brand-primary)" },
+    ],
+  },
+  {
+    name: "Accrual Row",
+    className: "sp11-accrual-row",
+    description: "Expandable list row for accruals and reconcile items — 4 states",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 0, width: "100%" }}>
+        {[
+          { vendor: "Metro HVAC Services", gl: "6210 — R&M", state: "suggested", label: "Suggested" },
+          { vendor: "ConEd — Electric",    gl: "6110 — Utilities", state: "approved",  label: "Booked" },
+          { vendor: "City Water Dept",     gl: "6120 — Utilities", state: "dismissed", label: "Dismissed" },
+        ].map(({ vendor, gl, state, label }) => (
+          <div key={vendor} className={`sp11-accrual-row${state === "dismissed" ? " sp11-accrual-row--dismissed" : ""}`}>
+            <div className="sp11-accrual-row__top" style={{ gridTemplateColumns: "1fr 80px 80px" }}>
+              <div>
+                <div className="sp11-flex-center sp11-gap-5 sp11-mb-2">
+                  <span className="sp11-text-md-semibold">{vendor}</span>
+                </div>
+                <div className="sp11-text-sm-muted">{gl}</div>
+              </div>
+              <div className="sp11-accrual-amount">$14,200</div>
+              <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                <span style={{ fontSize: 10, color: "var(--text-subtle)", background: "var(--bg-muted)", borderRadius: 999, padding: "2px 6px" }}>{label}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    ),
+    props: [
+      { key: "sp11-accrual-row:background",            label: "Row · BG",         cssClass: "sp11-accrual-row",          cssProp: "background",         tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp11-accrual-row--dismissed:opacity",    label: "Dismissed opacity",cssClass: "sp11-accrual-row--dismissed", cssProp: "opacity",          tokenType: "spacing",  default: "0.5" },
+      { key: "sp11-accrual-amount:font-size",          label: "Amount · Size",    cssClass: "sp11-accrual-amount",       cssProp: "font-size",           tokenType: "fontsize", default: "var(--font-size-xl)" },
+      { key: "sp11-accrual-row__top:height",           label: "Row · Height",     cssClass: "sp11-accrual-row__top",     cssProp: "height",              tokenType: "spacing",  default: "68px" },
+    ],
+  },
+  {
+    name: "Callout",
+    className: "sp11-callout",
+    description: "Inline status callout — Warning · Error · Info · Moved · Success",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
+        {[
+          { mod: "warning", label: "⚠️ Warning",  text: "Actual was $1,200 over accrual." },
+          { mod: "error",   label: "🚨 Error",    text: "No accrual — full amount hits P&L." },
+          { mod: "info",    label: "🧠 Info",     text: "Added to AI watchlist for next period." },
+          { mod: "moved",   label: "↗ Moved",    text: "Moved from December 2025." },
+          { mod: "success", label: "✓ Success",  text: "Exact match — zero variance." },
+        ].map(({ mod, label, text }) => (
+          <div key={mod} className={`sp11-callout sp11-callout--${mod}`}>
+            <strong>{label}</strong> {text}
+          </div>
+        ))}
+      </div>
+    ),
+    props: [
+      { key: "sp11-callout:font-size",             label: "Font Size",       cssClass: "sp11-callout",            cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-base)" },
+      { key: "sp11-callout:border-radius",         label: "Radius",          cssClass: "sp11-callout",            cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp11-callout--warning:background",   label: "Warning · BG",    cssClass: "sp11-callout--warning",   cssProp: "background",    tokenType: "color",    default: "var(--amber-100)" },
+      { key: "sp11-callout--warning:color",        label: "Warning · Text",  cssClass: "sp11-callout--warning",   cssProp: "color",         tokenType: "color",    default: "var(--amber-800)" },
+      { key: "sp11-callout--error:background",     label: "Error · BG",      cssClass: "sp11-callout--error",     cssProp: "background",    tokenType: "color",    default: "var(--red-100)" },
+      { key: "sp11-callout--error:color",          label: "Error · Text",    cssClass: "sp11-callout--error",     cssProp: "color",         tokenType: "color",    default: "var(--red-800)" },
+      { key: "sp11-callout--info:background",      label: "Info · BG",       cssClass: "sp11-callout--info",      cssProp: "background",    tokenType: "color",    default: "var(--violet-100)" },
+      { key: "sp11-callout--info:color",           label: "Info · Text",     cssClass: "sp11-callout--info",      cssProp: "color",         tokenType: "color",    default: "var(--violet-800)" },
+      { key: "sp11-callout--moved:background",     label: "Moved · BG",      cssClass: "sp11-callout--moved",     cssProp: "background",    tokenType: "color",    default: "var(--orange-100)" },
+      { key: "sp11-callout--success:background",   label: "Success · BG",    cssClass: "sp11-callout--success",   cssProp: "background",    tokenType: "color",    default: "var(--green-50)" },
+      { key: "sp11-callout--success:color",        label: "Success · Text",  cssClass: "sp11-callout--success",   cssProp: "color",         tokenType: "color",    default: "var(--green-900)" },
+    ],
+  },
+  {
+    name: "Period Selector",
+    className: "sp11-tab-group",
+    description: "Period tab strip — uses tab-group with sp11-tab__dot marking the current open period",
+    preview: (
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%" }}>
+        <TabGroupDemo
+          tabs={[
+            { label: "Jan '26" },
+            { label: "Feb '26" },
+            { label: "Mar '26" },
+            { label: "Apr '26" },
+          ]}
+          dotIndex={0}
+        />
+        <div style={{ fontSize: "var(--font-size-xs)", color: "var(--text-subtle)" }}>
+          Green dot = current open period · click to switch
+        </div>
+      </div>
+    ),
+    props: [
+      { key: "sp11-tab-group:background",   label: "Strip · BG",      cssClass: "sp11-tab-group",   cssProp: "background",    tokenType: "color",  default: "var(--brand-secondary)" },
+      { key: "sp11-tab:color",              label: "Tab · Inactive",   cssClass: "sp11-tab",         cssProp: "color",         tokenType: "color",  default: "var(--text-subtle)" },
+      { key: "sp11-tab--active:background", label: "Tab · Active BG",  cssClass: "sp11-tab--active", cssProp: "background",    tokenType: "color",  default: "var(--bg-card)" },
+      { key: "sp11-tab--active:color",      label: "Tab · Active Text",cssClass: "sp11-tab--active", cssProp: "color",         tokenType: "color",  default: "var(--text-primary)" },
+      { key: "sp11-tab__dot:background",    label: "Dot · Color",      cssClass: "sp11-tab__dot",    cssProp: "background",    tokenType: "color",  default: "var(--green-500)" },
+    ],
+  },
+  {
+    name: "Empty State",
+    className: "sp11-empty-state",
+    description: "Placeholder shown when a list or section has no content",
+    preview: (
+      <div className="sp11-empty-state" style={{ width: "100%" }}>
+        <div className="sp11-empty-state__icon" aria-hidden>
+          <File size={40} strokeWidth={1.5} style={{ color: "var(--border)" }} />
+        </div>
+        <div className="sp11-empty-state__title">No journal entries yet</div>
+        <div className="sp11-empty-state__body">Book accruals to auto-generate JEs and reversals.</div>
+      </div>
+    ),
+    props: [
+      { key: "sp11-empty-state:background",          label: "Background",        cssClass: "sp11-empty-state",            cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp11-empty-state:border-radius",       label: "Radius",            cssClass: "sp11-empty-state",            cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-3xl)" },
+      { key: "sp11-empty-state__icon:font-size",     label: "Icon · Size",       cssClass: "sp11-empty-state__icon",      cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-hero)" },
+      { key: "sp11-empty-state__title:color",        label: "Title · Color",     cssClass: "sp11-empty-state__title",     cssProp: "color",         tokenType: "color",    default: "var(--text-secondary)" },
+      { key: "sp11-empty-state__body:font-size",     label: "Body · Size",       cssClass: "sp11-empty-state__body",      cssProp: "font-size",     tokenType: "fontsize", default: "var(--font-size-md)" },
+      { key: "sp11-empty-state__body:color",         label: "Body · Color",      cssClass: "sp11-empty-state__body",      cssProp: "color",         tokenType: "color",    default: "var(--text-subtle)" },
+    ],
+  },
+  {
+    name: "Adjust Box",
+    className: "sp11-adjust-box",
+    description: "Amount adjustment form — label · dollar input · auto-reverse checkbox",
+    preview: (
+      <div style={{ width: "100%", maxWidth: 260 }}>
+        <div className="sp11-adjust-box">
+          <div className="sp11-adjust-box__label">Adjust Amount</div>
+          <div className="sp11-adjust-box__row">
+            <span className="sp11-adjust-box__currency">$</span>
+            <input
+              type="number"
+              defaultValue={14200}
+              className="sp11-adjust-box__input"
+              style={{ pointerEvents: "none" }}
+              readOnly
+            />
+          </div>
+          <label className="sp11-adjust-box__checkbox-label" style={{ marginTop: 8, display: "flex", gap: 6, alignItems: "center" }}>
+            <input type="checkbox" readOnly style={{ pointerEvents: "none" }} />
+            Auto-reverse next period
+          </label>
+        </div>
+      </div>
+    ),
+    props: [
+      { key: "sp11-adjust-box:background",           label: "Background",        cssClass: "sp11-adjust-box",             cssProp: "background",    tokenType: "color",    default: "var(--bg-card)" },
+      { key: "sp11-adjust-box:border-radius",        label: "Radius",            cssClass: "sp11-adjust-box",             cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-2xl)" },
+      { key: "sp11-adjust-box__label:color",         label: "Label · Color",     cssClass: "sp11-adjust-box__label",      cssProp: "color",         tokenType: "color",    default: "var(--text-subtle)" },
+      { key: "sp11-adjust-box__currency:color",      label: "Currency · Color",  cssClass: "sp11-adjust-box__currency",   cssProp: "color",         tokenType: "color",    default: "var(--text-placeholder)" },
+      { key: "sp11-adjust-box__input:border-radius", label: "Input · Radius",    cssClass: "sp11-adjust-box__input",      cssProp: "border-radius", tokenType: "radius",   default: "var(--radius-lg)" },
+      { key: "sp11-adjust-box__checkbox-label:color",label: "Checkbox · Color",  cssClass: "sp11-adjust-box__checkbox-label", cssProp: "color",    tokenType: "color",    default: "var(--text-subtle)" },
     ],
   },
 ];
@@ -527,6 +882,7 @@ const COMPONENTS = [
 const TOKEN_OPTIONS: Record<string, { group: string; tokens: string[] }[]> = {
   color: [
     { group: "Brand",       tokens: ["var(--brand-primary)", "var(--brand-secondary)"] },
+    { group: "Indicators",  tokens: ["var(--indicator-empty)", "var(--indicator-progress)", "var(--indicator-review)", "var(--indicator-done)"] },
     { group: "Backgrounds", tokens: ["var(--bg-app)", "var(--bg-card)", "var(--bg-subtle)", "var(--bg-muted)", "var(--bg-inset)"] },
     { group: "Text",        tokens: ["var(--text-primary)", "var(--text-secondary)", "var(--text-muted)", "var(--text-subtle)", "var(--text-placeholder)", "var(--text-disabled)"] },
     { group: "Borders",     tokens: ["var(--border)", "var(--border-subtle)"] },
@@ -800,19 +1156,23 @@ function DesignSystemPanelInner() {
   const ctx = useContext(DesignSystemContext);
   if (!ctx) return null;
   const { open, setOpen } = ctx;
-  const [tab, setTab] = useState<"foundations" | "components">("foundations");
+  const [tab, setTab] = useState<"foundations" | "components">("components");
 
   // Foundations state
   const [values, setValues]     = useState<Record<string, string>>({});
   const [defaults, setDefaults] = useState<Record<string, string>>({});
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(GROUPS.map(g => [g.label, true]))
+  );
   const [saving, setSaving]     = useState(false);
   const [saved, setSaved]       = useState(false);
 
   // Components state
   const [compValues, setCompValues]     = useState<Record<string, string>>(buildCompDefaults);
   const [compDefaults, setCompDefaults] = useState<Record<string, string>>(buildCompDefaults);
-  const [compCollapsed, setCompCollapsed] = useState<Record<string, boolean>>({});
+  const [compCollapsed, setCompCollapsed] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(COMPONENTS.map(c => [c.name, true]))
+  );
   const [compSaving, setCompSaving]     = useState(false);
   const [compSaved, setCompSaved]       = useState(false);
 
@@ -837,7 +1197,7 @@ function DesignSystemPanelInner() {
   useEffect(() => {
     if (!compStyleRef.current) {
       const el = document.createElement("style");
-      el.id = "sp-ds-comp-overrides";
+      el.id = "sp11-ds-comp-overrides";
       document.head.appendChild(el);
       compStyleRef.current = el;
     }
@@ -1010,14 +1370,8 @@ function DesignSystemPanelInner() {
         {/* Header */}
         <div style={{ padding: "14px 16px 10px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#3d5a47" }} />
             <div>
               <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a", letterSpacing: "-0.01em" }}>Design System</div>
-              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 1 }}>
-                {(tab === "foundations" ? dirtyCount : compDirtyCount) > 0
-                  ? `${tab === "foundations" ? dirtyCount : compDirtyCount} unsaved change${(tab === "foundations" ? dirtyCount : compDirtyCount) > 1 ? "s" : ""}`
-                  : tab === "foundations" ? "All tokens · globals.css" : "All components · globals.css"}
-              </div>
             </div>
           </div>
           <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 14, color: "#94a3b8", padding: "2px 6px", borderRadius: 4 }}>✕</button>
@@ -1025,11 +1379,11 @@ function DesignSystemPanelInner() {
 
         {/* Tab bar */}
         <div style={S.tabBar}>
-          <button style={S.tabBtn(tab === "foundations")} onClick={() => setTab("foundations")}>
-            Foundations {dirtyCount > 0 && <span style={{ marginLeft: 4, fontSize: 9, background: "#edfde4", color: "#3d5a47", borderRadius: 8, padding: "1px 4px", fontWeight: 700 }}>{dirtyCount}</span>}
-          </button>
           <button style={S.tabBtn(tab === "components")} onClick={() => setTab("components")}>
             Components {compDirtyCount > 0 && <span style={{ marginLeft: 4, fontSize: 9, background: "#edfde4", color: "#3d5a47", borderRadius: 8, padding: "1px 4px", fontWeight: 700 }}>{compDirtyCount}</span>}
+          </button>
+          <button style={S.tabBtn(tab === "foundations")} onClick={() => setTab("foundations")}>
+            Foundations {dirtyCount > 0 && <span style={{ marginLeft: 4, fontSize: 9, background: "#edfde4", color: "#3d5a47", borderRadius: 8, padding: "1px 4px", fontWeight: 700 }}>{dirtyCount}</span>}
           </button>
         </div>
 
@@ -1093,13 +1447,13 @@ function DesignSystemPanelInner() {
                         {/* Live preview — reflects injected <style> overrides instantly */}
                         {comp.preview && (
                           <div style={{
-                            background: "#f4f6f8",
-                            border: "1px solid #e2e8f0",
-                            borderRadius: 8,
+                            background: "#f8fafc",
+                            border: "none",
+                            borderRadius: "0 0 8px 8px",
                             padding: "12px 14px",
+                            marginTop: -4,
                             marginBottom: 10,
                           }}>
-                            <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#94a3b8", marginBottom: 10 }}>Preview</div>
                             {comp.preview}
                           </div>
                         )}
@@ -1136,12 +1490,14 @@ export function DesignSystemNavButton() {
   const ctx = useContext(DesignSystemContext);
   if (!ctx) return null;
   const { open, setOpen } = ctx;
+  // Hidden from users — accessible via Shift+D shortcut during development
   return (
     <button
       type="button"
       onClick={() => setOpen(v => !v)}
-      className={`sp-ds-nav-btn${open ? " sp-ds-nav-btn--open" : ""}`}
-      title="Design System"
+      className={`sp11-ds-nav-btn${open ? " sp11-ds-nav-btn--open" : ""}`}
+      title="Design System (Shift+D)"
+      style={{ display: "none" }}
       aria-expanded={open}
       aria-label="Design system"
     >
@@ -1153,6 +1509,13 @@ export function DesignSystemNavButton() {
 export function DesignSystemProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const value = useMemo(() => ({ open, setOpen }), [open]);
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.shiftKey && e.key === "D") setOpen(v => !v);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
   return (
     <DesignSystemContext.Provider value={value}>
       {children}

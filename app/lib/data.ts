@@ -2,14 +2,14 @@
 
 // code = short code shown in category badge tile
 export const SOURCE_TYPES = {
-  "open-po":       { label: "Open PO",       icon: "📋", code: "PO",  actions: ["Follow Up with Vendor", "Confirm Receipt with PM", "Close PO"] },
-  "gl-pattern":    { label: "GL Pattern",    icon: "📊", code: "GL",  actions: ["Wait for Invoice", "Flag if Overdue"] },
-  "contract":      { label: "Contract",      icon: "📄", code: "CT",  actions: ["Book per Contract", "Verify Terms"] },
-  "work-order":    { label: "Work Order",    icon: "🔧", code: "WO",  actions: ["Confirm Completion", "Get Vendor Quote", "Create PO"] },
-  "pm-email":      { label: "PM Email",      icon: "💬", code: "PM",  actions: ["Verify with PM", "Request Documentation", "Create PO"] },
-  "utility-model": { label: "Utility Model", icon: "⚡", code: "UT",  actions: ["Wait for Bill", "Adjust for Occupancy"] },
-  "budget":        { label: "Budget",        icon: "📑", code: "BG",  actions: ["Verify with PM", "Adjust Estimate", "Defer to Next Month"] },
-  "manual":        { label: "Manual",        icon: "✏️", code: "MN",  actions: ["Verify", "Request Documentation"] },
+  "open-po":       { label: "Open PO",       code: "PO",  actions: ["Follow Up with Vendor", "Confirm Receipt with PM", "Close PO"] },
+  "gl-pattern":    { label: "GL Pattern",    code: "GL",  actions: ["Wait for Invoice", "Flag if Overdue"] },
+  "contract":      { label: "Contract",      code: "CT",  actions: ["Book per Contract", "Verify Terms"] },
+  "work-order":    { label: "Work Order",    code: "WO",  actions: ["Confirm Completion", "Get Vendor Quote", "Create PO"] },
+  "pm-email":      { label: "PM Email",      code: "PM",  actions: ["Verify with PM", "Request Documentation", "Create PO"] },
+  "utility-model": { label: "Utility Model", code: "UT",  actions: ["Wait for Bill", "Adjust for Occupancy"] },
+  "budget":        { label: "Budget",        code: "BG",  actions: ["Verify with PM", "Adjust Estimate", "Defer to Next Month"] },
+  "manual":        { label: "Manual",        code: "MN",  actions: ["Verify", "Request Documentation"] },
 };
 
 export const MONTHS = ["Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026"];
@@ -54,6 +54,6 @@ export const ACTUALS_DATA = [
   { id: "a4", accrualId: 6, vendor: "Skyline Roofing Co.", glCode: "6240 — R&M Roof", invoiceNum: "INV-SR-4521-01", invoiceDate: "2026-02-10", receivedDate: "2026-02-12", actualAmount: 24750, accrualAmount: 22000, status: "variance", notes: "Scope expanded — Floor 17 membrane patching.", spread: null },
   { id: "a5", accrualId: 2, vendor: "ConEd — Electric", glCode: "6110 — Utilities Electric", invoiceNum: "CONED-2026-01-PAT", invoiceDate: "2026-02-01", receivedDate: "2026-02-08", actualAmount: 32180, accrualAmount: 31500, status: "variance", spread: null },
   { id: "a6", accrualId: null, vendor: "NYC DOB", glCode: "6900 — Permits & Fees", invoiceNum: "DOB-VIOL-2026-0042", invoiceDate: "2026-01-28", receivedDate: "2026-02-14", actualAmount: 3500, accrualAmount: 0, status: "unmatched", notes: "DOB violation — scaffolding permit lapse.", spread: null },
-  { id: "a7", accrualId: null, vendor: "Hartford Insurance", glCode: "6410 — Property Insurance", invoiceNum: "HIC-PAT-2026-AN", invoiceDate: "2026-01-15", receivedDate: "2026-01-20", actualAmount: 186000, accrualAmount: 15500, status: "multi-period", spread: { method: "straight-line", periods: 12, startMonth: "Jan 2026", endMonth: "Dec 2026", glPrepaid: "1500 — Prepaid Insurance", schedule: [{ month: "Jan 2026", amount: 15500, status: "current" }, { month: "Feb 2026", amount: 15500, status: "future" }, { month: "Mar–Dec", amount: 155000, status: "future", note: "10 × $15,500" }] } },
-  { id: "a8", accrualId: null, vendor: "ABM Facility Services", glCode: "6250 — Landscaping", invoiceNum: "ABM-Q1-2026", invoiceDate: "2026-01-10", receivedDate: "2026-01-14", actualAmount: 13500, accrualAmount: 4500, status: "multi-period", spread: { method: "weighted", periods: 3, startMonth: "Jan 2026", endMonth: "Mar 2026", glPrepaid: "1510 — Prepaid Services", schedule: [{ month: "Jan 2026", amount: 6750, status: "current", weight: "50%" }, { month: "Feb 2026", amount: 4050, status: "future", weight: "30%" }, { month: "Mar 2026", amount: 2700, status: "future", weight: "20%" }] } },
+  { id: "a7", accrualId: null, vendor: "Hartford Insurance", glCode: "6410 — Property Insurance", invoiceNum: "HIC-PAT-2026-AN", invoiceDate: "2026-01-15", receivedDate: "2026-01-20", actualAmount: 186000, accrualAmount: 15500, status: "matched", spread: { method: "straight-line", startMonth: "Jan 2026", endMonth: "Dec 2026", glPrepaid: "1500 — Prepaid Insurance", schedule: [{ month: "Jan 2026", amount: 15500, status: "current" }, { month: "Feb 2026", amount: 15500, status: "future" }, { month: "Mar 2026", amount: 15500, status: "future" }, { month: "Apr–Dec", amount: 139500, status: "future" }] } },
+  { id: "a8", accrualId: null, vendor: "ABM Facility Services", glCode: "6250 — Landscaping", invoiceNum: "ABM-Q1-2026", invoiceDate: "2026-01-10", receivedDate: "2026-01-14", actualAmount: 13500, accrualAmount: 6750, status: "matched", spread: { method: "weighted", startMonth: "Jan 2026", endMonth: "Mar 2026", glPrepaid: "1510 — Prepaid Services", schedule: [{ month: "Jan 2026", amount: 6750, status: "current", weight: "50%" }, { month: "Feb 2026", amount: 4050, status: "future", weight: "30%" }, { month: "Mar 2026", amount: 2700, status: "future", weight: "20%" }] } },
 ];

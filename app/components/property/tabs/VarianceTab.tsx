@@ -75,91 +75,130 @@ export function VarianceTab({ varianceData, totBudget, totAccrual, totActual, pL
 
   const totBestKnown = fullVariance.reduce((s, v) => s + v.bestKnown, 0);
   const totVar = totBestKnown - totBudget;
-  const favorableCount = fullVariance.filter(v => v.totalVariance < 0).length;
-  const unfavorableCount = fullVariance.filter(v => v.totalVariance > 0).length;
   const actualCount = fullVariance.filter(v => v.source === "actual").length;
   const accrualCount = fullVariance.filter(v => v.source === "accrual").length;
+  const unbudgetedCount = fullVariance.filter(v => v.bestKnown > 0 && v.budgetVal === 0).length;
 
-  return <>
-  <div className="sp-banner sp-banner--green sp-mb-16">
-    <div className="sp-flex-between sp-mb-12">
-      <div><div className="sp-var-banner__title">Variance Report — {pLabel}</div><div className="sp-var-banner__sub">Full P&amp;L view: budget vs. best known (actual where available, accrual estimate where not)</div></div>
-      <div className="sp-flex sp-gap-14">
-        <div className="sp-text-right"><div className="sp-var-banner__kpi-label">Budget</div><div className="sp-var-banner__kpi-value">{Dl(totBudget)}</div></div>
-        <div className="sp-text-right"><div className="sp-var-banner__kpi-label">Best Known</div><div className="sp-var-banner__kpi-value">{Dl(totBestKnown)}</div></div>
-        <div className="sp-text-right"><div className="sp-var-banner__kpi-label">Variance</div><div className="sp-var-banner__kpi-value" style={{ color: totVar > 0 ? "var(--red-600)" : totVar < 0 ? "var(--green-600)" : "var(--text-subtle)" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</div></div>
+  return <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0, gap: "var(--space-5)" }}>
+  <div className="sp11-banner sp11-banner--green" style={{ flexShrink: 0, marginBottom: "4px", paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}>
+    <div className="sp11-flex-between sp11-mb-8">
+      <div>
+        <div className="sp11-flex-center sp11-gap-5 sp11-mb-2"><span className="sp11-accruals-header__title">Variance Report</span><Badge color="white">{pLabel}</Badge></div>
+        <div className="sp11-accruals-header__meta" style={{ display: "block", marginLeft: 0, marginTop: "5px" }}>
+          Full P&amp;L view: budget vs. best known (actual where available, accrual estimate where not)
+        </div>
+      </div>
+      <div className="sp11-flex" style={{ gap: 40 }}>
+        <div className="sp11-text-right"><div className="sp11-var-banner__kpi-label">Budget</div><div className="sp11-var-banner__kpi-value">{Dl(totBudget)}</div></div>
+        <div className="sp11-text-right"><div className="sp11-var-banner__kpi-label">Best Known</div><div className="sp11-var-banner__kpi-value">{Dl(totBestKnown)}</div></div>
+        <div className="sp11-text-right"><div className="sp11-var-banner__kpi-label">Variance</div><div className="sp11-var-banner__kpi-value" style={{ color: totVar > 0 ? "var(--red-800)" : totVar < 0 ? "var(--green-600)" : "var(--text-subtle)" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</div></div>
       </div>
     </div>
-    <div className="sp-flex sp-gap-16">
-      <div className="sp-var-legend-item"><div className="sp-legend-dot" style={{ background: "var(--green-600)" }} /> {actualCount} GL lines from actuals</div>
-      <div className="sp-var-legend-item"><div className="sp-legend-dot" style={{ background: "var(--brand-primary)" }} /> {accrualCount} from AI accrual estimates</div>
-      <div className="sp-var-legend-item">📈 {unfavorableCount} unfavorable · 📉 {favorableCount} favorable</div>
+    <div className="sp11-flex sp11-gap-10">
+      <div className="sp11-var-legend-item"><Badge>{actualCount} GL lines from actuals</Badge></div>
+      <div className="sp11-var-legend-item"><Badge color="green">{accrualCount} from AI accrual estimates</Badge></div>
+      {unbudgetedCount > 0 && <div className="sp11-var-legend-item"><Badge color="red">{unbudgetedCount} unbudgeted</Badge></div>}
     </div>
   </div>
 
-  <div className="sp-var-table-wrap">
-    <table className="sp-var-table">
+  <div className="sp11-var-table-wrap">
+    {/* Header table — never scrolls, border-bottom travels with it */}
+    <table className="sp11-var-table" style={{ flexShrink: 0 }}>
+      <colgroup>
+        <col style={{ width: "17%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "9%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "6%" }} />
+        <col />
+      </colgroup>
       <thead><tr>
-        <th style={{ width: "16%" }}>GL Code</th>
-        <th style={{ width: "9%" }}>Budget</th>
-        <th className="sp-var-table th--actual" style={{ width: "9%" }}>Actual</th>
-        <th className="sp-var-table th--accrual" style={{ width: "9%" }}>Accrual</th>
-        <th style={{ width: "9%" }}>Best Known</th>
-        <th style={{ width: "9%" }}>Variance $</th>
-        <th style={{ width: "6%" }}>Var %</th>
-        <th>Variance Analysis</th>
+        <th>GL Code</th>
+        <th>Budget</th>
+        <th>Actual</th>
+        <th>Accrual</th>
+        <th>Best Known</th>
+        <th>Variance</th>
+        <th>Var %</th>
+        <th>Analysis</th>
       </tr></thead>
-      <tbody>
-        {fullVariance.map((r, i) => {
-          const vColor = r.totalVariance > 0 ? "var(--red-600)" : r.totalVariance < 0 ? "var(--green-600)" : "var(--text-subtle)";
-          const sourceIcon = r.source === "actual" ? "✓" : r.source === "accrual" ? "◐" : "";
-          return <tr key={i}>
-            <td>
-              <div style={{ fontWeight: "var(--font-weight-semibold)", fontSize: "var(--font-size-base)" }}>{r.glCode}</div>
-              <div className="sp-text-xs-muted">{r.vendor}</div>
-            </td>
-            <td style={{ fontWeight: "var(--font-weight-medium)", color: "var(--text-muted)" }}>{r.budgetVal > 0 ? Dl(r.budgetVal) : <span style={{ color: "var(--text-disabled)" }}>—</span>}</td>
-            <td style={{ fontWeight: r.actualTotal > 0 ? "var(--font-weight-semibold)" : "var(--font-weight-normal)", color: r.actualTotal > 0 ? "var(--green-600)" : "var(--text-disabled)" }}>{r.actualTotal > 0 ? Dl(r.actualTotal) : "—"}</td>
-            <td className="sp-var-table td--accrual" style={{ fontWeight: r.accrualTotal > 0 && r.actualTotal === 0 ? "var(--font-weight-semibold)" : "var(--font-weight-normal)", color: r.accrualTotal > 0 && r.actualTotal === 0 ? "var(--brand-primary)" : "var(--text-disabled)" }}>{r.accrualTotal > 0 && r.actualTotal === 0 ? Dl(r.accrualTotal) : "—"}</td>
-            <td style={{ fontWeight: "var(--font-weight-bold)", color: "var(--text-primary)" }}>
-              <div className="sp-flex-end sp-gap-4">
-                <span style={{ fontSize: "var(--font-size-xs)", color: r.source === "actual" ? "var(--green-600)" : r.source === "accrual" ? "var(--brand-primary)" : "var(--text-disabled)" }}>{sourceIcon}</span>
-                {r.bestKnown > 0 ? Dl(r.bestKnown) : <span style={{ color: "var(--text-disabled)", fontWeight: "var(--font-weight-normal)" }}>—</span>}
-              </div>
-            </td>
-            <td style={{ fontWeight: "var(--font-weight-semibold)", color: vColor }}>
-              {r.totalVariance === 0 && r.bestKnown === 0 ? "—" : r.totalVariance === 0 ? "✓" : `${r.totalVariance > 0 ? "+" : ""}${Dl(r.totalVariance)}`}
-            </td>
-            <td style={{ fontWeight: "var(--font-weight-medium)", fontSize: "var(--font-size-sm)", color: vColor }}>
-              {r.pctVariance === "0.0" || r.pctVariance === "N/A" ? (r.bestKnown > 0 && r.budgetVal === 0 ? "N/A" : "") : `${r.totalVariance > 0 ? "+" : ""}${r.pctVariance}%`}
-            </td>
-            <td style={{ fontSize: "var(--font-size-sm)", color: "var(--text-muted)", lineHeight: "var(--line-height-normal)" }}>
-              {r.explanation ? <>
-                <div className="sp-flex sp-flex-wrap sp-gap-4 sp-mb-2">
-                  {r.source === "actual" && r.accrualTotal > 0 && !r.isOnBudget && <Badge color="green">Actual received</Badge>}
-                  {r.source === "accrual" && !r.isOnBudget && <Badge color="green">AI estimate</Badge>}
-                  {r.movedItems.map((m, j) => <Badge key={j}>↗ {m.movedFrom}</Badge>)}
-                  {r.bestKnown > 0 && r.budgetVal === 0 && <Badge color="red">Unbudgeted</Badge>}
-                  {r.bestKnown === 0 && r.budgetVal > 0 && <Badge>No activity</Badge>}
-                  {r.matchingActuals.filter(a => a.spread).length > 0 && <Badge>Multi-period</Badge>}
-                </div>
-                <div className="sp-text-sm-muted">{r.explanation}</div>
-              </> : null}
-            </td>
-          </tr>;
-        })}
-        <tr>
-          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>Total</td>
-          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>{Dl(totBudget)}</td>
-          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)", color: "var(--green-600)" }}>{totActual > 0 ? Dl(totActual) : "—"}</td>
-          <td className="sp-var-table td--accrual" style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)", color: "var(--brand-primary)" }}>{Dl(fullVariance.filter(v => v.source === "accrual").reduce((s, v) => s + v.accrualTotal, 0))}</td>
-          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)" }}>{Dl(totBestKnown)}</td>
-          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-md)", color: totVar > 0 ? "var(--red-600)" : "var(--green-600)" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</td>
-          <td style={{ fontWeight: "var(--font-weight-bold)", fontSize: "var(--font-size-sm)", color: totVar > 0 ? "var(--red-600)" : "var(--green-600)" }}>{totBudget > 0 ? `${totVar >= 0 ? "+" : ""}${((totVar / totBudget) * 100).toFixed(1)}%` : ""}</td>
-          <td className="sp-text-sm-muted">{actualCount} actuals · {accrualCount} accrual estimates · {fullVariance.filter(v => v.source === "none").length} no activity</td>
-        </tr>
-      </tbody>
+    </table>
+
+    {/* Scrollable body */}
+    <div className="sp11-var-tbody-scroll">
+      <table className="sp11-var-table">
+        <colgroup>
+          <col style={{ width: "17%" }} />
+          <col style={{ width: "8%" }} />
+          <col style={{ width: "8%" }} />
+          <col style={{ width: "8%" }} />
+          <col style={{ width: "9%" }} />
+          <col style={{ width: "8%" }} />
+          <col style={{ width: "6%" }} />
+          <col />
+        </colgroup>
+        <tbody>
+          {fullVariance.map((r, i) => {
+            const vColor = r.totalVariance > 0 ? "var(--red-800)" : r.totalVariance < 0 ? "var(--green-600)" : "var(--text-subtle)";
+            return <tr key={i}>
+              <td>
+                <div className="sp11-var-td__gl">{r.glCode}</div>
+                <div className="sp11-text-xs-muted">{r.vendor}</div>
+              </td>
+              <td className="sp11-var-td--budget">{r.budgetVal > 0 ? Dl(r.budgetVal) : "—"}</td>
+              <td style={{ fontWeight: r.actualTotal > 0 ? "var(--font-weight-semibold)" : undefined }}>{r.actualTotal > 0 ? Dl(r.actualTotal) : "—"}</td>
+              <td>{r.accrualTotal > 0 && r.actualTotal === 0 ? Dl(r.accrualTotal) : "—"}</td>
+              <td className="sp11-var-td--best-known">{r.bestKnown > 0 ? Dl(r.bestKnown) : "—"}</td>
+              <td style={{ fontWeight: "var(--font-weight-semibold)", color: vColor }}>
+                {r.totalVariance === 0 && r.bestKnown === 0 ? "—" : r.totalVariance === 0 ? "—" : `${r.totalVariance > 0 ? "+" : ""}${Dl(r.totalVariance)}`}
+              </td>
+              <td style={{ color: vColor }}>
+                {r.pctVariance === "0.0" || r.pctVariance === "N/A" ? (r.bestKnown > 0 && r.budgetVal === 0 ? "N/A" : "—") : `${r.totalVariance > 0 ? "+" : ""}${r.pctVariance}%`}
+              </td>
+              <td className="sp11-var-td--analysis">
+                {r.explanation ? <>
+                  <div className="sp11-flex sp11-flex-wrap sp11-gap-4 sp11-mb-2">
+                    {r.source === "actual" && r.accrualTotal > 0 && !r.isOnBudget && <Badge>Actual received</Badge>}
+                    {r.source === "accrual" && !r.isOnBudget && <Badge color="green">AI estimate</Badge>}
+                    {r.movedItems.map((m, j) => <Badge key={j}>↗ {m.movedFrom}</Badge>)}
+                    {r.bestKnown > 0 && r.budgetVal === 0 && <Badge color="red">Unbudgeted</Badge>}
+                    {r.bestKnown === 0 && r.budgetVal > 0 && <Badge>No activity</Badge>}
+                    {r.matchingActuals.filter(a => a.spread).length > 0 && <Badge>Multi-period</Badge>}
+                  </div>
+                  <div className="sp11-text-sm-muted">{r.explanation}</div>
+                </> : null}
+              </td>
+            </tr>;
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Footer table — never scrolls, border-top travels with it */}
+    <table className="sp11-var-table sp11-var-table--footer" style={{ flexShrink: 0 }}>
+      <colgroup>
+        <col style={{ width: "17%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "9%" }} />
+        <col style={{ width: "8%" }} />
+        <col style={{ width: "6%" }} />
+        <col />
+      </colgroup>
+      <tbody><tr>
+        <td>Total</td>
+        <td style={{ fontWeight: "var(--font-weight-medium)" }}>{Dl(totBudget)}</td>
+        <td>{totActual > 0 ? Dl(totActual) : "—"}</td>
+        <td style={{ fontWeight: "var(--font-weight-medium)" }}>{Dl(fullVariance.filter(v => v.source === "accrual").reduce((s, v) => s + v.accrualTotal, 0))}</td>
+        <td>{Dl(totBestKnown)}</td>
+        <td style={{ color: totVar > 0 ? "var(--red-800)" : "var(--green-600)" }}>{totVar >= 0 ? "+" : ""}{Dl(totVar)}</td>
+        <td style={{ color: totVar > 0 ? "var(--red-800)" : "var(--green-600)", fontWeight: "var(--font-weight-medium)" }}>{totBudget > 0 ? `${totVar >= 0 ? "+" : ""}${((totVar / totBudget) * 100).toFixed(1)}%` : ""}</td>
+        <td className="sp11-text-sm-muted" style={{ fontWeight: "var(--font-weight-medium)" }}>{actualCount} actuals · {accrualCount} estimates · {fullVariance.filter(v => v.source === "none").length} no activity</td>
+      </tr></tbody>
     </table>
   </div>
-  </>;
+  </div>;
 }
